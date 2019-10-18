@@ -10,12 +10,19 @@ Class Report
 {
     public $file;
 
-    public function __construct(string $id) {
+    public function __construct(Tracking $tracking = null) {
         $filesystem = new Filesystem();
         // Reports Dir
-        if (!$filesystem->exists('./reports/')):$filesystem->mkdir('./reports');endif;
+        $dir = './reports';
+        if (!$filesystem->exists($dir . '/')):$filesystem->mkdir($dir);endif;
+        
         // Report File
-        $this->file = './reports/report-' . $id . '.json';
+        $file = "report-";
+        if ($tracking->name):
+            // $file .= $tracking->name . '-';
+        endif;
+        $file .= $tracking->id . '.json';
+        $this->file = $dir . '/' . $file;
     }
 
     public function create() {
@@ -28,7 +35,6 @@ Class Report
 
     public function write(string $json) {
         $this->create();
-        // $filesystem->appendToFile($this->file, $json);
         $filesystem = new Filesystem();
         $filesystem->dumpFile($this->file, $json);
     }
@@ -52,6 +58,7 @@ Class Report
         endif;
         $informations = [
             'id' => $tracking->id,
+            'name' => $tracking->name,
             'running' => $tracking->getStatus(),
             'commits' => (string) count($tracking->commits),
             'last_step' => $last_step_duration,
@@ -60,8 +67,8 @@ Class Report
         ];
         $table = new Table($output);
         $table->setHeaders([
-                [new TableCell('Tracking', ['colspan' => 4])],
-                ['ID', 'Status', 'Commits', 'Last Step', 'Duration', 'Create date']
+                [new TableCell('Tracking', ['colspan' => 7])],
+                ['ID', 'Name', 'Status', 'Commits', 'Last Step', 'Duration', 'Create date']
             ])
             ->setRows([$informations])
             ->render();

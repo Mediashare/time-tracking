@@ -26,7 +26,9 @@ Class Session
         $sessions = glob($this->dir . '/*');
         if (isset($sessions[0])):
             $session_id = basename($sessions[0]);
-            $report = new Report($session_id);
+            $tracking = new Tracking();
+            $tracking->id = $session_id;
+            $report = new Report($tracking);
             $tracking_array = json_decode($report->read(), true);
             if ($tracking_array):
                 $tracking = $report->arrayToObject($tracking_array, 'Tracking');

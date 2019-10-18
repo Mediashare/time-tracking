@@ -31,7 +31,7 @@ class TrackingCommitCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('time-tracking:commit')
+            ->setName('commit')
             ->setDescription('Commit Time Tracking')
             ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.');
     }
@@ -48,16 +48,15 @@ class TrackingCommitCommand extends Command
             $commit = new Commit($message);
             $tracking->commit($commit);
             
-            // Output file
-            $json = json_encode($tracking);
-            $tracking->report->write($json);
-
+            
             // Output terminal
             $text = "[Commit] Time Tracking - " . $tracking->id;
             $output->writeln($text);
             // Render Report
-            $report = new Report($tracking->id);
-            $report = $report->render($output, $tracking);
+            $tracking->report->render($output, $tracking);
+            // Json
+            $json = json_encode($tracking);
+            $tracking->report->write($json);
         endif;
     }
 }

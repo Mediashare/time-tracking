@@ -31,7 +31,7 @@ class TrackingStopCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('time-tracking:stop')
+            ->setName('stop')
             ->setDescription('Stop Time Tracking');
     }
 
@@ -44,14 +44,15 @@ class TrackingStopCommand extends Command
         $tracking = $session->getLast();
         if ($tracking):
             $tracking = $tracking->stop();
-            $json = json_encode($tracking);
-            $tracking->report->write($json);
+
             // Output
             $text = "[Stop] Time Tracking - " . $tracking->id;
             $output->writeln($text);
             // Render Report
-            $report = new Report($tracking->id);
-            $report = $report->render($output, $tracking);
+            $tracking->report->render($output, $tracking);
+            // Json
+            $json = json_encode($tracking);
+            $tracking->report->write($json);
         endif;
     }
 }

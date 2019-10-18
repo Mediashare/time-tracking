@@ -32,7 +32,7 @@ class TrackingStatusCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('time-tracking:status')
+            ->setName('status')
             ->setDescription('Status Time Tracking');
     }
 
@@ -49,8 +49,10 @@ class TrackingStatusCommand extends Command
             $text = "[Status] Time Tracking - " . $tracking->id;
             $output->writeln($text);
             // Render Report
-            $report = new Report($tracking->id);
-            $report = $report->render($output, $tracking);
+            $tracking->report->render($output, $tracking);
+            // Json
+            $json = json_encode($tracking);
+            $tracking->report->write($json);
         endif;
     }
 }

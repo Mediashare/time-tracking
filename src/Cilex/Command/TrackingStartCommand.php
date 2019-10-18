@@ -30,8 +30,9 @@ class TrackingStartCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('time-tracking:start')
-            ->setDescription('Start Time Tracking');
+            ->setName('start')
+            ->setDescription('Start Time Tracking')
+            ->addArgument('name', InputArgument::OPTIONAL, 'Project name.');;
     }
 
     /**
@@ -43,20 +44,20 @@ class TrackingStartCommand extends Command
         $tracking = $session->getLast(); // Get current Tracking session
         if (!$tracking):
             $tracking = new Tracking(); // Create Tracking
+            $tracking->name = $input->getArgument('name');
             $tracking->start(); // Start Tracking
             $session->create($tracking); // Create Tracking session
         else:
             $tracking->start(); // Start Tracking
         endif;
         
-        $json = json_encode($tracking);
-        $tracking->report->write($json);
-        
         // Output
         $text = "[Start] Time Tracking - " . $tracking->id;
         $output->writeln($text);
         // Render Report
-        $report = new Report($tracking->id);
-        $report = $report->render($output, $tracking);
+        $tracking->report->render($output, $tracking);
+        // Json
+        $json = json_encode($tracking);
+        $tracking->report->write($json);
     }
 }

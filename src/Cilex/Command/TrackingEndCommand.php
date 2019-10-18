@@ -31,7 +31,7 @@ class TrackingEndCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('time-tracking:end')
+            ->setName('end')
             ->setDescription('End Time Tracking');
     }
 
@@ -50,9 +50,8 @@ class TrackingEndCommand extends Command
             
             $text = "[End] Time Tracking - " . $tracking->id;
             $output->writeln($text);
-            // Render Report
-            $report = new Report($tracking->id);
-            $report = $report->render($output, $tracking);
+        // Render Report
+        $tracking->report->render($output, $tracking);
         endif;
     }
 }

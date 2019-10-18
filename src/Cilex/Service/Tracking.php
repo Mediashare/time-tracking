@@ -8,6 +8,7 @@ use Cilex\Service\Step;
 Class Tracking
 {
     public $id;
+    public $name;
     public $start_date;
     public $end_date;
     public $duration;
@@ -31,7 +32,7 @@ Class Tracking
             $this->steps[] = $step->start($date); // Start step
         endif;
 
-        if (!$this->report):$this->report = new Report($this->id);endif; // Report file
+        if (!$this->report):$this->report = new Report($this);endif; // Report file
         
         $this->run = true;
         return $this;

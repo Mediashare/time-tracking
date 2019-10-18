@@ -1,5 +1,5 @@
 {
-  "alias": "cilex.phar",
+  "alias": "time-tracking.phar",
   "chmod": "0755",
   "directories": ["src"],
   "files": [
@@ -14,6 +14,6 @@
   ],
   "git-version": "2.0.0",
   "main": "bin/run.php",
-  "output": "cilex.phar",
+  "output": "time-tracking.phar",
   "stub": true
 }
