@@ -4,3 +4,5 @@ cilex.phar
 docs/.build
 composer.lock
 .vagrant
+var
+reports
