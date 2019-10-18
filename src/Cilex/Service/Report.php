@@ -47,7 +47,7 @@ Class Report
         // Informations
         $last_step_duration = '00:00:00';
         $last_step = end($tracking->steps);
-        if ($last_step):
+        if ($last_step && !$last_step->commit):
             $last_step_duration = $last_step->getDuration();
         endif;
         $informations = [
