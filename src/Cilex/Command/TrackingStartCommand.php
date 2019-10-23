@@ -32,7 +32,9 @@ class TrackingStartCommand extends Command
         $this
             ->setName('start')
             ->setDescription('Start Time Tracking')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Project name.');;
+            ->addArgument('name', InputArgument::OPTIONAL, 'Project name.')
+            // ->addOption('id', null, null, 'Start Tracking by id.')
+        ;
     }
 
     /**
