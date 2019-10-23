@@ -29,19 +29,9 @@ Class Session
             $tracking = new Tracking();
             $tracking->id = $session_id;
             $report = new Report($tracking);
-            $tracking_array = json_decode($report->read(), true);
-            if ($tracking_array):
-                $tracking = $report->arrayToObject($tracking_array, 'Tracking');
-                $tracking->report = $report->arrayToObject($tracking->report, 'Report');
-                foreach ($tracking->commits as $index => $commit):
-                    $tracking->commits[$index] = $report->arrayToObject($commit, 'Commit');
-                endforeach;
-                foreach ($tracking->steps as $index => $step):
-                    $tracking->steps[$index] = $report->arrayToObject($step, 'Step');
-                endforeach;
-                // Return Tracking
-                if (!empty($tracking)):return $tracking;endif;
-            endif; 
+            
+            $tracking = $report->read();
+            if (!empty($tracking)):return $tracking;endif; 
         endif;
         
         return false;

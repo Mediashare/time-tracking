@@ -6,3 +6,4 @@ composer.lock
 .vagrant
 var
 reports
+.time-tracking

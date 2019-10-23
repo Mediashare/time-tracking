@@ -18,10 +18,8 @@ Class Report
         
         // Report File
         $file = "report-";
-        if ($tracking->name):
-            // $file .= $tracking->name . '-';
-        endif;
-        $file .= $tracking->id . '.json';
+        if (!empty($tracking->id)):$file .= $tracking->id . '.json';
+        else:$file .= uniqid() . '.json';endif;
         $this->file = $dir . '/' . $file;
     }
 
@@ -43,7 +41,22 @@ Class Report
         $filesystem = new Filesystem();
         if ($filesystem->exists($this->file)):
             $file = file_get_contents($this->file);
-            if ($file):return $file;endif;
+            if ($file):
+                $tracking_array = json_decode($file, true);
+                if ($tracking_array):
+                    $tracking = $this->arrayToObject($tracking_array, 'Tracking');
+                    $tracking->report = $this->arrayToObject($tracking->report, 'Report');
+                    foreach ($tracking->commits as $index => $commit):
+                        $tracking->commits[$index] = $this->arrayToObject($commit, 'Commit');
+                    endforeach;
+                    foreach ($tracking->steps as $index => $step):
+                        $tracking->steps[$index] = $this->arrayToObject($step, 'Step');
+                    endforeach;
+                    // Return Tracking
+                    if (!empty($tracking)):return $tracking;endif;
+                endif;
+            
+            endif;
         endif;
 
         return false;
