@@ -13,7 +13,7 @@ Class Report
     public function __construct(Tracking $tracking = null) {
         $filesystem = new Filesystem();
         // Reports Dir
-        $dir = './reports';
+        $dir = './.time-tracking';
         if (!$filesystem->exists($dir . '/')):$filesystem->mkdir($dir);endif;
         
         // Report File

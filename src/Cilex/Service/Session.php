@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 Class Session
 {
     public $file;
-    public $dir = './var/session';
+    public $dir = './.time-tracking/session';
 
     public function __construct() {
         $this->filesystem = new Filesystem();
