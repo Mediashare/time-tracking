@@ -103,7 +103,7 @@ Class Report
                 ['Commit', 'Filename', 'Command', 'Result']
             ]);
         foreach ($commands as $command):
-            $table->setRows([$command,new \Symfony\Component\Console\Helper\TableSeparator()]);
+            $table->setRow([$command,new \Symfony\Component\Console\Helper\TableSeparator()]);
         endforeach;
         $table->render();
     }
