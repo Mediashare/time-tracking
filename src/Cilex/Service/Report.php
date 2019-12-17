@@ -1,12 +1,11 @@
 <?php
 namespace Cilex\Service;
 use Cilex\Service\Tracking;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Console\Helper\TableCell;
-use Symfony\Component\Console\Helper\TableSeparator;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableCell;
 Class Report
 {
     public $file;
@@ -103,7 +102,10 @@ Class Report
                 [new TableCell('Commands', ['colspan' => 3])],
                 ['Commit', 'Filename', 'Command', 'Result']
             ])
-            ->setRows($commands)
+            ->setRows([
+                $commands,
+                new \Symfony\Component\Console\Helper\TableSeparator(),
+            ])
             ->render();
     }
 
@@ -140,13 +142,10 @@ Class Report
             foreach ((array) $commit->commands as $key => $command) {
                 // Record
                 $commands[] = [
-                    new \Symfony\Component\Console\Helper\TableSeparator(),
-                    [
-                        'commit' => $commit->id,
-                        'filename' => $command['filename'],
-                        'command' => $command['content'],
-                        'result' => $command['result'],
-                    ]
+                    'commit' => $commit->id,
+                    'filename' => $command['filename'],
+                    'command' => $command['content'],
+                    'result' => $command['result'],
                 ];
             }
         }
