@@ -99,7 +99,7 @@ Class Report
         $commands = $this->commands($tracking);
         $table = new Table($output);
         $table->setHeaders([
-                [new TableCell('Commands', ['colspan' => 3])],
+                [new TableCell('Commands', ['colspan' => 4])],
                 ['Commit', 'Filename', 'Command', 'Result']
             ])
             ->setRows($commands)
