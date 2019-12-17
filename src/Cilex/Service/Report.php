@@ -99,7 +99,7 @@ Class Report
         $commands = $this->commands($tracking);
         $table = new Table($output);
         $table->setHeaders([
-                [new TableCell('Commands', ['colspan' => 4])],
+                [new TableCell('Commands', ['colspan' => 3])],
                 ['Commit', 'Filename', 'Command', 'Result']
             ])
             ->setRows($commands)
@@ -142,8 +142,7 @@ Class Report
                     'commit' => $commit->id,
                     'filename' => $command['filename'],
                     'command' => $command['content'],
-                    'result' => $command['result'],
-                    new \Symfony\Component\Console\Helper\TableSeparator(),
+                    'result' => $command['result']
                 ];
             }
         }
