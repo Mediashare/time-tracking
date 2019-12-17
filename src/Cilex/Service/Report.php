@@ -126,7 +126,7 @@ Class Report
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
                 'date' => $commit->getCreateDate(),
-                'modules' => implode(array_column($commit->commands, 'filename'))
+                'modules' => implode(array_column($commit->commands, 'filename'), ' - ')
             ];
         }
         return $commits;
