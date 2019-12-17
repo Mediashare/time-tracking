@@ -101,9 +101,11 @@ Class Report
         $table->setHeaders([
                 [new TableCell('Commands', ['colspan' => 3])],
                 ['Commit', 'Filename', 'Command', 'Result']
-            ])
-            ->setRows($commands)
-            ->render();
+            ]);
+        foreach ($commands as $command):
+            $table->setRows([$command,new \Symfony\Component\Console\Helper\TableSeparator()]);
+        endforeach;
+        $table->render();
     }
 
     public function arrayToObject(array $array, string $class_name) {
