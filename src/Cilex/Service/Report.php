@@ -102,10 +102,7 @@ Class Report
                 [new TableCell('Commands', ['colspan' => 3])],
                 ['Commit', 'Filename', 'Command', 'Result']
             ])
-            ->setRows([
-                $commands,
-                new \Symfony\Component\Console\Helper\TableSeparator(),
-            ])
+            ->setRows($commands)
             ->render();
     }
 
@@ -146,6 +143,7 @@ Class Report
                     'filename' => $command['filename'],
                     'command' => $command['content'],
                     'result' => $command['result'],
+                    new \Symfony\Component\Console\Helper\TableSeparator(),
                 ];
             }
         }
