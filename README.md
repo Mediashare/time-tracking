@@ -2,6 +2,11 @@ Time-Tracking
 ================================================
 Time-Tracking is a simple command line tool for project timer trakcing.
 
+# Getting Start
+## Composer Library
+```sh
+composer require mediashare/time-tracking
+```
 ## Usage
 
  - Run the commands as:
@@ -10,6 +15,15 @@ Time-Tracking is a simple command line tool for project timer trakcing.
 ./time-tracking.phar commit "Filesystem operations"
 ./time-tracking.phar status
 ./time-tracking.phar end
+```
+
+## Create Module (.sh)
+```sh
+# ./src/TimeTracking/Modules/ (default path)
+#!/bin/sh
+git add . 
+git status
+git commit -a -m "%message%"
 ```
 
 ## Creating a PHAR

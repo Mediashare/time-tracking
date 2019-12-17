@@ -4,7 +4,7 @@
     "keywords"    : ["timer","time tracking", "tracking", "versionning"],
     "homepage"    : "https://github.com/Mediashare/time-tracking",
     "license"     : "MIT",
-    "type"        : "project",
+    "type"        : "vendor",
 
     "autoload" : {
         "psr-4" : { 
