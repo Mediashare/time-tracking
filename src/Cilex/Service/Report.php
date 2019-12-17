@@ -90,7 +90,7 @@ Class Report
         $table = new Table($output);
         $table->setHeaders([
                 [new TableCell('Commits', ['colspan' => 5])],
-                ['N°', 'ID', 'Message', 'Duration', 'Create date']
+                ['N°', 'ID', 'Message', 'Duration', 'Create date', 'Modules']
             ])
             ->setRows($commits)
             ->render();
@@ -125,7 +125,8 @@ Class Report
                 'id' => $commit->id,
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
-                'date' => $commit->getCreateDate()
+                'date' => $commit->getCreateDate(),
+                'modules' => implode(array_column($commit->commands, 'filename'))
             ];
         }
         return $commits;
