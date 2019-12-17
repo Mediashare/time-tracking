@@ -7,6 +7,7 @@ Class Commit
     public $create_date;
     public $message;
     public $step;
+    public $commands = [];
 
     public function __construct(string $message = null) {
         $this->id = uniqid();

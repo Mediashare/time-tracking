@@ -55,7 +55,6 @@ Class Report
                     // Return Tracking
                     if (!empty($tracking)):return $tracking;endif;
                 endif;
-            
             endif;
         endif;
 
@@ -95,6 +94,16 @@ Class Report
             ])
             ->setRows($commits)
             ->render();
+
+        // Modules / Commands
+        $commands = $this->commands($tracking);
+        $table = new Table($output);
+        $table->setHeaders([
+                [new TableCell('Commands', ['colspan' => 3])],
+                ['Commit', 'Filename', 'Command', 'Result']
+            ])
+            ->setRows($commands)
+            ->render();
     }
 
     public function arrayToObject(array $array, string $class_name) {
@@ -120,5 +129,22 @@ Class Report
             ];
         }
         return $commits;
+    }
+
+    private function commands(Tracking $tracking): array {
+        // Commits
+        $commands = [];
+        foreach ($tracking->commits as $index => $commit) {
+            foreach ((array) $commit->commands as $key => $command) {
+                // Record
+                $commands[] = [
+                    'commit' => $commit->id,
+                    'filename' => $command['filename'],
+                    'command' => $command['content'],
+                    'result' => $command['result'],
+                ];
+            }
+        }
+        return $commands;
     }
 }

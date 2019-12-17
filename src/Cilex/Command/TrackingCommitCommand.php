@@ -11,14 +11,15 @@
 
 namespace Cilex\Command;
 
+use Cilex\Service\Commit;
+use Cilex\Service\Module;
+use Cilex\Service\Report;
+use Cilex\Service\Session;
+use Cilex\Provider\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Cilex\Provider\Console\Command;
-use Cilex\Service\Session;
-use Cilex\Service\Commit;
-use Cilex\Service\Report;
 
 /**
  * Example command for testing purposes.
@@ -33,7 +34,19 @@ class TrackingCommitCommand extends Command
         $this
             ->setName('commit')
             ->setDescription('Commit Time Tracking')
-            ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.');
+            ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.') 
+            ->addOption(
+                'module',
+                'm',
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Module(s) executed with commit.'
+            )
+            ->addOption(
+                'inject-variable',
+                'i',
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Variable(s) injected in module(s) with commit. Format: json {"module_name":{"variable_name":"variable_value"}}'
+            );
     }
 
     /**
@@ -44,11 +57,21 @@ class TrackingCommitCommand extends Command
         $session = new Session();
         $tracking = $session->getLast();
         if ($tracking):
+            // Variable(s) Injected
+            $variables = (array) $input->getOption('inject-variable');
+            // Module(s) (exemple: src/Cilex/Modules/Git.sh)
+            $command = new Module($variables);
+            $modules = (array) $input->getOption('module');
+            // Commit
             $message = $input->getArgument('message');
-            $commit = new Commit($message);
+            $commit = new Commit($message, $modules);
             $tracking->commit($commit);
             
-            
+            // Module(s) execution
+            foreach ($modules as $module) {
+                $commit->commands[] = $command->execute($module);
+            }
+
             // Output terminal
             $text = "[Commit] Time Tracking - " . $tracking->id;
             $output->writeln($text);
