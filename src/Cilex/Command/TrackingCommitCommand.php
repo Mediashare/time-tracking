@@ -11,10 +11,10 @@
 
 namespace Cilex\Command;
 
-use Cilex\Service\Commit;
-use Cilex\Service\Module;
-use Cilex\Service\Report;
-use Cilex\Service\Session;
+use Mediashare\Service\Commit;
+use Mediashare\Service\Module;
+use Mediashare\Service\Report;
+use Mediashare\Service\Session;
 use Cilex\Provider\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;

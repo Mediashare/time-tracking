@@ -1,16 +1,19 @@
 {
-    "name"        : "cilex/cilex",
-    "description" : "The PHP micro-framework for Command line tools based on the Symfony2 Components",
-    "keywords"    : ["microframework","cli"],
-    "homepage"    : "http://cilex.github.com",
+    "name"        : "mediashare/time-tracking",
+    "description" : "Time tracking with injection commands, versionning & modulable.",
+    "keywords"    : ["timer","time tracking", "tracking", "versionning"],
+    "homepage"    : "https://github.com/Mediashare/time-tracking",
     "license"     : "MIT",
 
     "autoload" : {
-        "psr-4" : { "Cilex\\": "src/Cilex" }
+        "psr-4" : { 
+            "Cilex\\": "src/Cilex",
+            "Mediashare\\": "src/TimeTracking"
+        }
     },
 
     "authors":[
-        { "name":  "Mike van Riel", "email": "me@mikevanriel.com" }
+        { "name":  "Thibault Maruqand", "email": "Mediashare.supp@gmail.com" }
     ],
 
     "require" : {

@@ -1,7 +1,7 @@
 <?php
-namespace Cilex\Service;
-use Cilex\Service\Tracking;
-use Cilex\Service\Report;
+namespace Mediashare\Service;
+use Mediashare\Service\Tracking;
+use Mediashare\Service\Report;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 Class Session

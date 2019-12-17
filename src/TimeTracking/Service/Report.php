@@ -1,6 +1,6 @@
 <?php
-namespace Cilex\Service;
-use Cilex\Service\Tracking;
+namespace Mediashare\Service;
+use Mediashare\Service\Tracking;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -109,8 +109,8 @@ Class Report
     public function arrayToObject(array $array, string $class_name) {
         return unserialize(sprintf(
             'O:%d:"%s"%s',
-            strlen('Cilex\Service\\' . $class_name),
-            'Cilex\Service\\' . $class_name,
+            strlen('Mediashare\Service\\' . $class_name),
+            'Mediashare\Service\\' . $class_name,
             strstr(serialize($array), ':')
         ));
     }

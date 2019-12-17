@@ -16,10 +16,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Cilex\Provider\Console\Command;
-use Cilex\Service\Session;
-use Cilex\Service\DateTime;
-use Cilex\Service\Tracking;
-use Cilex\Service\Report;
+use Mediashare\Service\Session;
+use Mediashare\Service\DateTime;
+use Mediashare\Service\Tracking;
+use Mediashare\Service\Report;
 
 /**
  * Example command for testing purposes.

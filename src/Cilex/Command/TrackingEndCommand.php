@@ -16,9 +16,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Cilex\Provider\Console\Command;
-use Cilex\Service\Session;
-use Cilex\Service\Commit;
-use Cilex\Service\Report;
+use Mediashare\Service\Session;
+use Mediashare\Service\Commit;
+use Mediashare\Service\Report;
 
 /**
  * Example command for testing purposes.

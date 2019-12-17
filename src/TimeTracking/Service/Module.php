@@ -1,5 +1,5 @@
 <?php
-namespace Cilex\Service;
+namespace Mediashare\Service;
 class Module
 {
     public $modules_dir = __DIR__.'/../Modules/*.sh';
