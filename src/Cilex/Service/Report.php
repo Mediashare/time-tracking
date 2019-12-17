@@ -126,7 +126,7 @@ Class Report
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
                 'date' => $commit->getCreateDate(),
-                'modules' => implode(array_column($commit->commands, 'filename'), ' - ')
+                'modules' => implode(array_column($commit->commands, 'filename'), ', ')
             ];
         }
         return $commits;
@@ -139,10 +139,13 @@ Class Report
             foreach ((array) $commit->commands as $key => $command) {
                 // Record
                 $commands[] = [
-                    'commit' => $commit->id,
-                    'filename' => $command['filename'],
-                    'command' => $command['content'],
-                    'result' => $command['result'],
+                    new TableSeparator(),
+                    [
+                        'commit' => $commit->id,
+                        'filename' => $command['filename'],
+                        'command' => $command['content'],
+                        'result' => $command['result'],
+                    ]
                 ];
             }
         }
