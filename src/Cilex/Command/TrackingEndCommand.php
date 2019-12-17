@@ -32,7 +32,7 @@ class TrackingEndCommand extends Command
     {
         $this
             ->setName('end')
-            ->setDescription('End Time Tracking');
+            ->setDescription('End Time Tracking. (Archive session)');
     }
 
     /**

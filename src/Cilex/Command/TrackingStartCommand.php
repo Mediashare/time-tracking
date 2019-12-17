@@ -58,7 +58,7 @@ class TrackingStartCommand extends Command
         $output->writeln($text);
         // Render Report
         $tracking->report->render($output, $tracking);
-        // Json
+        // Json creation
         $json = json_encode($tracking);
         $tracking->report->write($json);
     }
