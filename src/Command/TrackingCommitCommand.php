@@ -48,7 +48,7 @@ class TrackingCommitCommand extends Command
         if ($tracking):
             // Commit
             $message = $input->getArgument('message');
-            $commit = new Commit($message, $modules);
+            $commit = new Commit($message);
             $tracking->commit($commit);
 
             // Output terminal
