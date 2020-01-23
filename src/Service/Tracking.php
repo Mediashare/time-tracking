@@ -110,11 +110,11 @@ Class Tracking
         if (!$total): // Calcul with current Step
             // Stop last step for current duration
             $step = end($this->steps);
-            if (!$step->duration):
+            if ($step->duration === "00:00:00"):
                 $step->stop();
             endif;
         endif;
-
+        
         // Steps incrementation
         foreach ($this->steps as $step):
             $step_duration = $step->duration;
@@ -125,8 +125,6 @@ Class Tracking
                 $duration['seconds'] += $parser[2];
             endif;
         endforeach;
-        
-
 
         // Convert seconds to minutes
         if ($duration['seconds'] >= 60):
@@ -143,7 +141,6 @@ Class Tracking
         if (strlen($duration['hours']) === 1): $duration['hours'] = '0' . $duration['hours']; endif;
         if (strlen($duration['minutes']) === 1): $duration['minutes'] = '0' . $duration['minutes']; endif;
         if (strlen($duration['seconds']) === 1): $duration['seconds'] = '0' . $duration['seconds']; endif;
-        
         // Record
         $this->duration = $duration;
         return $this;

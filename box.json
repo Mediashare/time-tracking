@@ -1,0 +1,12 @@
+{
+    "alias": "time-tracking.phar",
+    "chmod": "0777",
+    "directories": ["./"],
+    "files": [
+      ".env.local.php"
+    ],
+    "git-version": "2.0.0",
+    "main": "bin/console",
+    "output": "time-tracking.phar",
+    "stub": true
+  }

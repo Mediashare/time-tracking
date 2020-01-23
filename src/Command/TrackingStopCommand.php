@@ -45,7 +45,6 @@ class TrackingStopCommand extends Command
         $tracking = $session->getLast();
         if ($tracking):
             $tracking = $tracking->stop();
-
             // Output
             $text = "[Stop] Time Tracking - " . $tracking->id;
             $output->writeln($text);

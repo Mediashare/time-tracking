@@ -62,47 +62,39 @@ Class Report
     }
 
     public function render(OutputInterface $output, Tracking $tracking) {
+        // Commits
+        $commits = $this->commits($tracking);
+        $table = new Table($output);
+        $table->setHeaders([
+                [new TableCell('Commits', ['colspan' => 5])],
+                ['N°', 'ID', 'Message', 'Duration', 'Create date']
+            ])
+            ->setRows($commits)
+            ->render();
+
         // Informations
         $last_step_duration = '00:00:00';
         $last_step = end($tracking->steps);
-        if ($last_step && !$last_step->commit):
-            $last_step_duration = $last_step->getDuration();
+        if ($last_step && !$last_step->commit && !$last_step->end_date):
+            // $last_step_duration = $last_step->getDuration();
+            $last_step->stop();
+            $current_step = $last_step->getDuration(false);
         endif;
         $informations = [
             'id' => $tracking->id,
             'name' => $tracking->name,
             'running' => $tracking->getStatus(),
             'commits' => (string) count($tracking->commits),
-            'last_step' => $last_step_duration,
             'duration' => $tracking->getDuration(),
+            'current_timer' => $current_step,
             'date' => $tracking->getCreateDate()
         ];
         $table = new Table($output);
         $table->setHeaders([
                 [new TableCell('Tracking', ['colspan' => 7])],
-                ['ID', 'Name', 'Status', 'Commits', 'Last Step', 'Duration', 'Create date']
+                ['ID', 'Name', 'Status', 'Commits', 'Duration', 'Current step', 'Create date']
             ])
             ->setRows([$informations])
-            ->render();
-
-        // Commits
-        $commits = $this->commits($tracking);
-        $table = new Table($output);
-        $table->setHeaders([
-                [new TableCell('Commits', ['colspan' => 5])],
-                ['N°', 'ID', 'Message', 'Duration', 'Create date', 'Modules']
-            ])
-            ->setRows($commits)
-            ->render();
-
-        // Modules / Commands
-        $commands = $this->commands($tracking);
-        $table = new Table($output);
-        $table->setHeaders([
-                [new TableCell('Commands', ['colspan' => 3])],
-                ['Commit', 'Filename', 'Command', 'Result']
-            ])
-            ->setRows($commands)
             ->render();
     }
 
@@ -126,26 +118,8 @@ Class Report
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
                 'date' => $commit->getCreateDate(),
-                'modules' => implode(array_column($commit->commands, 'filename'), ', ')
             ];
         }
         return $commits;
-    }
-
-    private function commands(Tracking $tracking): array {
-        // Commits
-        $commands = [];
-        foreach ($tracking->commits as $index => $commit) {
-            foreach ((array) $commit->commands as $key => $command) {
-                // Record
-                $commands[] = [
-                    'commit' => $commit->id,
-                    'filename' => $command['filename'],
-                    'command' => $command['content'],
-                    'result' => $command['result']
-                ];
-            }
-        }
-        return $commands;
     }
 }

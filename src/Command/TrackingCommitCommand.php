@@ -12,7 +12,6 @@
 namespace Mediashare\Command;
 
 use Mediashare\Service\Commit;
-use Mediashare\Service\Module;
 use Mediashare\Service\Report;
 use Mediashare\Service\Session;
 use Symfony\Component\Console\Command\Command;
@@ -35,19 +34,8 @@ class TrackingCommitCommand extends Command
         $this
             ->setName('commit')
             ->setDescription('Commit Time Tracking')
-            ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.') 
-            ->addOption(
-                'module',
-                'm',
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Module(s) executed with commit.'
-            )
-            ->addOption(
-                'inject-variable',
-                'i',
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Variable(s) injected in module(s) with commit. Format: json {"module_name":{"variable_name":"variable_value"}}'
-            );
+            ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.')
+        ;
     }
 
     /**
@@ -58,20 +46,10 @@ class TrackingCommitCommand extends Command
         $session = new Session();
         $tracking = $session->getLast();
         if ($tracking):
-            // Variable(s) Injected
-            $variables = (array) $input->getOption('inject-variable');
-            // Module(s) (exemple: src/Cilex/Modules/Git.sh)
-            $command = new Module($variables);
-            $modules = (array) $input->getOption('module');
             // Commit
             $message = $input->getArgument('message');
             $commit = new Commit($message, $modules);
             $tracking->commit($commit);
-            
-            // Module(s) execution
-            foreach ($modules as $module) {
-                $commit->commands[] = $command->execute($module);
-            }
 
             // Output terminal
             $text = "[Commit] Time Tracking - " . $tracking->id;

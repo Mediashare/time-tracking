@@ -33,7 +33,7 @@ Class Step
         $start_date = $start_date->getTime();
         
         $end_date = (array) $this->end_date;
-        if (!$end_date):
+        if (empty($end_date)):
             $end_date = new DateTime();
         else: 
             $end_date = new DateTime($end_date['date']);
@@ -45,8 +45,13 @@ Class Step
         return $this;
     }
 
-    public function getDuration(): ?string {
+    public function getDuration(bool $end = true): ?string {
         $this->setDuration();
-        return $this->duration;
+        $duration = $this->duration;
+        if (!$end):
+            $this->end_date = null;
+            $this->duration = null;
+        endif;
+        return $duration;
     }
 }
