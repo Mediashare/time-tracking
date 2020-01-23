@@ -5,5 +5,8 @@ elseif (file_exists(__DIR__."/../../vendor")):
     exit;
 endif;
 
-copy($time_tracking, __DIR__."/../../time-tracking.phar");
+copy(
+    "https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking.phar", 
+    __DIR__."/../../time-tracking.phar"
+);
 echo "Time Tracking was installed. \n";
