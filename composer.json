@@ -30,7 +30,7 @@
             "*": "dist"
         },
         "sort-packages": true,
-        "bin-dir": "bin"
+        "bin-dir": "../../bin"
     },
     "autoload": {
         "psr-4": {
