@@ -7,9 +7,9 @@ chmod 755 time-tracking.phar
 ```
 ## Usage
 ```bash
-  ./time-tracking.phar timer:start                 Start Time Tracking
-  ./time-tracking.phar timer:commit <message>      Commit Time Tracking
-  ./time-tracking.phar timer:stop                  Stop Time Tracking
-  ./time-tracking.phar timer:status                Status Time Tracking
-  ./time-tracking.phar timer:end                   End Time Tracking. (Archive session)
+  ./time-tracking.phar start                 Start Time Tracking
+  ./time-tracking.phar commit <message>      Commit Time Tracking
+  ./time-tracking.phar stop                  Stop Time Tracking
+  ./time-tracking.phar status                Status Time Tracking
+  ./time-tracking.phar end                   End Time Tracking. (Archive session)
 ```
