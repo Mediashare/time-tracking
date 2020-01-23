@@ -73,7 +73,7 @@ Class Report
             ->render();
 
         // Informations
-        $last_step_duration = '00:00:00';
+        $current_step = '00:00:00';
         $last_step = end($tracking->steps);
         if ($last_step && !$last_step->commit && !$last_step->end_date):
             // $last_step_duration = $last_step->getDuration();
