@@ -1,5 +1,5 @@
 # Time Tracking
-Time-Tracking is a simple command line tool for project timer trakcing.
+Time-Tracking is a simple command line tool for project timer tracking.
 ## Installation
 ### Manuel
 ```bash
