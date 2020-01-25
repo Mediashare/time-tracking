@@ -41,7 +41,12 @@ Class Step
         $end_date = $end_date->getTime();
         
         $diff = $start_date->diff($end_date);
-        $this->duration = $diff->format('%H:%I:%S');
+        
+        $hours = $diff->h;
+        $hours = $hours + ($diff->days*24);
+        $duration = $hours.":".$diff->format('%I:%S');
+
+        $this->duration = $duration;
         return $this;
     }
 
