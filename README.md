@@ -19,3 +19,8 @@ vendor/bin/time-tracking.phar
   ./time-tracking.phar status                Status Time Tracking
   ./time-tracking.phar end                   End Time Tracking. (Archive session)
 ```
+## Build
+[Box2](https://github.com/box-project/box2) used for .phar generation from php project. 
+```bash
+box build
+```
