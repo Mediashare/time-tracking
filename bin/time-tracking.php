@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-$app = new Symfony\Component\Console\Application('Time-Tracking', '0.1.4');
+$app = new Symfony\Component\Console\Application('Time-Tracking', '0.1.5');
 $app->add((new Mediashare\Command\TrackingStartCommand('start')));
 $app->add((new Mediashare\Command\TrackingCommitCommand('commit')));
 $app->add((new Mediashare\Command\TrackingStopCommand('stop')));
