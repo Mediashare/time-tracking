@@ -53,7 +53,6 @@ class TrackingStartCommand extends Command
         else:
             $tracking->start(); // Start Tracking
         endif;
-        
         // Output
         $text = "[Start] Time Tracking - " . $tracking->id;
         $output->writeln($text);

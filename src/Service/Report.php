@@ -1,11 +1,12 @@
 <?php
 namespace Mediashare\Service;
+use Mediashare\Service\Duration;
 use Mediashare\Service\Tracking;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\TableCell;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 Class Report {
     public $file;
 

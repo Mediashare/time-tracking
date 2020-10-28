@@ -1,12 +1,13 @@
 <?php
 namespace Mediashare\Service;
+use Mediashare\Service\Step;
 use Mediashare\Service\DateTime;
 use Mediashare\Service\Duration;
 Class Commit {
     public $id;
     public $create_date;
     public $message;
-    public $steps = [];
+    public $steps;
     public $duration = '00:00:00';
 
     public function __construct(string $message = null) {
@@ -20,10 +21,21 @@ Class Commit {
 
     public function getDuration(): string {
         $duration = new Duration();
+        
+        // Old version adaptation
+        if (!empty($this->step)):
+            if (is_array($this->step)):
+                $step = new Step();
+                $step->start_date = $this->step['start_date'];
+                $step->end_date = $this->step['end_date'];
+                $this->step = $step;
+            endif;
+            $duration->addStep($this->step);
+        endif;
+
         foreach ($this->steps ?? [] as $step):
             $duration->addStep($step);
         endforeach;
-        
         $this->duration = $duration->getDuration();
         
         return $this->duration;

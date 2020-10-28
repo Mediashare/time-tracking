@@ -31,7 +31,7 @@ Class Tracking {
             $step = new Step();
             $this->steps[] = $step->start($date); // Start step
         endif;
-
+        
         if (!$this->report):$this->report = new Report($this);endif; // Report file
         
         $this->run = true;
