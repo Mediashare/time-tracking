@@ -5,6 +5,7 @@ Time-Tracking is a simple command line tool for project timer tracking.
 ```bash
 curl -O https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking.phar
 chmod 755 time-tracking.phar
+sudo cp time-tracking.phar /usr/bin/time-tracking
 ```
 ### Composer
 ```bash
