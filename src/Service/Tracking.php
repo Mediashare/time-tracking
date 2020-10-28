@@ -96,16 +96,12 @@ Class Tracking
     
     public function getDuration(bool $total = false): string {
         $this->setDuration($total);
-        return $this->duration['hours'] . ':' . $this->duration['minutes'] . ':' . $this->duration['seconds'];
+        return $this->duration;
     }
 
     public function setDuration(bool $total = false) {
         // Init
-        $duration = [
-            'hours' => '00',
-            'seconds' => '00',
-            'minutes' => '00'
-        ];
+        $seconds = 0;
 
         if (!$total): // Calcul with current Step
             // Stop last step for current duration
@@ -121,28 +117,14 @@ Class Tracking
                 $step_duration = $step->duration;
                 if ($step_duration):
                     $parser = explode(':', $step_duration);
-                    $duration['hours'] += $parser[0];
-                    $duration['minutes'] += $parser[1];
-                    $duration['seconds'] += $parser[2];
+                    $seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
                 endif;
             endif;
         endforeach;
 
-        // Convert seconds to minutes
-        if ($duration['seconds'] >= 60):
-            $duration['minutes'] += (int) number_format($duration['seconds'] / 60);
-            $duration['seconds'] = (int) number_format($duration['seconds'] % 60);
-        endif;
-        // Convert minutes to hours
-        if ($duration['minutes'] >= 60):
-            $duration['hours'] += (int) number_format($duration['minutes'] / 60);
-            $duration['minutes'] = (int) number_format($duration['minutes'] % 60);
-        endif;
+        // Convert seconds to HH:ii:ss
+        $duration = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
 
-        // Format 00:00:00
-        if (strlen($duration['hours']) === 1): $duration['hours'] = '0' . $duration['hours']; endif;
-        if (strlen($duration['minutes']) === 1): $duration['minutes'] = '0' . $duration['minutes']; endif;
-        if (strlen($duration['seconds']) === 1): $duration['seconds'] = '0' . $duration['seconds']; endif;
         // Record
         $this->duration = $duration;
         return $this;
