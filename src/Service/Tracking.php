@@ -48,7 +48,10 @@ Class Tracking
 
         // Stop last step
         $last_step = end($this->steps);
-        $last_step->stop();
+        if (!$last_step->end_date && !$last_step->commit):
+            $key = array_key_last($this->steps);
+            unset($this->steps[$key]);
+        else: $last_step->stop(); endif;
         
         return $this;
     }
