@@ -73,13 +73,22 @@ Class Report
             ->render();
 
         // Informations
-        $current_step = '00:00:00';
-        $last_step = end($tracking->steps);
-        if ($last_step && !$last_step->commit && !$last_step->end_date):
-            // $last_step_duration = $last_step->getDuration();
-            $last_step->stop();
-            $current_step = $last_step->getDuration(false);
-        endif;
+        $seconds = 0;
+        foreach (array_reverse($tracking->steps) as $step):
+            if (!$step->commit):
+                $duration = $step->getDuration();
+                $parser = explode(':', $duration);
+                $seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
+            endif;
+        endforeach;
+        $current_step = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
+
+        // $last_step = end($tracking->steps);
+        // if ($last_step && !$last_step->commit && !$last_step->end_date):
+        //     // $last_step_duration = $last_step->getDuration();
+        //     $last_step->stop();
+        //     $current_step = $last_step->getDuration(false);
+        // endif;
         $informations = [
             'id' => $tracking->id,
             'name' => $tracking->name,

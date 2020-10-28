@@ -55,21 +55,23 @@ Class Tracking
 
     public function commit(Commit $commit) {
         // Stop last Step
-        $last_step = end($this->steps);
-        if (!$last_step->commit):
-            $last_step->commit = $commit->id;
-            $last_step->stop();
-            if ($this->run):
-                // Start new Step
-                $step = new Step();
-                $this->steps[] = $step->start();
+        foreach (array_reverse($this->steps) as $step):
+            if (!$step->commit):
+                $step->commit = $commit->id;
+                $step->stop();
+                
+                // Steps
+                $commit->steps[] = $step; // Update Commit
             endif;
-            
-            // Commit
-            $commit->step = $last_step; // Update Commit
-            $this->commits[] = $commit; // Record Commit
-        else:
-            // Already commited...
+        endforeach;
+        
+        // Record Commit
+        $this->commits[] = $commit;
+        
+        if ($this->run):
+            // Start new Step
+            $step = new Step();
+            $this->steps[] = $step->start();
         endif;
         
         return $this; 
