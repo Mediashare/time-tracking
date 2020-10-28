@@ -6,8 +6,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
-Class Report
-{
+Class Report {
     public $file;
 
     public function __construct(Tracking $tracking = null) {
@@ -46,10 +45,13 @@ Class Report
                 if ($tracking_array):
                     $tracking = $this->arrayToObject($tracking_array, 'Tracking');
                     $tracking->report = $this->arrayToObject($tracking->report, 'Report');
-                    foreach ($tracking->commits as $index => $commit):
+                    foreach ($tracking->commits ?? [] as $index => $commit):
                         $tracking->commits[$index] = $this->arrayToObject($commit, 'Commit');
+                        foreach ($tracking->commits[$index]->steps ?? [] as $step_index => $step):
+                            $tracking->commits[$index]->steps[$step_index] = $this->arrayToObject($step, 'Step');
+                        endforeach;
                     endforeach;
-                    foreach ($tracking->steps as $index => $step):
+                    foreach ($tracking->steps ?? [] as $index => $step):
                         $tracking->steps[$index] = $this->arrayToObject($step, 'Step');
                     endforeach;
                     // Return Tracking
@@ -72,30 +74,22 @@ Class Report
             ->setRows($commits)
             ->render();
 
-        // Informations
-        $seconds = 0;
+        // Current Step
+        $current_step = new Duration();
         foreach (array_reverse($tracking->steps) as $step):
             if (!$step->commit):
-                $duration = $step->getDuration();
-                $parser = explode(':', $duration);
-                $seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
+                $current_step->addStep($step);
             endif;
         endforeach;
-        $current_step = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
-
-        // $last_step = end($tracking->steps);
-        // if ($last_step && !$last_step->commit && !$last_step->end_date):
-        //     // $last_step_duration = $last_step->getDuration();
-        //     $last_step->stop();
-        //     $current_step = $last_step->getDuration(false);
-        // endif;
+        
+        // Informations
         $informations = [
             'id' => $tracking->id,
             'name' => $tracking->name,
             'running' => $tracking->getStatus(),
             'commits' => (string) count($tracking->commits),
             'duration' => $tracking->getDuration(),
-            'current_timer' => $current_step,
+            'current_timer' => $current_step->getDuration(),
             'date' => $tracking->getCreateDate()
         ];
         $table = new Table($output);

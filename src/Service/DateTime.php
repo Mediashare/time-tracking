@@ -1,7 +1,6 @@
 <?php
 namespace Mediashare\Service;
-class DateTime
-{
+class DateTime {
     public $date_time;
     
     public function __construct(string $date_time = null) {

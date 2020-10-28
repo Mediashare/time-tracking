@@ -1,8 +1,7 @@
 <?php
 namespace Mediashare\Service;
 use Mediashare\Service\DateTime;
-Class Step
-{
+Class Step {
     public $start_date;
     public $end_date;
     public $duration;

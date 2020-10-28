@@ -1,8 +1,8 @@
 <?php
 namespace Mediashare\Service;
 use Mediashare\Service\DateTime;
-Class Commit
-{
+use Mediashare\Service\Duration;
+Class Commit {
     public $id;
     public $create_date;
     public $message;
@@ -19,21 +19,14 @@ Class Commit
     }
 
     public function getDuration(): string {
-        $seconds = 0;
-        foreach ($this->steps as $step):
-            if (is_array($step)):
-                $duration = (string) $step['duration'];
-            else:
-                $duration = (string) $step->duration;
-            endif;
-            $parser = explode(':', $duration);
-            $seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
+        $duration = new Duration();
+        foreach ($this->steps ?? [] as $step):
+            $duration->addStep($step);
         endforeach;
-
-        $this->duration = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
-
+        
+        $this->duration = $duration->getDuration();
+        
         return $this->duration;
-
     }
 
     public function getCreateDate(): string {

@@ -1,12 +1,12 @@
 <?php
 namespace Mediashare\Service;
-use Mediashare\Service\DateTime;
+use Mediashare\Service\Step;
+use Mediashare\Service\Commit;
 use Mediashare\Service\Report;
 use Mediashare\Service\Session;
-use Mediashare\Service\Commit;
-use Mediashare\Service\Step;
-Class Tracking
-{
+use Mediashare\Service\DateTime;
+use Mediashare\Service\Duration;
+Class Tracking {
     public $id;
     public $name;
     public $start_date;
@@ -59,7 +59,6 @@ Class Tracking
             if (!$step->commit):
                 $step->commit = $commit->id;
                 $step->stop();
-                
                 // Steps
                 $commit->steps[] = $step; // Update Commit
             endif;
@@ -114,21 +113,15 @@ Class Tracking
         endif;
         
         // Steps incrementation
+        $duration = new Duration();
         foreach ($this->steps as $step):
             if ($step->commit):
-                $step_duration = $step->duration;
-                if ($step_duration):
-                    $parser = explode(':', $step_duration);
-                    $seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
-                endif;
+                $duration->addStep($step);
             endif;
         endforeach;
-
-        // Convert seconds to HH:ii:ss
-        $duration = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
-
         // Record
-        $this->duration = $duration;
+        $this->duration = $duration->getDuration();
+        
         return $this;
     }
 }

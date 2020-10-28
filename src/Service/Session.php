@@ -4,8 +4,7 @@ use Mediashare\Service\Tracking;
 use Mediashare\Service\Report;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-Class Session
-{
+Class Session {
     public $file;
     public $dir = './.time-tracking/session';
 
