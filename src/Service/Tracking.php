@@ -120,12 +120,14 @@ Class Tracking
         
         // Steps incrementation
         foreach ($this->steps as $step):
-            $step_duration = $step->duration;
-            if ($step_duration):
-                $parser = explode(':', $step_duration);
-                $duration['hours'] += $parser[0];
-                $duration['minutes'] += $parser[1];
-                $duration['seconds'] += $parser[2];
+            if ($step->commit):
+                $step_duration = $step->duration;
+                if ($step_duration):
+                    $parser = explode(':', $step_duration);
+                    $duration['hours'] += $parser[0];
+                    $duration['minutes'] += $parser[1];
+                    $duration['seconds'] += $parser[2];
+                endif;
             endif;
         endforeach;
 
