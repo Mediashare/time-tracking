@@ -3,7 +3,7 @@
     "chmod": "0777",
     "directories": ["./"],
     "files": [
-      ".env.local.php"
+      ".env"
     ],
     "git-version": "2.0.0",
     "main": "bin/time-tracking.php",

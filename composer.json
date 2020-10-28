@@ -22,8 +22,6 @@
         "symfony/framework-bundle": "5.1.*",
         "symfony/yaml": "5.1.*"
     },
-    "require-dev": {
-    },
     "bin": ["time-tracking.phar"],
     "config": {
         "preferred-install": {
