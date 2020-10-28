@@ -18,7 +18,8 @@ vendor/bin/time-tracking.phar
   ./time-tracking.phar commit <message>      Commit Time Tracking
   ./time-tracking.phar stop                  Stop Time Tracking
   ./time-tracking.phar status                Status Time Tracking
-  ./time-tracking.phar end                   End Time Tracking. (Archive session)
+  ./time-tracking.phar end                   End Time Tracking (Archive session)
+  ./time-tracking.phar upgrade               Download latest version of Time Tracking
 ```
 ## Build
 [Box2](https://github.com/box-project/box2) used for .phar generation from php project. 
