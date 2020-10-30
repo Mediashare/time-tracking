@@ -48,9 +48,13 @@ Class Report {
                     $tracking->report = $this->arrayToObject($tracking->report, 'Report');
                     foreach ($tracking->commits ?? [] as $index => $commit):
                         $tracking->commits[$index] = $this->arrayToObject($commit, 'Commit');
-                        foreach ($tracking->commits[$index]->steps ?? [] as $step_index => $step):
-                            $tracking->commits[$index]->steps[$step_index] = $this->arrayToObject($step, 'Step');
-                        endforeach;
+                        if (!empty($tracking->commits[$index]->step)):
+                            $tracking->commits[$index]->step = $this->arrayToObject($tracking->commits[$index]->step, 'Step');
+                        else:
+                            foreach ($tracking->commits[$index]->steps ?? [] as $step_index => $step):
+                                $tracking->commits[$index]->steps[$step_index] = $this->arrayToObject($step, 'Step');
+                            endforeach;
+                        endif;
                     endforeach;
                     foreach ($tracking->steps ?? [] as $index => $step):
                         $tracking->steps[$index] = $this->arrayToObject($step, 'Step');
@@ -70,7 +74,7 @@ Class Report {
         $table = new Table($output);
         $table->setHeaders([
                 [new TableCell('Commits', ['colspan' => 5])],
-                ['N°', 'ID', 'Message', 'Duration', 'Create date']
+                ['N°', 'ID', 'Message', 'Duration', 'Total', 'Create date']
             ])
             ->setRows($commits)
             ->render();
@@ -114,13 +118,22 @@ Class Report {
     private function commits(Tracking $tracking): array {
         // Commits
         $commits = [];
+        $duration_total = new Duration();
         foreach ($tracking->commits as $index => $commit) {
+            if (!empty($commit->step)):
+                $duration_total->addStep($commit->step);
+            else:
+                foreach ($commit->steps ?? [] as $step):
+                    $duration_total->addStep($step);
+                endforeach;
+            endif;
             // Record
             $commits[] = [
                 'index' => $index + 1,
                 'id' => $commit->id,
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
+                'duration_total' => $duration_total->getDuration(),
                 'date' => $commit->getCreateDate(),
             ];
         }

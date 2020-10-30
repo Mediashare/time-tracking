@@ -19,10 +19,12 @@ class Duration {
     }
 
     public function getSeconds(): int {
+        $seconds = 0;
         foreach ($this->steps ?? [] as $step):
             $parser = explode(':', $step->getDuration());
-            $this->seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
+            $seconds += (($parser[0] ?? 0) * 60 * 60) + (($parser[1] ?? 0) * 60) + $parser[2] ?? 0;
         endforeach;
+        $this->seconds = $seconds;
         return $this->seconds;
     }
 }
