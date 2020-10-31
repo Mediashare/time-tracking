@@ -1,7 +1,7 @@
 <?php
 namespace Mediashare\Service;
-use Mediashare\Service\Tracking;
-use Mediashare\Service\Report;
+use Mediashare\Entity\Report;
+use Mediashare\Entity\Tracking;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 Class Session {

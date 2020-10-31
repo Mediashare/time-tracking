@@ -11,8 +11,8 @@
 
 namespace Mediashare\Command;
 
-use Mediashare\Service\Commit;
-use Mediashare\Service\Report;
+use Mediashare\Entity\Commit;
+use Mediashare\Entity\Report;
 use Mediashare\Service\Session;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;

@@ -1,5 +1,5 @@
 <?php
-namespace Mediashare\Service;
+namespace Mediashare\Entity;
 use Mediashare\Service\DateTime;
 Class Step {
     public $start_date;

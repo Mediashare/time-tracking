@@ -1,8 +1,8 @@
 <?php
-namespace Mediashare\Service;
-use Mediashare\Service\Step;
-use Mediashare\Service\Commit;
-use Mediashare\Service\Report;
+namespace Mediashare\Entity;
+use Mediashare\Entity\Step;
+use Mediashare\Entity\Commit;
+use Mediashare\Entity\Report;
 use Mediashare\Service\Session;
 use Mediashare\Service\DateTime;
 use Mediashare\Service\Duration;

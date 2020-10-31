@@ -17,8 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Mediashare\Service\Session;
-use Mediashare\Service\Commit;
-use Mediashare\Service\Report;
+use Mediashare\Entity\Report;
+use Mediashare\Entity\Commit;
 
 /**
  * Example command for testing purposes.

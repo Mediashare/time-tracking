@@ -16,10 +16,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Mediashare\Service\Session;
 use Mediashare\Service\DateTime;
-use Mediashare\Service\Tracking;
-use Mediashare\Service\Report;
+use Mediashare\Service\Session;
+use Mediashare\Entity\Tracking;
+use Mediashare\Entity\Report;
 
 /**
  * Example command for testing purposes.

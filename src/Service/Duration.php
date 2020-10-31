@@ -1,6 +1,6 @@
 <?php
 namespace Mediashare\Service;
-use Mediashare\Service\Step;
+use Mediashare\Entity\Step;
 class Duration {
     public $steps = [];
     public $seconds = 0;

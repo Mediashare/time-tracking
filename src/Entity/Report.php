@@ -1,7 +1,7 @@
 <?php
-namespace Mediashare\Service;
+namespace Mediashare\Entity;
+use Mediashare\Entity\Tracking;
 use Mediashare\Service\Duration;
-use Mediashare\Service\Tracking;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\TableCell;
@@ -107,12 +107,8 @@ Class Report {
     }
 
     public function arrayToObject(array $array, string $class_name) {
-        return unserialize(sprintf(
-            'O:%d:"%s"%s',
-            strlen('Mediashare\Service\\' . $class_name),
-            'Mediashare\Service\\' . $class_name,
-            strstr(serialize($array), ':')
-        ));
+        $serialized = unserialize(sprintf('O:%d:"%s"%s', strlen('Mediashare\Entity\\' . $class_name), 'Mediashare\Entity\\' . $class_name, strstr(serialize($array), ':')));
+        return $serialized;
     }
 
     private function commits(Tracking $tracking): array {

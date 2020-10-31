@@ -1,8 +1,8 @@
 <?php
-namespace Mediashare\Service;
-use Mediashare\Service\Step;
+namespace Mediashare\Entity;
 use Mediashare\Service\DateTime;
 use Mediashare\Service\Duration;
+use Mediashare\Entity\Step;
 Class Commit {
     public $id;
     public $create_date;
