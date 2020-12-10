@@ -21,6 +21,7 @@ Class Session {
      * @return object Tracking
      */
     public function getById(string $id) {
+        // Remove old session
         $sessions = glob($this->dir . '/*');
         if (isset($sessions[0])):
             $session_id = basename($sessions[0]);
@@ -29,9 +30,11 @@ Class Session {
             endif;
         endif;
 
+        // Create session by Tracking id
         $tracking = new Tracking();
         $tracking->id = $id;
-        $this->create($tracking);
+        $this->create($tracking); 
+        // Get tracking report
         $report = new Report($tracking);
         $tracking = $report->read();
 
