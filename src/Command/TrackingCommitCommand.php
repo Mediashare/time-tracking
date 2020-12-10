@@ -33,8 +33,9 @@ class TrackingCommitCommand extends Command
     {
         $this
             ->setName('commit')
-            ->setDescription('Commit Time Tracking')
+            ->setDescription('Commit Tracking')
             ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.')
+            ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
         ;
     }
 
@@ -44,7 +45,12 @@ class TrackingCommitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $session = new Session();
-        $tracking = $session->getLast();
+        if ($input->getOption('id')):
+            $tracking = $session->getById($input->getOption('id'));
+        else:
+            $tracking = $session->getLast(); // Get current Tracking session
+        endif;
+
         if ($tracking):
             // Commit
             $message = $input->getArgument('message');

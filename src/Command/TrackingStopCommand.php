@@ -33,7 +33,9 @@ class TrackingStopCommand extends Command
     {
         $this
             ->setName('stop')
-            ->setDescription('Stop Time Tracking');
+            ->setDescription('Stop Tracking')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Stop Tracking by id.')
+        ;
     }
 
     /**
@@ -42,7 +44,12 @@ class TrackingStopCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $session = new Session();
-        $tracking = $session->getLast();
+        if ($input->getOption('id')):
+            $tracking = $session->getById($input->getOption('id'));
+        else:
+            $tracking = $session->getLast(); // Get current Tracking session
+        endif;
+
         if ($tracking):
             $tracking = $tracking->stop();
             // Output

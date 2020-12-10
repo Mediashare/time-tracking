@@ -34,7 +34,9 @@ class TrackingStatusCommand extends Command
     {
         $this
             ->setName('status')
-            ->setDescription('Status Time Tracking');
+            ->setDescription('Status Time Tracking')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Status Tracking by id.')
+        ;
     }
 
 
@@ -44,7 +46,12 @@ class TrackingStatusCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $session = new Session();
-        $tracking = $session->getLast();
+        if ($input->getOption('id')):
+            $tracking = $session->getById($input->getOption('id'));
+        else:
+            $tracking = $session->getLast(); // Get current Tracking session
+        endif;
+
         if ($tracking):
             // Output
             $text = "[Status] Time Tracking - " . $tracking->id;

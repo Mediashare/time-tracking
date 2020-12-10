@@ -33,7 +33,9 @@ class TrackingEndCommand extends Command
     {
         $this
             ->setName('end')
-            ->setDescription('End Time Tracking. (Archive session)');
+            ->setDescription('End Time Tracking. (Archive session)')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'End Tracking by id.')
+        ;
     }
 
     /**
@@ -42,7 +44,12 @@ class TrackingEndCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $session = new Session();
-        $tracking = $session->getLast();
+        if ($input->getOption('id')):
+            $tracking = $session->getById($input->getOption('id'));
+        else:
+            $tracking = $session->getLast(); // Get current Tracking session
+        endif;
+
         if ($tracking):
             $tracking->stop(); // Stop Tracking
             $json = json_encode($tracking);

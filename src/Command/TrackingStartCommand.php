@@ -34,7 +34,7 @@ class TrackingStartCommand extends Command
             ->setName('start')
             ->setDescription('Start Time Tracking')
             ->addArgument('name', InputArgument::OPTIONAL, 'Project name.')
-            // ->addOption('id', null, null, 'Start Tracking by id.')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Start Tracking by id.')
         ;
     }
 
@@ -44,15 +44,22 @@ class TrackingStartCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $session = new Session();
-        $tracking = $session->getLast(); // Get current Tracking session
+        if ($input->getOption('id')):
+            $tracking = $session->getById($input->getOption('id'));
+        else:
+            $tracking = $session->getLast(); // Get current Tracking session
+        endif;
+
         if (!$tracking):
             $tracking = new Tracking(); // Create Tracking
+            if ($input->getOption('id')): $tracking->id = $input->getOption('id'); endif;
             $tracking->name = $input->getArgument('name');
             $tracking->start(); // Start Tracking
             $session->create($tracking); // Create Tracking session
         else:
             $tracking->start(); // Start Tracking
         endif;
+        
         // Output
         $text = "[Start] Time Tracking - " . $tracking->id;
         $output->writeln($text);

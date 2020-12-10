@@ -12,8 +12,32 @@ Class Session {
         $this->filesystem = new Filesystem();
         // Sessions Dir
         if (!$this->filesystem->exists($this->dir . '/')):$this->filesystem->mkdir($this->dir);endif;
-        // Get last session
-        $this->file = $this->getLast();
+    }
+
+
+    /**
+     * Get session by id
+     *
+     * @return object Tracking
+     */
+    public function getById(string $id) {
+        $sessions = glob($this->dir . '/*');
+        if (isset($sessions[0])):
+            $session_id = basename($sessions[0]);
+            if ($session_id !== $id):
+                $this->remove();
+            endif;
+        endif;
+
+        $tracking = new Tracking();
+        $tracking->id = $id;
+        $this->create($tracking);
+        $report = new Report($tracking);
+        $tracking = $report->read();
+
+        if (!empty($tracking)):return $tracking;endif; 
+        
+        return false;
     }
 
     /**
