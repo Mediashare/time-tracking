@@ -21,24 +21,27 @@ Class Session {
      * @return object Tracking
      */
     public function getById(string $id) {
-        // Remove old session
-        $sessions = glob($this->dir . '/*');
-        if (isset($sessions[0])):
-            $session_id = basename($sessions[0]);
-            if ($session_id !== $id):
-                $this->remove();
-            endif;
-        endif;
-
-        // Create session by Tracking id
+        // Get Tracking report
         $tracking = new Tracking();
-        $tracking->id = $id;
-        $this->create($tracking); 
-        // Get tracking report
+        $tracking->id = $id; 
         $report = new Report($tracking);
         $tracking = $report->read();
 
-        if (!empty($tracking)):return $tracking;endif; 
+        if (!empty($tracking)):
+            // Remove old session
+            $sessions = glob($this->dir . '/*');
+            if (isset($sessions[0])):
+                $session_id = basename($sessions[0]);
+                if ($session_id !== $id):
+                    $this->remove();
+                endif;
+            endif;
+
+            // Rewrite session
+            $this->create($tracking);
+
+            return $tracking;
+        endif; 
         
         return false;
     }

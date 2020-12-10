@@ -29,8 +29,16 @@ class TrackingAllCommand extends Command {
             $report = new Report($tracking);
             // Informations
             $informations[] = $report->informations($report->read());
-            
         endforeach;
+        
+        // Order by date
+        usort($informations, function($a, $b) {
+            $ad = new \DateTime(strtotime($a['date']));
+            $bd = new \DateTime(strtotime($b['date']));
+            if ($ad == $bd): return 0; endif;
+            return $ad < $bd ? -1 : 1;
+        });
+
         $table = new Table($output);
         $table->setHeaders([
                 [new TableCell('Tracking', ['colspan' => 7])],
