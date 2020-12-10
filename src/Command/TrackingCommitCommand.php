@@ -44,7 +44,7 @@ class TrackingCommitCommand extends Command {
             // Json
             $json = json_encode($tracking);
             $tracking->report->write($json);
-        endif;
+        else: $output->writeln('<error>Tracking was not found.</error>'); endif;
         return 1;
     }
 }

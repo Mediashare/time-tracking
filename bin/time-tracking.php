@@ -8,5 +8,6 @@ $app->add((new Mediashare\Command\TrackingCommitCommand('commit')));
 $app->add((new Mediashare\Command\TrackingStopCommand('stop')));
 $app->add((new Mediashare\Command\TrackingStatusCommand('status')));
 $app->add((new Mediashare\Command\TrackingEndCommand('end')));
+$app->add((new Mediashare\Command\TrackingRemoveCommand('remove')));
 $app->add((new Mediashare\Command\TrackingUpgradeCommand('upgrade')));
 $app->run();

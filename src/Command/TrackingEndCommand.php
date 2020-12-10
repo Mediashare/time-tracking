@@ -37,9 +37,10 @@ class TrackingEndCommand extends Command {
             
             $text = "[End] Time Tracking - " . $tracking->id;
             $output->writeln($text);
-        // Render Report
-        $tracking->report->render($output, $tracking);
-        endif;
+            // Render Report
+            $tracking->report->render($output, $tracking);
+        else: $output->writeln('<error>Tracking was not found.</error>'); endif;
+        
         return 1;
     }
 }

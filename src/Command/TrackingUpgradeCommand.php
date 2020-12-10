@@ -39,7 +39,7 @@ class TrackingUpgradeCommand extends Command {
         // Download
         file_put_contents($tmp, file_get_contents($url));
         if (!\file_exists($tmp)):
-            $text = "Error download [https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking.phar]";
+            $text = "Error download [".$url."]";
             $output->writeln($text);
             return 0;
         endif;

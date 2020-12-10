@@ -30,7 +30,7 @@ class TrackingAllCommand extends Command {
             // Informations
             $informations[] = $report->informations($report->read());
         endforeach;
-        
+
         // Order by date
         usort($informations, function($a, $b) {
             $ad = new \DateTime(strtotime($a['date']));

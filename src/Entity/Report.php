@@ -37,6 +37,11 @@ Class Report {
         $filesystem->dumpFile($this->file, $json);
     }
 
+    public function remove() {
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->file);
+    }
+
     public function read() {
         $filesystem = new Filesystem();
         if ($filesystem->exists($this->file)):
