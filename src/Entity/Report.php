@@ -78,25 +78,9 @@ Class Report {
             ])
             ->setRows($commits)
             ->render();
-
-        // Current Step
-        $current_step = new Duration();
-        foreach (array_reverse($tracking->steps) as $step):
-            if (!$step->commit):
-                $current_step->addStep($step);
-            endif;
-        endforeach;
         
         // Informations
-        $informations = [
-            'id' => $tracking->id,
-            'name' => $tracking->name,
-            'running' => $tracking->getStatus(),
-            'commits' => (string) count($tracking->commits),
-            'duration' => $tracking->getDuration(),
-            'current_timer' => $current_step->getDuration(),
-            'date' => $tracking->getCreateDate()
-        ];
+        $informations = $this->informations($tracking);
         $table = new Table($output);
         $table->setHeaders([
                 [new TableCell('Tracking', ['colspan' => 7])],
@@ -134,5 +118,27 @@ Class Report {
             ];
         }
         return $commits;
+    }
+
+    public function informations(Tracking $tracking) {
+        // Current Step
+        $current_step = new Duration();
+        foreach (array_reverse($tracking->steps) as $step):
+            if (!$step->commit):
+                $current_step->addStep($step);
+            endif;
+        endforeach;
+
+        $informations = [
+            'id' => $tracking->id,
+            'name' => $tracking->name,
+            'running' => $tracking->getStatus(),
+            'commits' => (string) count($tracking->commits),
+            'duration' => $tracking->getDuration(),
+            'current_timer' => $current_step->getDuration(),
+            'date' => $tracking->getCreateDate()
+        ];
+
+        return $informations;
     }
 }

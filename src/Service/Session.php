@@ -4,6 +4,7 @@ use Mediashare\Entity\Report;
 use Mediashare\Entity\Tracking;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+
 Class Session {
     public $file;
     public $dir = './.time-tracking/session';
@@ -13,7 +14,6 @@ Class Session {
         // Sessions Dir
         if (!$this->filesystem->exists($this->dir . '/')):$this->filesystem->mkdir($this->dir);endif;
     }
-
 
     /**
      * Get session by id

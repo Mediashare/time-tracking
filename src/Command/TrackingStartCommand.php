@@ -1,14 +1,4 @@
 <?php
-
-/*
- * This file is part of the Cilex framework.
- *
- * (c) Mike van Riel <mike.vanriel@naenius.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Mediashare\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,17 +9,11 @@ use Symfony\Component\Console\Command\Command;
 use Mediashare\Entity\Tracking;
 use Mediashare\Service\Session;
 use Mediashare\Entity\Report;
-/**
- * Example command for testing purposes.
- */
-class TrackingStartCommand extends Command
-{
+
+class TrackingStartCommand extends Command {
     protected static $defaultName = 'timer:start';
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
-    {
+    
+    protected function configure() {
         $this
             ->setName('start')
             ->setDescription('Start Time Tracking')
@@ -38,11 +22,7 @@ class TrackingStartCommand extends Command
         ;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $session = new Session();
         if ($input->getOption('id')):
             $tracking = $session->getById($input->getOption('id'));
@@ -59,7 +39,7 @@ class TrackingStartCommand extends Command
         else:
             $tracking->start(); // Start Tracking
         endif;
-        
+
         // Output
         $text = "[Start] Time Tracking - " . $tracking->id;
         $output->writeln($text);

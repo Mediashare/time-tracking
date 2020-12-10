@@ -1,14 +1,4 @@
 <?php
-
-/*
- * This file is part of the Cilex framework.
- *
- * (c) Mike van Riel <mike.vanriel@naenius.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Mediashare\Command;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -18,29 +8,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-/**
- * Example command for testing purposes.
- */
-class TrackingUpgradeCommand extends Command
-{
+class TrackingUpgradeCommand extends Command {
     protected static $defaultName = 'timer:upgrade';
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
-    {
+    
+    protected function configure() {
         $this
             ->setName('upgrade')
             ->setDescription('Download latest version of Time Tracking');
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         if (!\Phar::running()):
             $text = "Use <git pull> for upgrade Time Tracking";
             $output->writeln($text);

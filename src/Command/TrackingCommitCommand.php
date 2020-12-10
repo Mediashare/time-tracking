@@ -1,14 +1,4 @@
 <?php
-
-/*
- * This file is part of the Cilex framework.
- *
- * (c) Mike van Riel <mike.vanriel@naenius.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Mediashare\Command;
 
 use Mediashare\Entity\Commit;
@@ -20,17 +10,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Example command for testing purposes.
- */
-class TrackingCommitCommand extends Command
-{
+class TrackingCommitCommand extends Command {
     protected static $defaultName = 'timer:commit';
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
-    {
+
+    protected function configure() {
         $this
             ->setName('commit')
             ->setDescription('Commit Tracking')
@@ -39,14 +22,10 @@ class TrackingCommitCommand extends Command
         ;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $session = new Session();
-        if ($input->getOption('id')):
-            $tracking = $session->getById($input->getOption('id'));
+        if ($input->getOption('tracking-id')):
+            $tracking = $session->getById($input->getOption('tracking-id'));
         else:
             $tracking = $session->getLast(); // Get current Tracking session
         endif;

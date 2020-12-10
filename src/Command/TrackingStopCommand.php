@@ -1,14 +1,4 @@
 <?php
-
-/*
- * This file is part of the Cilex framework.
- *
- * (c) Mike van Riel <mike.vanriel@naenius.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Mediashare\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,29 +10,18 @@ use Mediashare\Service\Session;
 use Mediashare\Entity\Report;
 use Mediashare\Entity\Commit;
 
-/**
- * Example command for testing purposes.
- */
-class TrackingStopCommand extends Command
-{
+class TrackingStopCommand extends Command {
     protected static $defaultName = 'timer:stop';
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
-    {
+    
+    protected function configure() {
         $this
             ->setName('stop')
             ->setDescription('Stop Tracking')
             ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Stop Tracking by id.')
         ;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $session = new Session();
         if ($input->getOption('id')):
             $tracking = $session->getById($input->getOption('id'));
