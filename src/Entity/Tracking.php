@@ -5,7 +5,6 @@ use Mediashare\Entity\Commit;
 use Mediashare\Entity\Report;
 use Mediashare\Service\Session;
 use Mediashare\Service\DateTime;
-use Mediashare\Service\Duration;
 Class Tracking {
     public $id;
     public $name;
@@ -113,14 +112,14 @@ Class Tracking {
         endif;
         
         // Steps incrementation
-        $duration = new Duration();
+        $datetime = new DateTime();
         foreach ($this->steps as $step):
             if ($step->commit):
                 $duration->addStep($step);
             endif;
         endforeach;
         // Record
-        $this->duration = $duration->getDuration();
+        $this->duration = $datetime->getDuration();
         
         return $this;
     }

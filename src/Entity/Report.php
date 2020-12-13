@@ -1,7 +1,7 @@
 <?php
 namespace Mediashare\Entity;
 use Mediashare\Entity\Tracking;
-use Mediashare\Service\Duration;
+use Mediashare\Service\DateTime;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\TableCell;
@@ -103,13 +103,13 @@ Class Report {
     private function commits(Tracking $tracking): array {
         // Commits
         $commits = [];
-        $duration_total = new Duration();
+        $datetime = new DateTime();
         foreach ($tracking->commits as $index => $commit) {
             if (!empty($commit->step)):
-                $duration_total->addStep($commit->step);
+                $datetime->addStep($commit->step);
             else:
                 foreach ($commit->steps ?? [] as $step):
-                    $duration_total->addStep($step);
+                    $datetime->addStep($step);
                 endforeach;
             endif;
             // Record
@@ -118,7 +118,7 @@ Class Report {
                 'id' => $commit->id,
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
-                'duration_total' => $duration_total->getDuration(),
+                'duration_total' => $datetime->getDuration(),
                 'date' => $commit->getCreateDate(),
             ];
         }

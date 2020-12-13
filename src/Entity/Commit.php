@@ -1,7 +1,6 @@
 <?php
 namespace Mediashare\Entity;
 use Mediashare\Service\DateTime;
-use Mediashare\Service\Duration;
 use Mediashare\Entity\Step;
 Class Commit {
     public $id;
@@ -20,7 +19,7 @@ Class Commit {
     }
 
     public function getDuration(): string {
-        $duration = new Duration();
+        $datetime = new DateTime();
         
         // Old version adaptation
         if (!empty($this->step)):
@@ -30,13 +29,13 @@ Class Commit {
                 $step->end_date = $this->step['end_date'];
                 $this->step = $step;
             endif;
-            $duration->addStep($this->step);
+            $datetime->addStep($this->step);
         endif;
 
         foreach ($this->steps ?? [] as $step):
-            $duration->addStep($step);
+            $datetime->addStep($step);
         endforeach;
-        $this->duration = $duration->getDuration();
+        $this->duration = $datetime->getDuration();
         
         return $this->duration;
     }

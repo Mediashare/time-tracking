@@ -20,6 +20,7 @@ class TrackingAllCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {   
+        $trackings = [];
         foreach (glob('./.time-tracking/report-*') as $report):
             $tracking_id = str_replace('report-', '', \basename($report));
             $tracking_id = str_replace('.json', '', $tracking_id);
@@ -28,11 +29,11 @@ class TrackingAllCommand extends Command {
             $tracking->id = $tracking_id;
             $report = new Report($tracking);
             // Informations
-            $informations[] = $report->informations($report->read());
+            $trackings[] = $report->informations($report->read());
         endforeach;
 
         // Order by date
-        usort($informations, function($a, $b) {
+        usort($trackings, function($a, $b) {
             $ad = new \DateTime(strtotime($a['date']));
             $bd = new \DateTime(strtotime($b['date']));
             if ($ad == $bd): return 0; endif;
@@ -44,7 +45,7 @@ class TrackingAllCommand extends Command {
                 [new TableCell('Tracking', ['colspan' => 7])],
                 ['ID', 'Name', 'Status', 'Commits', 'Duration', 'Current step', 'Create date']
             ])
-            ->setRows($informations)
+            ->setRows($trackings)
             ->render();
         return 1;
     }
