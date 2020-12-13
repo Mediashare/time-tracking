@@ -64,8 +64,6 @@ Class Controller {
     
     /**
      * End Tracking
-     *
-     * @return object Tracking
      */
     public function end() {
         $this->stop($this->tracking);
@@ -75,24 +73,9 @@ Class Controller {
     /**
      * Commit Tracking
      *
-     * @param Tracking tracking
-     * @param string|null $message
-     * @return Tracking
+     * @param Commit $commit
      */
-    public function commit(?string $message = null) {
-        // Init Commit
-        $commit = new Commit($message);
-
-        // Stop last Step
-        foreach (array_reverse($this->tracking->steps) as $step):
-            if (!$step->commit):
-                $step->commit = $commit->id;
-                $step->setEndDate();
-                // Steps
-                $commit->steps[] = $step; // Update Commit
-            endif;
-        endforeach;
-        
+    public function commit(Commit $commit) {
         // Record Commit
         $this->tracking->commits[] = $commit;
         

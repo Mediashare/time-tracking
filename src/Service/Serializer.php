@@ -15,7 +15,7 @@ Class Serializer {
                 $tracking_array = json_decode($file, true);
                 if ($tracking_array):
                     $tracking = $this->arrayToObject($tracking_array, 'Tracking');
-                    $tracking->report = $this->arrayToObject($tracking->report, 'Report');
+                    // $tracking->report = $this->arrayToObject($tracking->report, 'Report');
                     foreach ($tracking->commits ?? [] as $index => $commit):
                         $tracking->commits[$index] = $this->arrayToObject($commit, 'Commit');
                         if (!empty($tracking->commits[$index]->step)):

@@ -8,7 +8,7 @@ Class Commit {
     public $id;
     public $create_date;
     public $message;
-    public $steps;
+    public $steps = [];
     public $duration = '00:00:00';
 
     public function __construct(string $message = null) {
@@ -40,6 +40,12 @@ Class Commit {
         $this->duration = $datetime->getDuration();
         
         return $this->duration;
+    }
+    
+    public function addStep(Step $step): self {
+        $this->steps[] = $step;
+        $this->getDuration();
+        return $this;
     }
 
     public function getCreateDate(): string {

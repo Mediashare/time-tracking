@@ -21,6 +21,15 @@ Class Tracking {
         endif;
     }
 
+    public function getCurrentStep() {
+        foreach (array_reverse($this->steps) ?? [] as $step):
+            if (!$step->commit):
+                return $step;
+            endif;
+        endforeach;
+        return null;
+    }
+
     public function getCreateDate(): string {
         if (is_array($this->start_date)):
             $create_date = new DateTime($this->start_date['date']);
@@ -51,10 +60,10 @@ Class Tracking {
         
         // Steps incrementation
         $datetime = new DateTime();
-        foreach ($this->steps as $step):
-            if ($step->commit):
+        foreach ($this->commits ?? [] as $index => $commit):
+            foreach ($commit->steps ?? [] as $step):
                 $datetime->addStep($step);
-            endif;
+            endforeach;
         endforeach;
         // Record
         $this->duration = $datetime->getDuration();
@@ -63,19 +72,22 @@ Class Tracking {
     }
 
     public function getCommits() {
-        // Commits
-        $commits = [];
+        $commits = $this->commits ?? [];
+        // Order by date
+        usort($commits, function($a, $b) {
+            $ad = $a->getCreateDate();
+            $bd = $b->getCreateDate();
+            if ($ad == $bd): return 0; endif;
+            return $ad < $bd ? -1 : 1;
+        });
+
         $datetime = new DateTime();
-        foreach ($this->commits as $index => $commit) {
-            if (!empty($commit->step)):
-                $datetime->addStep($commit->step);
-            else:
-                foreach ($commit->steps ?? [] as $step):
-                    $datetime->addStep($step);
-                endforeach;
-            endif;
+        foreach ($commits ?? [] as $index => $commit) {
+            foreach ($commit->steps ?? [] as $step):
+                $datetime->addStep($step);
+            endforeach;
             // Record
-            $commits[] = [
+            $results[] = [
                 'index' => $index + 1,
                 'id' => $commit->id,
                 'message' => $commit->message,
@@ -84,7 +96,9 @@ Class Tracking {
                 'date' => $commit->getCreateDate(),
             ];
         }
-        return $commits;
+
+
+        return $results ?? [];
     }
 
     public function getInformations() {

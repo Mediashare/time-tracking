@@ -2,7 +2,6 @@
 namespace Mediashare\Command;
 
 use Mediashare\Service\Commit;
-use Mediashare\Service\DateTime;
 use Mediashare\Service\Tracking;
 use Mediashare\Service\Controller;
 use Symfony\Component\Console\Command\Command;
@@ -11,14 +10,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class CommitCommand extends Command {
-    protected static $defaultName = 'timer:commit';
+Class CommitEditCommand extends Command {
+    protected static $defaultName = 'timer:commit:edit';
 
     protected function configure() {
         $this
-            ->setName('timer:commit')
-            ->setDescription('Commit Tracking')
-            ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.')
+            ->setName('timer:commit:edit')
+            ->setDescription('Edit Commit Tracking')
+            ->addArgument('id', InputArgument::REQUIRED, 'Commit id.')
+            ->addOption('message', 'm', InputOption::VALUE_OPTIONAL, 'Message write for this commit.')
             ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Commit with custom duration. (+1minutes, +1hours, +1days)')
             ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
         ;
@@ -30,16 +30,17 @@ Class CommitCommand extends Command {
         
         if ($tracking):
             $controller = new Controller($tracking);
-            // Commit
+            // Get Commit
             $commit = new Commit($tracking);
-            $commit = $commit->create(
-                $input->getArgument('message') ?? null,
-                $input->getOption('duration') ?? null
+            $commit = $commit->edit(
+                $input->getArgument('id'), 
+                $input->getOption('message'), 
+                $input->getOption('duration')
             );
             $controller->commit($commit);
-
+                
             // Output terminal
-            $text = "[Commit] Time Tracking - " . $tracking->id;
+            $text = "[Commit:".$commit->id."] Time Tracking - " . $tracking->id;
             $output->writeln($text);
             // Report file creation
             $controller->report();
