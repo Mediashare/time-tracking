@@ -18,7 +18,7 @@ Class Serializer {
                     // $tracking->report = $this->arrayToObject($tracking->report, 'Report');
                     foreach ($tracking->commits ?? [] as $index => $commit):
                         $tracking->commits[$index] = $this->arrayToObject($commit, 'Commit');
-                        if (!empty($tracking->commits[$index]->step)):
+                        if (!empty($tracking->commits[$index]->step)): // Old version compability
                             $tracking->commits[$index]->steps[] = $this->arrayToObject($tracking->commits[$index]->step, 'Step');
                         else:
                             foreach ($tracking->commits[$index]->steps ?? [] as $step_index => $step):
