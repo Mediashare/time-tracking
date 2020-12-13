@@ -12,6 +12,12 @@ Class Commit {
         $this->tracking = $tracking;
     }
 
+    /**
+     * Get timer commit by id
+     *
+     * @param string $id
+     * @return CommitEntity|null $commit
+     */
     public function get(string $id) {
         foreach ($this->tracking->commits ?? [] as $index => $commit):
             if ($commit->id === $id):
@@ -23,6 +29,13 @@ Class Commit {
         return null;
     }
 
+    /**
+     * Create commit entity
+     *
+     * @param string|null $message
+     * @param string|null $duration
+     * @return CommitEntity $commit
+     */
     public function create(?string $message = null, ?string $duration = null) {
         $commit = new CommitEntity();
         $commit->message = $message;
@@ -48,9 +61,18 @@ Class Commit {
             endforeach;
         endif;
         $commit->getDuration();
+
         return $commit;
     }
 
+    /**
+     * Edit commit entity
+     *
+     * @param string $id
+     * @param string|null $message
+     * @param string|null $duration
+     * @return CommitEntity $commit
+     */
     public function edit(string $id, ?string $message = null, ?string $duration = null) {
         $commit = $this->get($id);
         $commit->message = $message ?? $commit->message;
@@ -62,6 +84,13 @@ Class Commit {
         return $commit;
     }
 
+    /**
+     * Get custom step with custom duration
+     *
+     * @param CommitEntity $commit
+     * @param string $duration (exemple: '+5minutes', '+2hours', '+1days')
+     * @return Step $step
+     */
     private function customStep(CommitEntity $commit, string $duration) {
         $step = new Step();
         $now = new DateTime('now');

@@ -18,9 +18,9 @@ Class Controller {
     }
 
     /**
-     * Start Tracking
+     * Start timer
      *
-     * @return object Tracking
+     * @return self
      */
     public function start() {
         // Init Tracking
@@ -43,12 +43,14 @@ Class Controller {
         $this->tracking->status = 'run';
 
         $this->session->create($this->tracking);
+
+        return $this;
     }
     
     /**
-     * Stop Tracking
+     * Stop timer
      *
-     * @return object Tracking
+     * @return self
      */
     public function stop() {
         $this->tracking->run = false;
@@ -62,10 +64,14 @@ Class Controller {
         // Stop last step
         $last_step = end($this->tracking->steps);
         $last_step->setEndDate();
+        
+        return $this;
     }
     
     /**
-     * End Tracking
+     * End timer
+     *
+     * @return self
      */
     public function end() {
         $this->stop($this->tracking);
@@ -77,12 +83,15 @@ Class Controller {
             endif;
         endforeach;
         $this->session->remove(); // Remove current session
+
+        return $this;
     }
 
     /**
-     * Commit Tracking
+     * Create commit
      *
      * @param Commit $commit
+     * @return self
      */
     public function commit(Commit $commit) {
         // Record Commit
@@ -93,12 +102,14 @@ Class Controller {
             $step = new Step();
             $this->tracking->steps[] = $step->setStartDate();
         endif;
+
+        return $this;
     }
 
     /**
      * Delete Tracking & report file associated
      *
-     * @return void
+     * @return self
      */
     public function remove() {
         $tracking = new Tracking();
@@ -107,28 +118,34 @@ Class Controller {
         endif;
         $report = new Report($this->tracking);
         $report->remove();
+
+        return $this;
     }
 
     /**
      * Generate Tracking Report
      *
      * @param Tracking $tracking
-     * @return void
+     * @return self
      */
     public function report() {
         $report = new Report($this->tracking);
         $json = json_encode($this->tracking);
         $report->write($json);
+
+        return $this;
     }
 
     /**
      * Symfony Console Output
      *
      * @param $output
-     * @return void
+     * @return self
      */
     public function output($output) {
         $report = new Output($output);
         $report->render($this->tracking);
+
+        return $this;
     }
 }

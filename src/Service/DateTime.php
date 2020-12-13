@@ -15,23 +15,43 @@ class DateTime {
         $this->date_time = $date;
     }
 
+    /**
+     * Get DateTime Interface
+     *
+     * @return \DateTime
+     */
     public function getTime() {
         return $this->date_time;
     }
 
-    public function addStep(Step $step): self {
+    /**
+     * Add new step
+     *
+     * @param Step $step
+     * @return self
+     */
+    public function addStep(Step $step) {
         $this->steps[] = $step;
         return $this;
     }
 
-    // Convert seconds to HH:ii:ss
-    public function getDuration(): string {
+    /**
+     * Convert seconds to HH:ii:ss
+     *
+     * @return string
+     */
+    public function getDuration() {
         $seconds = $this->getSeconds();
         $this->duration = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
         return $this->duration;
     }
 
-    public function getSeconds(): int {
+    /**
+     * Get total seconds from step(s)
+     *
+     * @return int
+     */
+    public function getSeconds() {
         $seconds = 0;
         foreach ($this->steps ?? [] as $step):
             $parser = explode(':', $step->getDuration());

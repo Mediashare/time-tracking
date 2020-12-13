@@ -3,7 +3,7 @@ namespace Mediashare\Service;
 
 Class Serializer {
     /**
-     * Convert json report file to Object 
+     * Convert json report file to Report Object 
      *
      * @param string $file
      * @return void
@@ -38,6 +38,13 @@ Class Serializer {
         return false;
     }
 
+    /**
+     * Convert array to Entity Object
+     *
+     * @param array $array
+     * @param string $class_name
+     * @return Entity $entity
+     */
     public function arrayToObject(array $array, string $class_name) {
         $serialized = unserialize(sprintf('O:%d:"%s"%s', strlen('Mediashare\Entity\\' . $class_name), 'Mediashare\Entity\\' . $class_name, strstr(serialize($array), ':')));
         return $serialized;

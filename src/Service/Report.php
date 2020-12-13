@@ -21,27 +21,51 @@ Class Report {
         $this->file = $dir . '/' . $file;
     }
 
+    /**
+     * Read report file
+     *
+     * @param string|null $file
+     * @return Report
+     */
     public function read(?string $file = null) {
         $serializer = new Serializer();
-        return $serializer->read($file);
+        return $serializer->read($file ?? $this->file);
     }
 
+    /**
+     * Create report file
+     *
+     * @return self
+     */
     public function create() {
         $filesystem = new Filesystem();
         if (!$filesystem->exists($this->file)):
             $filesystem->touch($this->file);
         endif;
-        return $this->file;
+        return $this;
     }
 
+    /**
+     * Write report file
+     *
+     * @param string $json
+     * @return self
+     */
     public function write(string $json) {
         $this->create();
         $filesystem = new Filesystem();
         $filesystem->dumpFile($this->file, $json);
+        return $this;
     }
 
+    /**
+     * Delete report file
+     *
+     * @return self
+     */
     public function remove() {
         $filesystem = new Filesystem();
         $filesystem->remove($this->file);
+        return $this;
     }
 }

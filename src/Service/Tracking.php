@@ -11,6 +11,12 @@ Class Tracking {
         $this->session = new Session();
     }
 
+    /**
+     * Init Tracking session from id or last session
+     *
+     * @param string|null $id
+     * @return TrackingEntity
+     */
     public function init(?string $id = null) {
         if ($id):
             return $this->get($id);
@@ -19,6 +25,13 @@ Class Tracking {
         endif;
     }
 
+    /**
+     * Create Tracking
+     *
+     * @param string|null $id
+     * @param string|null $name
+     * @return TrackingEntity
+     */
     public function create(?string $id = null, ?string $name = null) {
         $tracking = new TrackingEntity();
         $tracking->id = $id ?? \uniqid();
@@ -26,6 +39,11 @@ Class Tracking {
         return $tracking;
     }
 
+    /**
+     * Get Tracking from last session
+     *
+     * @return TrackingEntity|false $tracking
+     */
     public function getLast() {
         $tracking = new TrackingEntity();
         // Get last session
@@ -41,6 +59,12 @@ Class Tracking {
         return false; // Session not found
     }
 
+    /**
+     * Get Tracking by id
+     *
+     * @param string $id
+     * @return TrackingEntity|false $tracking
+     */
     public function get(string $id) {
         $tracking = new TrackingEntity();
         $tracking->id = $id; 
@@ -63,6 +87,11 @@ Class Tracking {
         return false; // Session not found
     }
 
+    /**
+     * Get all Tracking timer
+     *
+     * @return array[TrackingEntity] $trackings
+     */
     public function all() {
         $trackings = [];
         foreach (glob('./.time-tracking/report-*') as $report):

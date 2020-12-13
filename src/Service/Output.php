@@ -11,6 +11,12 @@ Class Output {
         $this->output = $output;
     }
 
+    /**
+     * Render output for Symfony console
+     *
+     * @param Tracking $tracking
+     * @return self
+     */
     public function render(Tracking $tracking) {
         $table = new Table($this->output);
         // Commits
@@ -28,5 +34,7 @@ Class Output {
             ])
             ->setRows([$tracking->getInformations()])
             ->render();
+            
+        return $this;
     }
 }

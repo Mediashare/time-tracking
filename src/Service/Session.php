@@ -21,6 +21,12 @@ Class Session {
         endif;
     }
 
+    /**
+     * Create session file
+     *
+     * @param Tracking $tracking
+     * @return self
+     */
     public function create(Tracking $tracking) {
         // Remove old session(s)
         $this->remove();
@@ -33,16 +39,28 @@ Class Session {
         // Write basic informations
         $this->write($tracking->id);
         
-        return true;
+        return $this;
     }
 
+    /**
+     * Remove session file
+     *
+     * @return self
+     */
     public function remove() {
-        foreach (glob($this->dir . '/*') as $session) {
+        foreach (glob($this->dir . '/*') as $session):
             $this->filesystem->remove($session);
-        }
-        return true;
+        endforeach;
+        
+        return $this;
     }
 
+    /**
+     * Write session file
+     *
+     * @param string $id
+     * @return self
+     */
     private function write(string $id) {
         $date = new DateTime();
         $date = $date->getTime();
@@ -52,6 +70,7 @@ Class Session {
             'report_file' => './.time-tracking/report-'.$id.'.json'
         ]);
         $this->filesystem->appendToFile($this->file, $text);
-        return true;
+        
+        return $this;
     }
 }
