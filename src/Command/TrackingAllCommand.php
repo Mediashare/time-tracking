@@ -1,8 +1,8 @@
 <?php
 namespace Mediashare\Command;
 
-use Mediashare\Entity\Report;
-use Mediashare\Entity\Tracking;
+use Mediashare\Service\Report;
+use Mediashare\Service\Tracking;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableCell;
@@ -20,32 +20,13 @@ class TrackingAllCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {   
-        $trackings = [];
-        foreach (glob('./.time-tracking/report-*') as $report):
-            $tracking_id = str_replace('report-', '', \basename($report));
-            $tracking_id = str_replace('.json', '', $tracking_id);
-            
-            $tracking = new Tracking();
-            $tracking->id = $tracking_id;
-            $report = new Report($tracking);
-            // Informations
-            $trackings[] = $report->informations($report->read());
-        endforeach;
-
-        // Order by date
-        usort($trackings, function($a, $b) {
-            $ad = new \DateTime(strtotime($a['date']));
-            $bd = new \DateTime(strtotime($b['date']));
-            if ($ad == $bd): return 0; endif;
-            return $ad < $bd ? -1 : 1;
-        });
-
+        $tracking = new Tracking();
         $table = new Table($output);
         $table->setHeaders([
                 [new TableCell('Tracking', ['colspan' => 7])],
                 ['ID', 'Name', 'Status', 'Commits', 'Duration', 'Current step', 'Create date']
             ])
-            ->setRows($trackings)
+            ->setRows($tracking->all())
             ->render();
         return 1;
     }

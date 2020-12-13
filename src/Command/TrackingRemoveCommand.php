@@ -1,9 +1,10 @@
 <?php
 namespace Mediashare\Command;
 
-use Mediashare\Entity\Report;
-use Mediashare\Entity\Tracking;
+use Mediashare\Service\Report;
 use Mediashare\Service\Session;
+use Mediashare\Service\Tracking;
+use Mediashare\Service\Controller;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,19 +22,17 @@ class TrackingRemoveCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $tracking_id = $input->getArgument('id');
-        $session = new Session();
-        $current_session = $session->getLast();
-        if ($current_session && $current_session->id === $tracking_id):
-            $session->remove();
-            $output->writeln('<comment>Current session is reset.</comment>');
-        endif;
-        
         $tracking = new Tracking();
-        $tracking->id = $tracking_id;
-        $report = new Report($tracking);
-        if (file_exists($report->file)):
-            $report->remove();
+        $current = $tracking->getLast();
+        $selected = $tracking->get($input->getArgument('id'));
+        if ($tracking):
+            if ($current && $current->id !== $selected->id):
+                $tracking->get($current->id);
+            endif;
+
+            $controller = new Controller($selected);
+            $controller->remove();
+
             $output->writeln('<info>This Tracking was removed.</info>');
         else: $output->writeln('<error>This Tracking was not found.</error>'); endif;
 

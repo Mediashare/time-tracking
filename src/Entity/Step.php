@@ -7,7 +7,7 @@ Class Step {
     public $duration;
     public $commit;
 
-    public function start(DateTime $date_time = null) {
+    public function setStartDate(DateTime $date_time = null) {
         if (!$date_time):
             $date_time = new DateTime();
         endif;
@@ -15,7 +15,7 @@ Class Step {
         return $this;
     }
 
-    public function stop(DateTime $date_time = null) {
+    public function setEndDate(DateTime $date_time = null) {
         if (!$date_time):
             $date_time = new DateTime();
         endif;

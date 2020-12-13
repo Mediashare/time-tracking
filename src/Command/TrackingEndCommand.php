@@ -1,14 +1,13 @@
 <?php
 namespace Mediashare\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Mediashare\Service\Tracking;
+use Mediashare\Service\Controller;
 use Symfony\Component\Console\Command\Command;
-use Mediashare\Service\Session;
-use Mediashare\Entity\Report;
-use Mediashare\Entity\Commit;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 
 class TrackingEndCommand extends Command {
     protected static $defaultName = 'timer:end';
@@ -22,23 +21,20 @@ class TrackingEndCommand extends Command {
     }
     
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $session = new Session();
-        if ($input->getOption('id')):
-            $tracking = $session->getById($input->getOption('id'));
-        else:
-            $tracking = $session->getLast(); // Get current Tracking session
-        endif;
+        $tracking = new Tracking();
+        $tracking = $tracking->init($input->getOption('id') ?? null);
 
         if ($tracking):
-            $tracking->stop(); // Stop Tracking
-            $json = json_encode($tracking);
-            $tracking->report->write($json);
-            $session->remove(); // Remove current session
+            $controller = new Controller($tracking);
+            $controller->end(); // Stop Tracking
             
             $text = "[End] Time Tracking - " . $tracking->id;
             $output->writeln($text);
+            
+            // Report file creation
+            $controller->report();
             // Render Report
-            $tracking->report->render($output, $tracking);
+            $controller->output($output);
         else: $output->writeln('<error>Tracking was not found.</error>'); endif;
         
         return 1;

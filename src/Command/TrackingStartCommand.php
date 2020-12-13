@@ -1,14 +1,15 @@
 <?php
 namespace Mediashare\Command;
 
+use Mediashare\Service\Report;
+use Mediashare\Service\Session;
+use Mediashare\Service\Tracking;
+use Mediashare\Service\Controller;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Mediashare\Entity\Tracking;
-use Mediashare\Service\Session;
-use Mediashare\Entity\Report;
 
 class TrackingStartCommand extends Command {
     protected static $defaultName = 'timer:start';
@@ -19,35 +20,31 @@ class TrackingStartCommand extends Command {
             ->setDescription('Start Time Tracking')
             ->addArgument('name', InputArgument::OPTIONAL, 'Project name.')
             ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Start Tracking by id.')
+            ->addOption('new', null, InputOption::VALUE_NONE, 'Start new Tracking.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $session = new Session();
-        if ($input->getOption('id')):
-            $tracking = $session->getById($input->getOption('id'));
-        else:
-            $tracking = $session->getLast(); // Get current Tracking session
+        if (!$input->getOption('new')):
+            $tracking = new Tracking();
+            $tracking = $tracking->init($input->getOption('id') ?? null);
         endif;
 
-        if (!$tracking):
-            $tracking = new Tracking(); // Create Tracking
-            if ($input->getOption('id')): $tracking->id = $input->getOption('id'); endif;
-            $tracking->name = $input->getArgument('name');
-            $tracking->start(); // Start Tracking
-            $session->create($tracking); // Create Tracking session
-        else:
-            $tracking->start(); // Start Tracking
+        if (empty($tracking)): // Session not found
+            $tracking = new Tracking();
+            $tracking = $tracking->create($input->getOption('id') ?? null, $input->getArgument('name')); // Create Tracking
         endif;
+
+        $controller = new Controller($tracking);
+        $controller->start(); // Start Tracking
 
         // Output
         $text = "[Start] Time Tracking - " . $tracking->id;
         $output->writeln($text);
+        // Report file creation
+        $controller->report();
         // Render Report
-        $tracking->report->render($output, $tracking);
-        // Json creation
-        $json = json_encode($tracking);
-        $tracking->report->write($json);
+        $controller->output($output);
         return 1;
     }
 }

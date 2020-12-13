@@ -1,7 +1,6 @@
 <?php
 namespace Mediashare\Entity;
 use Mediashare\Entity\Step;
-use Mediashare\Entity\Commit;
 use Mediashare\Entity\Report;
 use Mediashare\Service\Session;
 use Mediashare\Service\DateTime;
@@ -14,66 +13,6 @@ Class Tracking {
     public $commits = [];
     public $steps = [];
     public $run = false;
-    public $report;
-
-    public function start() {
-        // Init Tracking
-        if (!$this->id):$this->id = uniqid();endif; // Set $id
-        $date = new DateTime();
-        $start_date = $date->getTime(); // Get current date time
-        if (!$this->start_date):
-            $this->start_date = $start_date; // Set $start_date
-        endif;
-        // Step
-        $last_step = end($this->steps); // Get last Step
-        if (!$last_step || $last_step->end_date):
-            $step = new Step();
-            $this->steps[] = $step->start($date); // Start step
-        endif;
-        
-        if (!$this->report):$this->report = new Report($this);endif; // Report file
-        
-        $this->run = true;
-        return $this;
-    }
-    
-    public function stop() {
-        $this->run = false;
-        if (!$this->end_date):
-            $date = new DateTime();
-            $end_date = $date->getTime();
-            $this->end_date = $end_date;
-        endif;
-
-        // Stop last step
-        $last_step = end($this->steps);
-        $last_step->stop();
-        
-        return $this;
-    }
-
-    public function commit(Commit $commit) {
-        // Stop last Step
-        foreach (array_reverse($this->steps) as $step):
-            if (!$step->commit):
-                $step->commit = $commit->id;
-                $step->stop();
-                // Steps
-                $commit->steps[] = $step; // Update Commit
-            endif;
-        endforeach;
-        
-        // Record Commit
-        $this->commits[] = $commit;
-        
-        if ($this->run):
-            // Start new Step
-            $step = new Step();
-            $this->steps[] = $step->start();
-        endif;
-        
-        return $this; 
-    }
 
     public function getStatus() {
         if ($this->run):
@@ -107,7 +46,7 @@ Class Tracking {
             // Stop last step for current duration
             $step = end($this->steps);
             if ($step->duration === "00:00:00"):
-                $step->stop();
+                $step->setEndDate();
             endif;
         endif;
         
@@ -122,5 +61,52 @@ Class Tracking {
         $this->duration = $datetime->getDuration();
         
         return $this;
+    }
+
+    public function getCommits() {
+        // Commits
+        $commits = [];
+        $datetime = new DateTime();
+        foreach ($this->commits as $index => $commit) {
+            if (!empty($commit->step)):
+                $datetime->addStep($commit->step);
+            else:
+                foreach ($commit->steps ?? [] as $step):
+                    $datetime->addStep($step);
+                endforeach;
+            endif;
+            // Record
+            $commits[] = [
+                'index' => $index + 1,
+                'id' => $commit->id,
+                'message' => $commit->message,
+                'duration' => $commit->getDuration(),
+                'duration_total' => $datetime->getDuration(),
+                'date' => $commit->getCreateDate(),
+            ];
+        }
+        return $commits;
+    }
+
+    public function getInformations() {
+        // Current Step
+        $current_step = new DateTime();
+        foreach (array_reverse($this->steps) as $step):
+            if (!$step->commit):
+                $current_step->addStep($step);
+            endif;
+        endforeach;
+
+        $informations = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'running' => $this->getStatus(),
+            'commits' => (string) count($this->commits),
+            'duration' => $this->getDuration(),
+            'current_timer' => $current_step->getDuration(),
+            'date' => $this->getCreateDate()
+        ];
+
+        return $informations;
     }
 }
