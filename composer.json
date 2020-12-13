@@ -2,7 +2,7 @@
     "name": "mediashare/time-tracking",
     "description": "Timer Tracking modulable.",
     "type": "vendor",
-    "keywords": ["timer","time tracking","versionning timer","console timer"],
+    "keywords": ["timer","time tracking","versionning timer","console timer", "project time management", "project management", "time management", "command line tool", "cmd"],
     "homepage": "https://github.com/Mediashare/time-tracking",
     "license": "MIT",
     "authors": [
