@@ -23,7 +23,7 @@
         "symfony/framework-bundle": "5.*",
         "symfony/yaml": "5.*"
     },
-    "bin": ["time-tracking.phar"],
+    "bin": ["time-tracking"],
     "config": {
         "preferred-install": {
             "*": "dist"
