@@ -19,7 +19,7 @@ Class Serializer {
                     foreach ($tracking->commits ?? [] as $index => $commit):
                         $tracking->commits[$index] = $this->arrayToObject($commit, 'Commit');
                         if (!empty($tracking->commits[$index]->step)):
-                            $tracking->commits[$index]->step = $this->arrayToObject($tracking->commits[$index]->step, 'Step');
+                            $tracking->commits[$index]->steps[] = $this->arrayToObject($tracking->commits[$index]->step, 'Step');
                         else:
                             foreach ($tracking->commits[$index]->steps ?? [] as $step_index => $step):
                                 $tracking->commits[$index]->steps[$step_index] = $this->arrayToObject($step, 'Step');

@@ -22,18 +22,6 @@ Class Commit {
 
     public function getDuration(): string {
         $datetime = new DateTime();
-        
-        // Old version adaptation
-        if (!empty($this->step)):
-            if (is_array($this->step)):
-                $step = new Step();
-                $step->start_date = $this->step['start_date'];
-                $step->end_date = $this->step['end_date'];
-                $this->step = $step;
-            endif;
-            $datetime->addStep($this->step);
-        endif;
-
         foreach ($this->steps ?? [] as $step):
             $datetime->addStep($step);
         endforeach;
