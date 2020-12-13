@@ -10,7 +10,7 @@ sudo cp time-tracking.phar /usr/bin/time-tracking
 ### Composer
 ```bash
 composer global require mediashare/time-tracking
-echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> ~/.bashrc
+echo 'export PATH="$PATH:$HOME/.composer/vendor/bin:$HOME/.config/composer/vendor/bin"' >> ~/.bashrc
 source ~/.bashrc
 time-tracking
 ```
