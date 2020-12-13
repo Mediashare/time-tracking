@@ -40,6 +40,7 @@ Class Controller {
         // if (!$this->tracking->report):$this->tracking->report = new Report($this->tracking);endif; // Report file
         
         $this->tracking->run = true;
+        $this->tracking->status = 'run';
 
         $this->session->create($this->tracking);
     }
@@ -51,6 +52,7 @@ Class Controller {
      */
     public function stop() {
         $this->tracking->run = false;
+        $this->tracking->status = 'pause';
         if (!$this->tracking->end_date):
             $date = new DateTime();
             $end_date = $date->getTime();
@@ -67,6 +69,13 @@ Class Controller {
      */
     public function end() {
         $this->stop($this->tracking);
+        $this->tracking->status = 'archived';
+        foreach (array_reverse($this->tracking->steps ?? []) as $step):
+            if (!$step->commit):
+                $step->commit = 'canceled';
+                // unset($this->tracking->steps[$index]);
+            endif;
+        endforeach;
         $this->session->remove(); // Remove current session
     }
 

@@ -32,9 +32,9 @@ Class Commit {
             foreach (array_reverse($this->tracking->steps) as $index => $step):
                 if ($commit->duration && !$step->commit):
                     $step->commit = 'canceled';
+                    // unset($this->tracking->steps[$index]);
                 endif;
             endforeach;
-            
         else:
             foreach (array_reverse($this->tracking->steps ?? []) as $step):
                 if (!$step->commit):

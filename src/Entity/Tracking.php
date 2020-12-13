@@ -12,13 +12,16 @@ Class Tracking {
     public $commits = [];
     public $steps = [];
     public $run = false;
+    public $status;
 
     public function getStatus() {
-        if ($this->run):
-            return "Run";
-        else:
-            return "Pause";
+        if (!$this->status && $this->run):
+                $this->status = 'run';
+        elseif (!$this->status):
+            $this->status = 'pause';
         endif;
+        
+        return $this->status;
     }
 
     public function getCurrentStep() {
@@ -113,7 +116,7 @@ Class Tracking {
         $informations = [
             'id' => $this->id,
             'name' => $this->name,
-            'running' => $this->getStatus(),
+            'running' => \ucfirst($this->getStatus()),
             'commits' => (string) count($this->commits),
             'duration' => $this->getDuration(),
             'current_timer' => $current_step->getDuration(),

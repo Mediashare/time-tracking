@@ -22,7 +22,7 @@ Class TimerListCommand extends Command {
         $tracking = new Tracking();
         $table = new Table($output);
         $table->setHeaders([
-                [new TableCell('Tracking', ['colspan' => 7])],
+                [new TableCell('Trackings', ['colspan' => 7])],
                 ['ID', 'Name', 'Status', 'Commits', 'Duration', 'Current step', 'Create date']
             ])
             ->setRows($tracking->all())
