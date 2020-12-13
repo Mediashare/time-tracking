@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-$app = new Symfony\Component\Console\Application('Time-Tracking', '0.1.7');
+$app = new Symfony\Component\Console\Application('Time-Tracking', '0.2.0');
 $app->add((new Mediashare\Command\TimerListCommand('timer:list')));
 $app->add((new Mediashare\Command\TimerStartCommand('timer:start')));
 $app->add((new Mediashare\Command\TimerStopCommand('timer:stop')));
