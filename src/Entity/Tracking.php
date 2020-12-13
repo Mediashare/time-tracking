@@ -115,7 +115,7 @@ Class Tracking {
         $datetime = new DateTime();
         foreach ($this->steps as $step):
             if ($step->commit):
-                $duration->addStep($step);
+                $datetime->addStep($step);
             endif;
         endforeach;
         // Record

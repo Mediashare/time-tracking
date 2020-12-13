@@ -127,7 +127,7 @@ Class Report {
 
     public function informations(Tracking $tracking) {
         // Current Step
-        $current_step = new Duration();
+        $current_step = new DateTime();
         foreach (array_reverse($tracking->steps) as $step):
             if (!$step->commit):
                 $current_step->addStep($step);
