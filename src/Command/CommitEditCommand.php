@@ -16,7 +16,7 @@ Class CommitEditCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:commit:edit')
-            ->setDescription('Edit Commit Tracking')
+            ->setDescription('Edit commit')
             ->addArgument('id', InputArgument::REQUIRED, 'Commit id.')
             ->addOption('message', 'm', InputOption::VALUE_OPTIONAL, 'Message write for this commit.')
             ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Commit with custom duration. (+1minutes, +1hours, +1days)')
@@ -29,19 +29,21 @@ Class CommitEditCommand extends Command {
         $tracking = $tracking->init($input->getOption('tracking-id') ?? null);
         
         if ($tracking):
-            $controller = new Controller($tracking);
-            // Get Commit
-            $commit = new Commit($tracking);
-            $commit = $commit->edit(
-                $input->getArgument('id'), 
-                $input->getOption('message'), 
-                $input->getOption('duration')
-            );
-            $controller->commit($commit);
-                
-            // Output terminal
-            $text = "[Commit:".$commit->id."] Time Tracking - " . $tracking->id;
-            $output->writeln($text);
+            if ($input->getOption('message') || $input->getOption('message')):
+                $controller = new Controller($tracking);
+                // Get Commit
+                $commit = new Commit($tracking);
+                $commit = $commit->edit(
+                    $input->getArgument('id'), 
+                    $input->getOption('message'), 
+                    $input->getOption('duration')
+                );
+                $controller->commit($commit);
+                    
+                // Output terminal
+                $output->writeln('<info>[Tracking:'.$tracking->id.'] Edit commit</info>');
+            endif;
+
             // Report file creation
             $controller->report();
             // Render Report

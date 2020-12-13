@@ -18,7 +18,7 @@ Class UpgradeCommand extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!\Phar::running()):
-            $text = "Use <git pull> for upgrade Time Tracking";
+            $text = "<comment>Use <git pull> for upgrade Time Tracking</comment>";
             $output->writeln($text);
             return 0;
         endif;
@@ -28,9 +28,9 @@ Class UpgradeCommand extends Command {
         $url = 'https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking.phar';
         $tmp = $file.'.tmp';
         if (!is_writable(\pathinfo($tmp)['dirname'])):
-            $text = "You have not permission for write ".$tmp." file";
+            $text = "<error>You have not permission for write ".$tmp." file</error>";
             $output->writeln($text);
-            $text = "You can use sudo command for allow permission.";
+            $text = "<error>You can use sudo command for allow permission.</error>";
             $output->writeln($text);
             return 0;
         endif;
@@ -38,7 +38,7 @@ Class UpgradeCommand extends Command {
         // Download
         file_put_contents($tmp, file_get_contents($url));
         if (!\file_exists($tmp)):
-            $text = "Error download [".$url."]";
+            $text = "<error>Error download [".$url."]</error>";
             $output->writeln($text);
             return 0;
         endif;
@@ -49,7 +49,7 @@ Class UpgradeCommand extends Command {
         $filesystem->rename($tmp, $file);
         $filesystem->chmod($file, 0755);
 
-        $text = "Time Tracking successly updated";
+        $text = "<info>Time Tracking successly updated</info>";
         $output->writeln($text);
 
         return 1;

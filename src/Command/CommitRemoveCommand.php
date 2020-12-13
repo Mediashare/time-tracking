@@ -15,7 +15,7 @@ Class CommitRemoveCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:commit:remove')
-            ->setDescription('Remove Commit Tracking')
+            ->setDescription('Remove commit')
             ->addArgument('id', InputArgument::REQUIRED, 'Commit id.')
             ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
         ;
@@ -36,8 +36,7 @@ Class CommitRemoveCommand extends Command {
             $tracking->commits = array_values($tracking->commits);
 
             // Output terminal
-            $text = "[Commit:".$commit->id."] Time Tracking - " . $tracking->id;
-            $output->writeln($text);
+            $output->writeln('<info>[Tracking:'.$tracking->id.'] Remove commit</info>');
             // Report file creation
             $controller->report();
             // Render Report

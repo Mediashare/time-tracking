@@ -14,8 +14,8 @@ Class TimerStopCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:stop')
-            ->setDescription('Stop Tracking')
-            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Stop Tracking by id.')
+            ->setDescription('Stop timer')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Stop timer by id.')
         ;
     }
     
@@ -27,8 +27,7 @@ Class TimerStopCommand extends Command {
             $controller = new Controller($tracking);
             $controller->stop();
             // Output
-            $text = "[Stop] Time Tracking - " . $tracking->id;
-            $output->writeln($text);
+            $output->writeln('<info>[Tracking:'.$tracking->id.'] Stop</info>');
             // Report file creation
             $controller->report();
             // Render Report

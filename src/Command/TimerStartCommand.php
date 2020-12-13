@@ -15,10 +15,10 @@ Class TimerStartCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:start')
-            ->setDescription('Start Time Tracking')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Project name.')
-            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Start Tracking by id.')
-            ->addOption('new', null, InputOption::VALUE_NONE, 'Start new Tracking.')
+            ->setDescription('Start timer')
+            ->addArgument('name', InputArgument::OPTIONAL, 'Timer name')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Start timer by id')
+            ->addOption('new', null, InputOption::VALUE_NONE, 'Start new timer')
         ;
     }
 
@@ -37,8 +37,7 @@ Class TimerStartCommand extends Command {
         $controller->start(); // Start Tracking
 
         // Output
-        $text = "[Start] Time Tracking - " . $tracking->id;
-        $output->writeln($text);
+        $output->writeln('<info>[Tracking:'.$tracking->id.'] Start</info>');
         // Report file creation
         $controller->report();
         // Render Report

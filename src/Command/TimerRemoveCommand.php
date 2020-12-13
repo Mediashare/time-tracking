@@ -14,8 +14,8 @@ Class TimerRemoveCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:remove')
-            ->setDescription('Remove Time Tracking')
-            ->addArgument('id', InputArgument::REQUIRED, 'Id Time Tracking.')
+            ->setDescription('Remove timer')
+            ->addArgument('id', InputArgument::REQUIRED, 'Timer id')
         ;
     }
 
@@ -31,7 +31,7 @@ Class TimerRemoveCommand extends Command {
             $controller = new Controller($selected);
             $controller->remove();
 
-            $output->writeln('<info>This Tracking was removed.</info>');
+            $output->writeln('<info>[Tracking:'.$tracking->id.'] Removed</info>');
         else: $output->writeln('<error>This Tracking was not found.</error>'); endif;
 
         return 1;

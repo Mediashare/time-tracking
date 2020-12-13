@@ -17,10 +17,10 @@ Class CommitCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:commit')
-            ->setDescription('Commit Tracking')
-            ->addArgument('message', InputArgument::OPTIONAL, 'Message write for this commit.')
-            ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Commit with custom duration. (+1minutes, +1hours, +1days)')
-            ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
+            ->setDescription('New commit')
+            ->addArgument('message', InputArgument::OPTIONAL, 'Message from this commit.')
+            ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Custom duration from this commit. (+1minutes, +1hours, +1days)')
+            ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit from this Tracking id.')
         ;
     }
 
@@ -39,8 +39,7 @@ Class CommitCommand extends Command {
             $controller->commit($commit);
 
             // Output terminal
-            $text = "[Commit] Time Tracking - " . $tracking->id;
-            $output->writeln($text);
+            $output->writeln('<info>[Tracking:'.$tracking->id.'] New commit</info>');
             // Report file creation
             $controller->report();
             // Render Report

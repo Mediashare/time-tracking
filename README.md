@@ -14,12 +14,18 @@ vendor/bin/time-tracking.phar
 ```
 ## Usage
 ```bash
-  ./time-tracking.phar start                 Start Time Tracking
-  ./time-tracking.phar commit <message>      Commit Time Tracking
-  ./time-tracking.phar stop                  Stop Time Tracking
-  ./time-tracking.phar status                Status Time Tracking
-  ./time-tracking.phar end                   End Time Tracking (Archive session)
-  ./time-tracking.phar upgrade               Download latest version of Time Tracking
+  ./time-tracking.phar timer:list             List all timer
+  ./time-tracking.phar timer:start            Start timer
+  ./time-tracking.phar timer:stop             Stop timer
+  ./time-tracking.phar timer:status           Status timer
+  ./time-tracking.phar timer:archive          Archive timer
+  ./time-tracking.phar timer:remove           Remove timer
+
+  ./time-tracking.phar timer:commit <message> New commit
+  ./time-tracking.phar timer:commit:edit      Edit commit
+  ./time-tracking.phar timer:commit:remove    Remove commit
+  
+  ./time-tracking.phar upgrade                Download latest version of Time Tracking
 ```
 ## Build
 [Box2](https://github.com/box-project/box2) used for .phar generation from php project. 

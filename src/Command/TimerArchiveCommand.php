@@ -8,14 +8,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class TimerEndCommand extends Command {
-    protected static $defaultName = 'timer:end';
+Class TimerArchiveCommand extends Command {
+    protected static $defaultName = 'timer:archive';
     
     protected function configure() {
         $this
-            ->setName('timer:end')
-            ->setDescription('End Time Tracking. (Archive session)')
-            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'End Tracking by id.')
+            ->setName('timer:archive')
+            ->setDescription('Archive timer')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Archive timer by id')
         ;
     }
     
@@ -27,8 +27,7 @@ Class TimerEndCommand extends Command {
             $controller = new Controller($tracking);
             $controller->end(); // Stop Tracking
             
-            $text = "[End] Time Tracking - " . $tracking->id;
-            $output->writeln($text);
+            $output->writeln('<info>[Tracking:'.$tracking->id.'] Archived</info>');
             
             // Report file creation
             $controller->report();

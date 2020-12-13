@@ -14,8 +14,8 @@ Class TimerStatusCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:status')
-            ->setDescription('Status Time Tracking')
-            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Status Tracking by id.')
+            ->setDescription('Status timer')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Status timer by id.')
         ;
     }
 
@@ -26,8 +26,7 @@ Class TimerStatusCommand extends Command {
         if ($tracking):
             $controller = new Controller($tracking);
             // Output
-            $text = "[Status] Time Tracking - " . $tracking->id;
-            $output->writeln($text);
+            $output->writeln('<info>[Tracking:'.$tracking->id.'] Status</info>');
             // Report file creation
             $controller->report();
             // Render Report

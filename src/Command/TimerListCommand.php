@@ -14,7 +14,7 @@ Class TimerListCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:list')
-            ->setDescription('List all Time Tracking')
+            ->setDescription('List all timer')
         ;
     }
 
