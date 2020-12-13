@@ -1,5 +1,5 @@
 {
-    "alias": "time-tracking.phar",
+    "alias": "time-tracking",
     "chmod": "0777",
     "directories": ["./"],
     "files": [
