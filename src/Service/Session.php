@@ -1,9 +1,9 @@
 <?php
 namespace Mediashare\Service;
-use Mediashare\Entity\Report;
+
 use Mediashare\Entity\Tracking;
+use Mediashare\Service\DateTime;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 Class Session {
     public $dir = './.time-tracking/session';

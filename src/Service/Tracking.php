@@ -1,6 +1,8 @@
 <?php
 namespace Mediashare\Service;
 
+use Mediashare\Service\Report;
+use Mediashare\Service\Session;
 use Mediashare\Entity\Tracking as TrackingEntity;
 
 Class Tracking {

@@ -1,7 +1,6 @@
 <?php
 namespace Mediashare\Command;
 
-use Mediashare\Service\Report;
 use Mediashare\Service\Tracking;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
@@ -9,12 +8,12 @@ use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TrackingAllCommand extends Command {
-    protected static $defaultName = 'timer:all';
+Class TimerListCommand extends Command {
+    protected static $defaultName = 'timer:list';
     
     protected function configure() {
         $this
-            ->setName('all')
+            ->setName('timer:list')
             ->setDescription('List all Time Tracking')
         ;
     }

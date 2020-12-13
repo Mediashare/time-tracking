@@ -3,6 +3,7 @@ namespace Mediashare\Service;
 
 use Mediashare\Entity\Step;
 use Mediashare\Entity\Commit;
+use Mediashare\Service\Output;
 use Mediashare\Service\Report;
 use Mediashare\Entity\Tracking;
 use Mediashare\Service\Session;

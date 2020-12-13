@@ -1,9 +1,8 @@
 <?php
 namespace Mediashare\Entity;
-use Mediashare\Entity\Step;
-use Mediashare\Entity\Report;
-use Mediashare\Service\Session;
+
 use Mediashare\Service\DateTime;
+
 Class Tracking {
     public $id;
     public $name;

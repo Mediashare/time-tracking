@@ -1,8 +1,6 @@
 <?php
 namespace Mediashare\Command;
 
-use Mediashare\Service\Report;
-use Mediashare\Service\Session;
 use Mediashare\Service\Tracking;
 use Mediashare\Service\Controller;
 use Symfony\Component\Console\Command\Command;
@@ -11,12 +9,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TrackingStartCommand extends Command {
+Class TimerStartCommand extends Command {
     protected static $defaultName = 'timer:start';
     
     protected function configure() {
         $this
-            ->setName('start')
+            ->setName('timer:start')
             ->setDescription('Start Time Tracking')
             ->addArgument('name', InputArgument::OPTIONAL, 'Project name.')
             ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Start Tracking by id.')

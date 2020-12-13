@@ -8,26 +8,28 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TrackingStatusCommand extends Command {
-    protected static $defaultName = 'timer:status';
+Class TimerEndCommand extends Command {
+    protected static $defaultName = 'timer:end';
     
     protected function configure() {
         $this
-            ->setName('status')
-            ->setDescription('Status Time Tracking')
-            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Status Tracking by id.')
+            ->setName('timer:end')
+            ->setDescription('End Time Tracking. (Archive session)')
+            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'End Tracking by id.')
         ;
     }
-
+    
     protected function execute(InputInterface $input, OutputInterface $output) {
         $tracking = new Tracking();
         $tracking = $tracking->init($input->getOption('id') ?? null);
 
         if ($tracking):
             $controller = new Controller($tracking);
-            // Output
-            $text = "[Status] Time Tracking - " . $tracking->id;
+            $controller->end(); // Stop Tracking
+            
+            $text = "[End] Time Tracking - " . $tracking->id;
             $output->writeln($text);
+            
             // Report file creation
             $controller->report();
             // Render Report

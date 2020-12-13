@@ -1,15 +1,14 @@
 <?php
 namespace Mediashare\Command;
 
+use Phar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TrackingUpgradeCommand extends Command {
-    protected static $defaultName = 'timer:upgrade';
+Class UpgradeCommand extends Command {
+    protected static $defaultName = 'upgrade';
     
     protected function configure() {
         $this

@@ -3,10 +3,7 @@ namespace Mediashare\Service;
 
 use Mediashare\Entity\Tracking;
 use Mediashare\Service\Serializer;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Console\Helper\TableCell;
-use Symfony\Component\Console\Output\OutputInterface;
 
 Class Report {
     public $file;
