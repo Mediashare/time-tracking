@@ -20,13 +20,13 @@ Class CommitCommand extends Command {
             ->setDescription('New commit')
             ->addArgument('message', InputArgument::OPTIONAL, 'Message from this commit.')
             ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Custom duration from this commit. (+1minutes, +1hours, +1days)')
-            ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit from this Tracking id.')
+            ->addOption('timer-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit from this Tracking id.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $tracking = new Tracking();
-        $tracking = $tracking->init($input->getOption('tracking-id') ?? null);
+        $tracking = $tracking->init($input->getOption('timer-id') ?? null);
         
         if ($tracking):
             $controller = new Controller($tracking);

@@ -20,13 +20,13 @@ Class CommitEditCommand extends Command {
             ->addArgument('id', InputArgument::REQUIRED, 'Commit id.')
             ->addOption('message', 'm', InputOption::VALUE_OPTIONAL, 'Message write for this commit.')
             ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Commit with custom duration. (+1minutes, +1hours, +1days)')
-            ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
+            ->addOption('timer-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $tracking = new Tracking();
-        $tracking = $tracking->init($input->getOption('tracking-id') ?? null);
+        $tracking = $tracking->init($input->getOption('timer-id') ?? null);
         
         if ($tracking):
             if ($input->getOption('message') || $input->getOption('message')):

@@ -17,13 +17,13 @@ Class CommitRemoveCommand extends Command {
             ->setName('timer:commit:remove')
             ->setDescription('Remove commit')
             ->addArgument('id', InputArgument::REQUIRED, 'Commit id.')
-            ->addOption('tracking-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
+            ->addOption('timer-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit Tracking by id.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $tracking = new Tracking();
-        $tracking = $tracking->init($input->getOption('tracking-id') ?? null);
+        $tracking = $tracking->init($input->getOption('timer-id') ?? null);
         
         if ($tracking):
             $controller = new Controller($tracking);
