@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+rm composer.lock symfony.lock
 box build
 mv time-tracking.phar time-tracking
