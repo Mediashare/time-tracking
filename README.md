@@ -1,18 +1,10 @@
 # Time Tracking
 Time-Tracking is a simple command line tool for project timer management.
 ## Installation
-### Manuel
 ```bash
 curl --output time-tracking https://gitlab.marquand.pro/MarquandT/time-tracking/-/raw/master/time-tracking?inline=false
 chmod 755 time-tracking
 sudo cp time-tracking /usr/bin/time-tracking
-```
-### Composer
-```bash
-composer global require mediashare/time-tracking
-echo 'export PATH="$PATH:$HOME/.composer/vendor/bin:$HOME/.config/composer/vendor/bin"' >> ~/.bashrc
-source ~/.bashrc
-time-tracking
 ```
 ## Usage
 ```bash
