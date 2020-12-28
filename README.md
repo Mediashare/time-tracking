@@ -4,7 +4,7 @@ Time-Tracking is a simple command line tool for project timer management.
 ```bash
 curl --output time-tracking https://gitlab.marquand.pro/MarquandT/time-tracking/-/raw/master/time-tracking?inline=false
 chmod 755 time-tracking
-sudo cp time-tracking /usr/bin/time-tracking
+sudo cp time-tracking /usr/local/bin/time-tracking
 ```
 ## Usage
 ```bash
