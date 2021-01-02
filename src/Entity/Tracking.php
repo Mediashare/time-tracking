@@ -78,8 +78,8 @@ Class Tracking {
         $commits = $this->commits ?? [];
         // Order by date
         usort($commits, function($a, $b) {
-            $ad = (new DateTime($a->getCreateDate()))->getTime()->getTimestamp();
-            $bd = (new DateTime($b->getCreateDate()))->getTime()->getTimestamp();
+            $ad = \strtotime($a->getCreateDate());
+            $bd = \strtotime($b->getCreateDate());
             if ($ad == $bd): return 0; endif;
             return $ad < $bd ? -1 : 1;
         });

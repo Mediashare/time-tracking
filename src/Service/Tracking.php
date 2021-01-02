@@ -109,8 +109,8 @@ Class Tracking {
 
         // Order by date
         usort($trackings, function($a, $b) {
-            $ad = (new \DateTime(strtotime($a['date'])))->getTimestamp();
-            $bd = (new \DateTime(strtotime($b['date'])))->getTimestamp();
+            $ad = strtotime($a['date']);
+            $bd = strtotime($b['date']);
             if ($ad == $bd): return 0; endif;
             return $ad < $bd ? -1 : 1;
         });
