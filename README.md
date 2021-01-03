@@ -1,4 +1,5 @@
 # Time Tracking
+**[DEPRECATED] Go to [Gitlab Project](https://gitlab.marquand.pro/MarquandT/time-tracking)**
 Time-Tracking is a simple command line tool for project timer management.
 ## Installation
 ### Manuel
