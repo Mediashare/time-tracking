@@ -25,7 +25,7 @@ Class UpgradeCommand extends Command {
 
         $file = \Phar::running();
         $file = str_replace('phar://', '', $file);
-        $url = 'https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking';
+        $url = 'https://gitlab.marquand.pro/MarquandT/time-tracking/-/raw/master/time-tracking?inline=false';
         $tmp = $file.'.tmp';
         if (!is_writable(\pathinfo($tmp)['dirname'])):
             $text = "<error>You have not permission for write ".$tmp." file</error>";
