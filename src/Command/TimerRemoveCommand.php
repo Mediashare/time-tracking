@@ -31,7 +31,7 @@ Class TimerRemoveCommand extends Command {
             $controller = new Controller($selected);
             $controller->remove();
 
-            $output->writeln('<info>[Tracking:'.$tracking->id.'] Removed</info>');
+            $output->writeln('<info>[Tracking:'.$tracking->id ?? $selected->id.'] Removed</info>');
         else: $output->writeln('<error>This Tracking was not found.</error>'); endif;
 
         return 1;
