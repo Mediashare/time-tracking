@@ -30,7 +30,7 @@ class DateTime {
      * @param Step $step
      * @return self
      */
-    public function addStep(Step $step) {
+    public function addStep($step) {
         $this->steps[] = $step;
         return $this;
     }
