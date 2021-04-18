@@ -26,7 +26,7 @@ Class UpgradeCommand extends Command {
         $file = \Phar::running();
         $file = str_replace('phar://', '', $file);
         $url = 'https://gitlab.marquand.pro/MarquandT/time-tracking/-/raw/master/time-tracking?inline=false';
-        $tmp = $file.'.tmp';
+        $tmp = __DIR__.'/../../time-tracking.tmp';
         if (!is_writable(\pathinfo($tmp)['dirname'])):
             $text = "<error>You have not permission for write ".$tmp." file</error>";
             $output->writeln($text);
@@ -42,9 +42,17 @@ Class UpgradeCommand extends Command {
             $output->writeln($text);
             return 0;
         endif;
-
-        // Replace binary file
+        
+        // Check version
         $filesystem = new Filesystem();
+        if (filesize($file) !== filesize($tmp)
+            || md5_file($file) !== md5_file($tmp)):
+            $filesystem->remove($tmp);
+            $output->writeln("Time-tracking run already with last version.");
+            return 0;
+        endif;
+        
+        // Replace binary file
         $filesystem->remove($file);
         $filesystem->rename($tmp, $file);
         $filesystem->chmod($file, 0755);
