@@ -30,7 +30,15 @@ class DateTime {
      * @param Step $step
      * @return self
      */
-    public function addStep(Step $step) {
+    public function addStep($step) {
+        if (is_array($step)):
+            $stepEntity = new Step();
+            $stepEntity->start_date = $step['start_date'];
+            $stepEntity->end_date = $step['end_date'];
+            $stepEntity->getDuration();
+            $stepEntity->commit = $step['commit'];
+        endif;
+        
         $this->steps[] = $step;
         return $this;
     }
