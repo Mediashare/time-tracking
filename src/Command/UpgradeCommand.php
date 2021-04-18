@@ -48,7 +48,7 @@ Class UpgradeCommand extends Command {
         if (filesize($file) !== filesize($tmp)
             || md5_file($file) !== md5_file($tmp)):
             $filesystem->remove($tmp);
-            $output->writeln("Time-tracking run already with last version.");
+            $output->writeln("<info>Time-tracking run already with last version.</info>");
             return 0;
         endif;
         
