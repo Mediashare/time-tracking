@@ -2,7 +2,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new Symfony\Component\Console\Application('Time-Tracking', '0.2.3');
+$app = new Symfony\Component\Console\Application('Time-Tracking', '0.2.4');
 $commandsLoader = new \Symfony\Component\Console\CommandLoader\FactoryCommandLoader([
     'timer:list' => function () { return new Mediashare\Command\TimerListCommand(); },
     'timer:start' => function () { return new Mediashare\Command\TimerStartCommand(); },

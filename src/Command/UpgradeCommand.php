@@ -45,12 +45,12 @@ Class UpgradeCommand extends Command {
         
         // Check version
         $filesystem = new Filesystem();
-        if (filesize($file) !== filesize($tmp)
-            || md5_file($file) !== md5_file($tmp)):
-            $filesystem->remove($tmp);
-            $output->writeln("<info>Time-tracking run already with last version.</info>");
-            return 0;
-        endif;
+        // if (filesize($file) !== filesize($tmp)
+        //     || md5_file($file) !== md5_file($tmp)):
+        //     $filesystem->remove($tmp);
+        //     $output->writeln("<info>Time-tracking run already with last version.</info>");
+        //     return 0;
+        // endif;
         
         // Replace binary file
         $filesystem->remove($file);
