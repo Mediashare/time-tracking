@@ -33,9 +33,9 @@ class DateTime {
     public function addStep($step) {
         if (is_array($step)):
             $stepEntity = new Step();
-            $stepEntity->start_date = $step['start_date'];
+            $stepEntity->start_date = $step['start_date'] ?? $this->getTime();
             $stepEntity->end_date = $step['end_date'];
-            $stepEntity->seconds = $step['seconds'];
+            $stepEntity->seconds = $step['seconds'] ?? 0;
             $stepEntity->getDuration();
             $stepEntity->commit = $step['commit'];
             $step = $stepEntity;
