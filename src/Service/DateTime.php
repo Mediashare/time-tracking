@@ -35,10 +35,12 @@ class DateTime {
             $stepEntity = new Step();
             $stepEntity->start_date = $step['start_date'];
             $stepEntity->end_date = $step['end_date'];
+            $stepEntity->seconds = $step['seconds'];
             $stepEntity->getDuration();
             $stepEntity->commit = $step['commit'];
+            $step = $stepEntity;
         endif;
-        
+
         $this->steps[] = $step;
         return $this;
     }
