@@ -3,7 +3,7 @@
 Time-Tracking is a simple command line tool for project timer management.
 ## Installation
 ```bash
-curl --output time-tracking https://github.com/Mediashare/time-tracking/raw/master/time-tracking?inline=false
+curl --output time-tracking https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking
 chmod 755 time-tracking
 sudo cp time-tracking /usr/local/bin/time-tracking
 ```
