@@ -27,7 +27,7 @@ Class UpgradeCommand extends Command {
         $file = str_replace('phar://', '', $file);
         $url = 'https://gitlab.marquand.pro/MarquandT/time-tracking/-/raw/master/time-tracking?inline=false';
         $tmp = tempnam(sys_get_temp_dir(), 'time-tracking.tmp');
-        if (!is_writable(\pathinfo($tmp)['dirname'])):
+        if (!is_writable(\pathinfo($tmp, PATHINFO_DIRNAME))):
             $text = "<error>You have not permission for write ".$tmp." file</error>";
             $output->writeln($text);
             $text = "<error>You can use sudo command for allow permission.</error>";
