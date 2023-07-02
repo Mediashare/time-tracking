@@ -69,10 +69,18 @@
     "conflict": {
         "symfony/symfony": "*"
     },
+    "bin": [
+        "bin/console",
+        "bin/time-tracking"
+    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^6.3"
+            "require": "^6.3",
+            "console": "bin/console"
+        },
+        "time-tracking": {
+            "console": "bin/time-tracking"
         }
     }
 }
