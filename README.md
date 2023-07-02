@@ -9,16 +9,16 @@ sudo cp time-tracking /usr/local/bin/time-tracking
 ```
 ## Usage
 ```bash
-  time-tracking timer:list             List all timer
-  time-tracking timer:start            Start timer
-  time-tracking timer:stop             Stop timer
-  time-tracking timer:status           Status timer
-  time-tracking timer:archive          Archive timer
-  time-tracking timer:remove           Remove timer
+  time-tracking timer:list                List all timer
+  time-tracking timer:start               Start timer
+  time-tracking timer:stop                Stop timer
+  time-tracking timer:status              Status timer
+  time-tracking timer:archive             Archive timer
+  time-tracking timer:remove              Remove timer
 
-  time-tracking timer:commit <message> New commit
-  time-tracking timer:commit:edit      Edit commit
-  time-tracking timer:commit:remove    Remove commit
+  time-tracking timer:commit <message>    New commit
+  time-tracking timer:commit:edit <id>    Edit commit
+  time-tracking timer:commit:remove <id>  Remove commit
   
   time-tracking upgrade                Download latest version of Time Tracking
 ```
