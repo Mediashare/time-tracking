@@ -20,7 +20,7 @@ sudo cp time-tracking /usr/local/bin/time-tracking
   time-tracking timer:commit:edit <id>    Edit commit
   time-tracking timer:commit:remove <id>  Remove commit
   
-  time-tracking upgrade                Download latest version of Time Tracking
+  time-tracking upgrade                   Download latest version of Time Tracking
 ```
 ## Build
 [Box2](https://github.com/box-project/box2) used for .phar generation from php project. PHP 7.4 is require.
