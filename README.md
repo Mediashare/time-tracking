@@ -1,6 +1,6 @@
 # Time Tracking
 
-Time-Tracking is a simple command line tool for project timer management.
+Time-Tracking is a simple command line tool for project timer management. PHP 8.2 is require.
 ## Installation
 ```bash
 curl --output time-tracking https://raw.githubusercontent.com/Mediashare/time-tracking/master/time-tracking
@@ -23,7 +23,7 @@ sudo cp time-tracking /usr/local/bin/time-tracking
   time-tracking upgrade                Download latest version of Time Tracking
 ```
 ## Build
-[Box2](https://github.com/box-project/box2) used for .phar generation from php project. 
+[Box2](https://github.com/box-project/box2) used for .phar generation from php project. PHP 7.4 is require.
 ```bash
 box build
 # or
