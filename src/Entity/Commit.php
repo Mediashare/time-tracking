@@ -6,7 +6,8 @@ use Mediashare\Service\DateTime;
 
 Class Commit {
     public $id;
-    public $create_date;
+    public $start_date;
+    public $end_date;
     public $message;
     public $steps = [];
     public $duration = '00:00:00';
@@ -14,7 +15,7 @@ Class Commit {
     public function __construct(string $message = null) {
         $this->id = uniqid();
         $date = new DateTime();
-        $this->create_date = $date->getTime();
+        $this->end_date = $date->getTime();
         if ($message):
             $this->message = $message;
         endif;
@@ -36,14 +37,25 @@ Class Commit {
         return $this;
     }
 
-    public function getCreateDate(): string {
-        if (is_array($this->create_date)):
-            $create_date = new DateTime($this->create_date['date']);
-            $create_date = $create_date->getTime();
+    public function getStartDate(): string {
+        if (is_array($this->start_date)):
+            $start_date = new DateTime($this->start_date['date']);
+            $start_date = $start_date->getTime();
         else: 
-            $create_date = $this->create_date;
+            $start_date = $this->start_date;
         endif;
 
-        return $create_date->format('d/m/Y H:i:s');
+        return $start_date->format('d/m/Y H:i:s');
+    }
+
+    public function getEndDate(): string {
+        if (is_array($this->end_date)):
+            $end_date = new DateTime($this->end_date['date']);
+            $end_date = $end_date->getTime();
+        else: 
+            $end_date = $this->end_date;
+        endif;
+
+        return $end_date->format('d/m/Y H:i:s');
     }
 }

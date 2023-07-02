@@ -5,8 +5,8 @@
     "files": [
       ".env"
     ],
-    "git-version": "2.0.0",
-    "main": "bin/time-tracking.php",
+    "git-version": "2.41.0",
+    "main": "bin/time-tracking",
     "output": "time-tracking.phar",
     "stub": true
   }

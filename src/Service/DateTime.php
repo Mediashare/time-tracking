@@ -46,13 +46,13 @@ class DateTime {
     }
 
     /**
-     * Convert seconds to HH:ii:ss
+     * Convert seconds to "d H:i:s"
      *
      * @return string
      */
     public function getDuration() {
         $seconds = $this->getSeconds();
-        $this->duration = sprintf('%02d:%02d:%02d', ($seconds/3600),($seconds/60%60), $seconds%60);
+        $this->duration = sprintf('%s %02d:%02d:%02d', ((($seconds/86400%60) !== 0) ? ($seconds/86400%60) . 'd' : ''), ($seconds/3600%24),($seconds/60%60), $seconds%60);
         return $this->duration;
     }
 

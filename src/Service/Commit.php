@@ -49,7 +49,10 @@ Class Commit {
                 endif;
             endforeach;
         else:
-            foreach (array_reverse($this->tracking->steps ?? []) as $step):
+            foreach (array_reverse($this->tracking->steps ?? []) as $key => $step):
+                if ($key === 0):
+                    $commit->start_date = $step->start_date;
+                endif;
                 if (!$step->commit):
                     $step->commit = $commit->id;
                     if (!$step->end_date):

@@ -1,6 +1,7 @@
 <?php
 namespace Mediashare\Entity;
 
+use DateTime as GlobalDateTime;
 use Mediashare\Service\DateTime;
 
 Class Tracking {
@@ -33,15 +34,28 @@ Class Tracking {
         return null;
     }
 
-    public function getCreateDate(): string {
+    public function getStartDate(): string {
         if (is_array($this->start_date)):
-            $create_date = new DateTime($this->start_date['date']);
-            $create_date = $create_date->getTime();
+            $start_date = new DateTime($this->start_date['date']);
+            $start_date = $start_date->getTime();
         else: 
-            $create_date = $this->start_date;
+            $start_date = $this->start_date;
         endif;
 
-        return $create_date->format('d/m/Y H:i:s');
+        return $start_date->format('d/m/Y H:i:s');
+    }
+
+    public function getEndDate(): ?string {
+        if (is_array($this->end_date)):
+            $end_date = new DateTime($this->end_date['date']);
+            $end_date = $end_date->getTime();
+        elseif ($this->end_date instanceof GlobalDateTime): 
+            $end_date = $this->end_date;
+        else: 
+            return null;
+        endif;
+
+        return $end_date->format('d/m/Y H:i:s');
     }
     
     public function getDuration(bool $total = false): string {
@@ -78,8 +92,8 @@ Class Tracking {
         $commits = $this->commits ?? [];
         // Order by date
         usort($commits, function($a, $b) {
-            $ad = \strtotime($a->getCreateDate());
-            $bd = \strtotime($b->getCreateDate());
+            $ad = \strtotime($a->getEndDate());
+            $bd = \strtotime($b->getEndDate());
             if ($ad == $bd): return 0; endif;
             return $ad < $bd ? -1 : 1;
         });
@@ -96,7 +110,8 @@ Class Tracking {
                 'message' => $commit->message,
                 'duration' => $commit->getDuration(),
                 'duration_total' => $datetime->getDuration(),
-                'date' => $commit->getCreateDate(),
+                'startDate' => $commit->getStartDate(),
+                'endDate' => $commit->getEndDate(),
             ];
         }
 
@@ -120,7 +135,8 @@ Class Tracking {
             'commits' => (string) count($this->commits),
             'duration' => $this->getDuration(),
             'current_timer' => $current_step->getDuration(),
-            'date' => $this->getCreateDate()
+            'start_date' => $this->getStartDate(),
+            'end_date' => $this->getEndDate()
         ];
 
         return $informations;

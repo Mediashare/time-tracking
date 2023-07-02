@@ -22,7 +22,7 @@ Class Output {
         // Commits
         $table->setHeaders([
                 [new TableCell('Commits', ['colspan' => 5])],
-                ['N°', 'ID', 'Message', 'Duration', 'Total', 'Create date']
+                ['N°', 'ID', 'Message', 'Duration', 'Total', 'Start date', 'End date']
             ])
             ->setRows($tracking->getCommits())
             ->render();
@@ -30,7 +30,7 @@ Class Output {
         // Informations
         $table->setHeaders([
                 [new TableCell('Tracking', ['colspan' => 7])],
-                ['ID', 'Name', 'Status', 'Commits', 'Duration', 'Current step', 'Create date']
+                ['ID', 'Name', 'Status', 'Commits', 'Duration', 'Current step', 'Start date', 'End date']
             ])
             ->setRows([$tracking->getInformations()])
             ->render();
