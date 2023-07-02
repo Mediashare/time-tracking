@@ -9,7 +9,7 @@ class DateTime {
     public $seconds = 0;
     public $duration = '00:00:00';
 
-    public function __construct(string $date_time = null) {
+    public function __construct(string $date_time = 'now') {
         $date = new \DateTime($date_time);
         // $date->setTimezone(new \DateTimeZone('Europe/Paris'));
         $this->date_time = $date;
