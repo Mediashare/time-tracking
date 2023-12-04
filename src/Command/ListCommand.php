@@ -27,6 +27,7 @@ Class ListCommand extends Command {
             ])
             ->setRows($tracking->all())
             ->render();
-        return 1;
+
+        return Command::SUCCESS;
     }
 }

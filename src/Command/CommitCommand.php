@@ -44,7 +44,11 @@ Class CommitCommand extends Command {
             $controller->report();
             // Render Report
             $controller->output($output);
-        else: $output->writeln('<error>Tracking was not found.</error>'); endif;
-        return 1;
+        else:
+            $output->writeln('<error>Tracking was not found.</error>');
+            return Command::FAILURE;
+        endif;
+
+        return Command::SUCCESS;
     }
 }

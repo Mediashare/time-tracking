@@ -20,7 +20,7 @@ Class UpgradeCommand extends Command {
         if (!\Phar::running()):
             $text = "<comment>Use <git pull> for upgrade Time Tracking</comment>";
             $output->writeln($text);
-            return 0;
+            return Command::INVALID;
         endif;
 
         $file = \Phar::running();
@@ -32,7 +32,7 @@ Class UpgradeCommand extends Command {
             $output->writeln($text);
             $text = "<error>You can use sudo command for allow permission.</error>";
             $output->writeln($text);
-            return 0;
+            return Command::FAILURE;
         endif;
 
         // Download
@@ -40,7 +40,7 @@ Class UpgradeCommand extends Command {
         if (!\file_exists($tmp)):
             $text = "<error>Error download [".$url."]</error>";
             $output->writeln($text);
-            return 0;
+            return Command::FAILURE;
         endif;
         
         // Check version
@@ -60,6 +60,6 @@ Class UpgradeCommand extends Command {
         $text = "<info>Time Tracking successly updated</info>";
         $output->writeln($text);
 
-        return 1;
+        return Command::SUCCESS;
     }
 }

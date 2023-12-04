@@ -42,6 +42,7 @@ Class StartCommand extends Command {
         $controller->report();
         // Render Report
         $controller->output($output);
-        return 1;
+
+        return Command::SUCCESS;
     }
 }

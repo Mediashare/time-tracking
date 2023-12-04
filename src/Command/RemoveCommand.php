@@ -32,8 +32,11 @@ Class RemoveCommand extends Command {
             $controller->remove();
 
             $output->writeln('<info>[Tracking:'.$tracking->id ?? $selected->id.'] Removed</info>');
-        else: $output->writeln('<error>This Tracking was not found.</error>'); endif;
+        else:
+            $output->writeln('<error>This Tracking was not found.</error>');
+            return Command::FAILURE;
+        endif;
 
-        return 1;
+        return Command::SUCCESS;
     }
 }
