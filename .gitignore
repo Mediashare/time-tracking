@@ -1,12 +1,11 @@
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/
 composer.lock
 symfony.lock
 ###< symfony/framework-bundle ###
-.time-tracking
 .vscode
+.idea
