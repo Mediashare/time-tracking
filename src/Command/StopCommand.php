@@ -34,6 +34,8 @@ Class StopCommand extends Command {
             $controller->output($output);
         else:
             $output->writeln('<error>Tracking was not found.</error>');
+            $arguments = $input->getOption('id') ? ' --id ' . $input->getOption('id') : null;
+            $output->writeln('<info>Use `time-tracking timer:start <name>' . $arguments . '` for create new timer.</info>');
             return Command::FAILURE;
         endif;
         

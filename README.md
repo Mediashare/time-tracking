@@ -24,7 +24,7 @@ sudo cp time-tracking /usr/local/bin/time-tracking
   time-tracking timer:commit:edit <id>    Edit commit
   time-tracking timer:commit:remove <id>  Remove commit
   
-  time-tracking timer:upgrade                   Download latest version of Time Tracking
+  time-tracking timer:upgrade             Download latest version of Time Tracking
 ```
 ## Contributiong
 ### Box install

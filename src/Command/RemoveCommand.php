@@ -34,6 +34,8 @@ Class RemoveCommand extends Command {
             $output->writeln('<info>[Tracking:'.$tracking->id ?? $selected->id.'] Removed</info>');
         else:
             $output->writeln('<error>This Tracking was not found.</error>');
+            $arguments = $input->getOption('id') ? ' --id ' . $input->getOption('id') : null;
+            $output->writeln('<info>Use `time-tracking timer:start <name>' . $arguments . '` for create new timer.</info>');
             return Command::FAILURE;
         endif;
 

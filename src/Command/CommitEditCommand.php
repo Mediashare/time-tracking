@@ -50,6 +50,8 @@ Class CommitEditCommand extends Command {
             $controller->output($output);
         else:
             $output->writeln('<error>Tracking was not found.</error>');
+            $arguments = $input->getOption('timer-id') ? ' --id ' . $input->getOption('timer-id') : null;
+            $output->writeln('<info>Use `time-tracking timer:start <name>' . $arguments . '` for create new timer.</info>');
             return Command::FAILURE;
         endif;
         return Command::SUCCESS;
