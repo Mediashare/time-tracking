@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-bin/console cache:clear
-rm composer.lock symfony.lock time-tracking.phar time-tracking
-box build
-mv time-tracking.phar time-tracking
