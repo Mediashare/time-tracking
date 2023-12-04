@@ -2,7 +2,18 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new Symfony\Component\Console\Application('Time-Tracking', '0.2.5');
+
+$dotenv = new \Symfony\Component\Dotenv\Dotenv();
+$dotenv->load(__DIR__.'/../.env');
+
+if (!empty($_ENV['APP_ENV']) && strtolower($_ENV['APP_ENV']) === 'prod') {
+    error_reporting(E_ALL ^ E_DEPRECATED);
+}
+
+$app = new Symfony\Component\Console\Application(
+        'Time-Tracking',
+        !empty($_ENV['APP_VERSION']) ? $_ENV['APP_VERSION'] : 'test'
+);
 $commandsLoader = new \Symfony\Component\Console\CommandLoader\FactoryCommandLoader([
     'timer:list' => function () { return new Mediashare\Command\ListCommand(); },
     'timer:start' => function () { return new Mediashare\Command\StartCommand(); },
