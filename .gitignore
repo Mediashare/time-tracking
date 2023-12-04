@@ -7,5 +7,6 @@
 composer.lock
 symfony.lock
 ###< symfony/framework-bundle ###
+.time-tracking
 .vscode
 .idea
