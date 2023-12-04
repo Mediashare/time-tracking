@@ -8,11 +8,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 Class UpgradeCommand extends Command {
-    protected static $defaultName = 'upgrade';
+    protected static $defaultName = 'timer:upgrade';
     
     protected function configure() {
         $this
-            ->setName('upgrade')
+            ->setName('timer:upgrade')
             ->setDescription('Download latest version of Time Tracking');
     }
 

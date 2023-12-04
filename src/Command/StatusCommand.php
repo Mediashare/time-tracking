@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class TimerStatusCommand extends Command {
+Class StatusCommand extends Command {
     protected static $defaultName = 'timer:status';
     
     protected function configure() {

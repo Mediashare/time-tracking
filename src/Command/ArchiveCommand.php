@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class TimerArchiveCommand extends Command {
+Class ArchiveCommand extends Command {
     protected static $defaultName = 'timer:archive';
     
     protected function configure() {

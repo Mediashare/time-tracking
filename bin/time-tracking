@@ -4,16 +4,16 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = new Symfony\Component\Console\Application('Time-Tracking', '0.2.5');
 $commandsLoader = new \Symfony\Component\Console\CommandLoader\FactoryCommandLoader([
-    'timer:list' => function () { return new Mediashare\Command\TimerListCommand(); },
-    'timer:start' => function () { return new Mediashare\Command\TimerStartCommand(); },
-    'timer:stop' => function () { return new Mediashare\Command\TimerStopCommand(); },
-    'timer:status' => function () { return new Mediashare\Command\TimerStatusCommand(); },
-    'timer:archive' => function () { return new Mediashare\Command\TimerArchiveCommand(); },
-    'timer:remove' => function () { return new Mediashare\Command\TimerRemoveCommand(); },
+    'timer:list' => function () { return new Mediashare\Command\ListCommand(); },
+    'timer:start' => function () { return new Mediashare\Command\StartCommand(); },
+    'timer:stop' => function () { return new Mediashare\Command\StopCommand(); },
+    'timer:status' => function () { return new Mediashare\Command\StatusCommand(); },
+    'timer:archive' => function () { return new Mediashare\Command\ArchiveCommand(); },
+    'timer:remove' => function () { return new Mediashare\Command\RemoveCommand(); },
     'timer:commit' => function () { return new Mediashare\Command\CommitCommand(); },
     'timer:commit:edit' => function () { return new Mediashare\Command\CommitEditCommand(); },
     'timer:commit:remove' => function () { return new Mediashare\Command\CommitRemoveCommand(); },
-    'upgrade' => function () { return new Mediashare\Command\UpgradeCommand(); },
+    'timer:upgrade' => function () { return new Mediashare\Command\UpgradeCommand(); },
 ]);
 $app->setCommandLoader($commandsLoader);
 $app->run();

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class TimerStartCommand extends Command {
+Class StartCommand extends Command {
     protected static $defaultName = 'timer:start';
     
     protected function configure() {

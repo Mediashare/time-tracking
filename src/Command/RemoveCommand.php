@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class TimerRemoveCommand extends Command {
+Class RemoveCommand extends Command {
     protected static $defaultName = 'timer:remove';
     
     protected function configure() {
