@@ -1,8 +1,8 @@
 {
     "name": "mediashare/time-tracking",
     "description": "Time-Tracking is a simple command line tool for project timer management.",
-    "type": "symfony-bundle",
-    "keywords": ["timer","time tracking","versionning timer","console timer", "project time management", "project management", "time management", "command line tool", "cmd"],
+    "type": "library",
+    "keywords": ["timer", "time-tracking", "console", "command", "console timer", "project time management"],
     "homepage": "https://github.com/Mediashare/time-tracking",
     "license": "MIT",
     "authors": [
@@ -13,15 +13,15 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "symfony/cache": "^6.3",
-        "symfony/console": "^6.3",
-        "symfony/dotenv": "^6.3",
+        "symfony/cache": "^6.4",
+        "symfony/console": "^6.4",
+        "symfony/dotenv": "^6.4",
         "symfony/flex": "*",
-        "symfony/framework-bundle": "^6.3",
-        "symfony/yaml": "^6.3"
+        "symfony/framework-bundle": "^6.4",
+        "symfony/yaml": "^6.4"
     },
     "bin": ["time-tracking"],
     "config": {
@@ -69,14 +69,10 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-    "bin": [
-        "bin/console",
-        "bin/time-tracking"
-    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^6.3",
+            "require": "^6.4",
             "console": "bin/console"
         },
         "time-tracking": {
