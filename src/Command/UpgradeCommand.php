@@ -18,14 +18,14 @@ Class UpgradeCommand extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!\Phar::running()):
-            $text = "<comment>Use <git pull> for upgrade Time Tracking</comment>";
+            $text = "<comment>Use `git pull` for upgrade Time Tracking</comment>";
             $output->writeln($text);
             return Command::INVALID;
         endif;
 
         $file = \Phar::running();
         $file = str_replace('phar://', '', $file);
-        $url = 'https://gitlab.marquand.pro/MarquandT/time-tracking/-/raw/master/time-tracking?inline=false';
+        $url = 'https://github.com/Mediashare/time-tracking/raw/master/time-tracking';
         $tmp = tempnam(sys_get_temp_dir(), 'time-tracking.tmp');
         if (!is_writable(\pathinfo($tmp, PATHINFO_DIRNAME))):
             $text = "<error>You have not permission for write ".$tmp." file</error>";
