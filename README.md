@@ -1,5 +1,5 @@
 # Time Tracking
-Time-Tracking is a simple command line tool for project timer management. PHP 8.1 is required.
+Time-Tracking is a simple command line tool for project timer management. **PHP >=8.1 is required.**
 ## Installation
 ### Composer
 ```bash
@@ -26,9 +26,9 @@ sudo cp time-tracking /usr/local/bin/time-tracking
   
   time-tracking timer:upgrade             Download latest version of Time Tracking
 ```
-## Contributiong
+## Contributing
 ### Box install
-[Box2](https://github.com/box-project/box) used for binary generation from php project. PHP 8.1 is required.
+[Box2](https://github.com/box-project/box) used for binary generation from php project. **PHP >=8.1 is required.**
 ```bash
 composer global require humbug/box
 box
