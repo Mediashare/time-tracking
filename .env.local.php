@@ -4,6 +4,6 @@
 
 return array (
   'APP_ENV' => 'prod',
-  'APP_VERSION' => '0.3.1',
+  'APP_VERSION' => '0.4.0',
   'APP_SECRET' => '91739cd3f0af5ce014a7db0d451160e2805aa31b',
 );

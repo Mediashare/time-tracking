@@ -1,14 +1,25 @@
 {
     "name": "mediashare/time-tracking",
-    "description": "Time-Tracking is a simple command line tool for project timer management.",
+    "description": "Time-tracking is a free and open-source command-line time tracker. It allows you to track the time you spend on tasks or projects.",
     "type": "library",
-    "keywords": ["timer", "time-tracking", "console", "command", "console timer", "project time management"],
+    "keywords": [
+        "time tracking",
+        "time management",
+        "productivity",
+        "command line",
+        "taks",
+        "projects",
+        "version control",
+        "commit history",
+        "time management",
+        "workflow",
+        "developer tools"
+    ],
     "homepage": "https://github.com/Mediashare/time-tracking",
-    "license": "MIT",
     "authors": [
         {
             "name": "Thibault Marquand",
-            "email": "Mediashare.supp@gmail.com"
+            "email": "thibault@marquand.pro"
         }
     ],
     "minimum-stability": "stable",
@@ -16,11 +27,14 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ramsey/collection": "^2.0",
         "symfony/cache": "^6.4",
         "symfony/console": "^6.4",
         "symfony/dotenv": "^6.4",
         "symfony/flex": "*",
         "symfony/framework-bundle": "^6.4",
+        "symfony/property-access": "^6.4",
+        "symfony/serializer": "^6.4",
         "symfony/yaml": "^6.4"
     },
     "bin": ["time-tracking"],
@@ -36,12 +50,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Mediashare\\": "src/"
+            "Mediashare\\TimeTracking\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Mediashare\\TimeTracking\\Tests\\": "tests/"
         }
     },
     "replace": {

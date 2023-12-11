@@ -1,7 +1,6 @@
 <?php
-namespace Mediashare\Command;
+namespace Mediashare\TimeTracking\Command;
 
-use Phar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,17 +8,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 Class UpgradeCommand extends Command {
     protected static $defaultName = 'timer:upgrade';
-    
+
     protected function configure() {
         $this
             ->setName('timer:upgrade')
-            ->setDescription('Download latest version of Time Tracking');
+            ->setDescription('<comment>Upgrading</comment> to latest version of Time-Tracking');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!\Phar::running()):
-            $text = "<comment>Use `git pull` for upgrade Time Tracking</comment>";
-            $output->writeln($text);
+            $output->writeln("<info>Use <comment>git pull</comment> for upgrade Time-Tracking</info>");
             return Command::INVALID;
         endif;
 
@@ -28,9 +26,9 @@ Class UpgradeCommand extends Command {
         $url = 'https://github.com/Mediashare/time-tracking/raw/master/time-tracking';
         $tmp = tempnam(sys_get_temp_dir(), 'time-tracking.tmp');
         if (!is_writable(\pathinfo($tmp, PATHINFO_DIRNAME))):
-            $text = "<error>You have not permission for write ".$tmp." file</error>";
+            $text = "<error>You have not permission for write <comment>".$tmp."</comment> file</error>";
             $output->writeln($text);
-            $text = "<error>You can use sudo command for allow permission.</error>";
+            $text = "<error>You can use sudo command for allow permission</error>";
             $output->writeln($text);
             return Command::FAILURE;
         endif;
@@ -38,7 +36,7 @@ Class UpgradeCommand extends Command {
         // Download
         file_put_contents($tmp, file_get_contents($url));
         if (!\file_exists($tmp)):
-            $text = "<error>Error download [".$url."]</error>";
+            $text = "<error>Error download <comment>".$url."</comment></error>";
             $output->writeln($text);
             return Command::FAILURE;
         endif;
@@ -48,7 +46,7 @@ Class UpgradeCommand extends Command {
         // if (filesize($file) !== filesize($tmp)
         //     || md5_file($file) !== md5_file($tmp)):
         //     $filesystem->remove($tmp);
-        //     $output->writeln("<info>Time-tracking run already with last version.</info>");
+        //     $output->writeln("<info>Time-tracking run already with last version</info>");
         //     return 0;
         // endif;
         
@@ -57,8 +55,7 @@ Class UpgradeCommand extends Command {
         $filesystem->rename($tmp, $file);
         $filesystem->chmod($file, 0755);
 
-        $text = "<info>Time Tracking successly updated</info>";
-        $output->writeln($text);
+        $output->writeln("<info>Time-Tracking successly <comment>upgraded</comment></info>");
 
         return Command::SUCCESS;
     }

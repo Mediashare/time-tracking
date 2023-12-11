@@ -15,16 +15,17 @@ $app = new Symfony\Component\Console\Application(
         !empty($_ENV['APP_VERSION']) ? $_ENV['APP_VERSION'] : 'test'
 );
 $commandsLoader = new \Symfony\Component\Console\CommandLoader\FactoryCommandLoader([
-    'timer:list' => function () { return new Mediashare\Command\ListCommand(); },
-    'timer:start' => function () { return new Mediashare\Command\StartCommand(); },
-    'timer:stop' => function () { return new Mediashare\Command\StopCommand(); },
-    'timer:status' => function () { return new Mediashare\Command\StatusCommand(); },
-    'timer:archive' => function () { return new Mediashare\Command\ArchiveCommand(); },
-    'timer:remove' => function () { return new Mediashare\Command\RemoveCommand(); },
-    'timer:commit' => function () { return new Mediashare\Command\CommitCommand(); },
-    'timer:commit:edit' => function () { return new Mediashare\Command\CommitEditCommand(); },
-    'timer:commit:remove' => function () { return new Mediashare\Command\CommitRemoveCommand(); },
-    'timer:upgrade' => function () { return new Mediashare\Command\UpgradeCommand(); },
+    'timer:list' => function () { return new Mediashare\TimeTracking\Command\ListCommand(); },
+    'timer:start' => function () { return new Mediashare\TimeTracking\Command\StartCommand(); },
+    'timer:stop' => function () { return new Mediashare\TimeTracking\Command\StopCommand(); },
+    'timer:status' => function () { return new Mediashare\TimeTracking\Command\StatusCommand(); },
+    'timer:archive' => function () { return new Mediashare\TimeTracking\Command\ArchiveCommand(); },
+    'timer:remove' => function () { return new Mediashare\TimeTracking\Command\RemoveCommand(); },
+    'timer:commit' => function () { return new Mediashare\TimeTracking\Command\CommitCommand();},
+    'timer:commit:edit' => function () { return new Mediashare\TimeTracking\Command\CommitEditCommand();},
+    'timer:commit:remove' => function () { return new Mediashare\TimeTracking\Command\CommitRemoveCommand(); },
+    'timer:gitignore' => function () { return new Mediashare\TimeTracking\Command\GitignoreCommand(); },
+    'timer:upgrade' => function () { return new Mediashare\TimeTracking\Command\UpgradeCommand(); },
 ]);
 $app->setCommandLoader($commandsLoader);
 $app->run();

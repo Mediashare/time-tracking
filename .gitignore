@@ -7,6 +7,9 @@
 composer.lock
 symfony.lock
 ###< symfony/framework-bundle ###
+
+###> mediashare/time-tracking ###
 .time-tracking
 .vscode
 .idea
+###< mediashare/time-tracking ###

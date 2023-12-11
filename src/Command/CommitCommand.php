@@ -1,56 +1,70 @@
 <?php
-namespace Mediashare\Command;
+namespace Mediashare\TimeTracking\Command;
 
-use Mediashare\Service\Commit;
-use Mediashare\Service\DateTime;
-use Mediashare\Service\Tracking;
-use Mediashare\Service\Controller;
+use Mediashare\TimeTracking\Entity\Config;
+use Mediashare\TimeTracking\Service\CommitService;
+use Mediashare\TimeTracking\Service\ConfigService;
+use Mediashare\TimeTracking\Service\OutputService;
+use Mediashare\TimeTracking\Service\SerializerService;
+use Mediashare\TimeTracking\Service\TrackingService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-Class CommitCommand extends Command {
+class CommitCommand extends Command {
     protected static $defaultName = 'timer:commit';
 
     protected function configure() {
         $this
             ->setName('timer:commit')
-            ->setDescription('New commit')
-            ->addArgument('message', InputArgument::OPTIONAL, 'Message from this commit.')
-            ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Custom duration from this commit. (+1minutes, +1hours, +1days)')
-            ->addOption('timer-id', 'tid', InputOption::VALUE_REQUIRED, 'Commit from this Tracking id.')
+            ->setDescription('<comment>Creating</comment> new commit into time-tracking selected')
+            ->addArgument('message', InputArgument::OPTIONAL, 'Define a commit <comment>message</comment>', '')
+            ->addOption('duration', 'd', InputOption::VALUE_REQUIRED, 'Set the <comment>duration</comment> of the new commit (ex: "<comment>+1minutes</comment>", "<comment>+10min</comment>", "<comment>+1hours</comment>", "<comment>+1days</comment>", "<comment>-1hour</comment>")', false)
+
+            // Config
+            ->addOption('config-path', 'c', InputOption::VALUE_REQUIRED, 'Filepath to time-tracking json config file')
+            ->addOption('config-datetime-format', 'cdf', InputOption::VALUE_REQUIRED, 'Set DateTime format (ex: <comment>"d/m/Y H:i:s"</comment>, <comment>"m/d/Y H:i:s"</comment>)', Config::DATETIME_FORMAT)
+            ->addOption('config-tracking-dir', 'ctd', InputOption::VALUE_REQUIRED, 'Set directory path containing the time-tracking files')
+            ->addOption('config-tracking-id', 'cti', InputOption::VALUE_REQUIRED, 'Time-tracking <comment>ID</comment> selected in config')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $tracking = new Tracking();
-        $tracking = $tracking->init($input->getOption('timer-id') ?? null);
-        
-        if ($tracking):
-            $controller = new Controller($tracking);
-            // Commit
-            $commit = new Commit($tracking);
-            $commit = $commit->create(
-                $input->getArgument('message') ?? null,
-                $input->getOption('duration') ?? null
+        try {
+            // Config
+            $configService = new ConfigService();
+            $config = $configService->createConfig(
+                $input->getOption('config-path'),
+                $input->getOption('config-datetime-format'),
+                $input->getOption('config-tracking-dir'),
+                $input->getOption('config-tracking-id'),
             );
-            $controller->commit($commit);
+
+            // Commit
+            $commitService = new CommitService($config);
+            $tracking = $commitService->createCommit(
+                $input->getArgument('message'),
+                $input->getOption('duration'),
+            );
 
             // Output terminal
-            $output->writeln('<info>[Tracking:'.$tracking->id.'] New commit</info>');
-            // Report file creation
-            $controller->report();
-            // Render Report
-            $controller->output($output);
-        else:
-            $output->writeln('<error>Tracking was not found.</error>');
-            $arguments = $input->getOption('timer-id') ? ' --id ' . $input->getOption('timer-id') : null;
-            $output->writeln('<info>Use `time-tracking timer:start <name>' . $arguments . '` for create new timer.</info>');
-            return Command::FAILURE;
-        endif;
+            $output->writeln('<info>[Tracking:<comment>'.$tracking->getId().'</comment>] New commit</info>');
 
-        return Command::SUCCESS;
+            // Update tracking data file
+            $serializerService = new SerializerService();
+            $serializerService->writeTracking((new TrackingService($config))->getTrackingFilepath(), $tracking);
+
+            // Output render into terminal
+            $outputService = new OutputService($output, $config);
+            $outputService->renderCommits($tracking);
+            $outputService->renderTrackings($tracking);
+
+            return Command::SUCCESS;
+        } catch (\Exception $exception) {
+            $output->writeln('<error>' . $exception->getMessage() . '</error>');
+            return Command::FAILURE;
+        }
     }
 }

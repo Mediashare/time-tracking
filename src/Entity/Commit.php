@@ -1,61 +1,74 @@
 <?php
-namespace Mediashare\Entity;
+namespace Mediashare\TimeTracking\Entity;
 
-use Mediashare\Entity\Step;
-use Mediashare\Service\DateTime;
+use Mediashare\TimeTracking\Collection\StepCollection;
+use Mediashare\TimeTracking\Trait\EntityDateTimeTrait;
+use Mediashare\TimeTracking\Trait\EntityDurationTrait;
+use Mediashare\TimeTracking\Trait\EntityUnserializerTrait;
 
-Class Commit {
-    public $id;
-    public $start_date;
-    public $end_date;
-    public $message;
-    public $steps = [];
-    public $duration = '00:00:00';
+class Commit {
+    use EntityDateTimeTrait;
+    use EntityDurationTrait;
+    use EntityUnserializerTrait;
 
-    public function __construct(string $message = null) {
-        $this->id = uniqid();
-        $date = new DateTime();
-        $this->end_date = $date->getTime();
-        if ($message):
-            $this->message = $message;
-        endif;
+    private string|null $id = null;
+    private string $message = '';
+    private string $duration = '00:00:00';
+    private StepCollection $steps;
+
+    public function __construct() {
+        $this
+            ->setSteps(new StepCollection())
+        ;
     }
 
-    public function getDuration(): string {
-        $datetime = new DateTime();
-        foreach ($this->steps ?? [] as $step):
-            $datetime->addStep($step);
-        endforeach;
-        $this->duration = $datetime->getDuration();
-        
-        return $this->duration;
-    }
-    
-    public function addStep(Step $step): self {
-        $this->steps[] = $step;
-        $this->getDuration();
+    public function setId(string $id): self {
+        $this->id = $id;
+
         return $this;
     }
 
-    public function getStartDate(): string {
-        if (is_array($this->start_date)):
-            $start_date = new DateTime($this->start_date['date']);
-            $start_date = $start_date->getTime();
-        else: 
-            $start_date = $this->start_date;
-        endif;
-
-        return $start_date->format('d/m/Y H:i:s');
+    public function getId(): string {
+        return $this->id;
     }
 
-    public function getEndDate(): string {
-        if (is_array($this->end_date)):
-            $end_date = new DateTime($this->end_date['date']);
-            $end_date = $end_date->getTime();
-        else: 
-            $end_date = $this->end_date;
+    public function setMessage(string $message): self {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function getMessage(): string|null {
+        return $this->message;
+    }
+
+    public function setSteps(StepCollection $steps): self {
+        $this->steps = $steps;
+
+        return $this;
+    }
+
+    public function getSteps(): StepCollection {
+        return $this->steps;
+    }
+
+    public function addStep(Step $step): self {
+        if (!$this->getSteps()->contains($step)):
+            $this->getSteps()->add($step);
         endif;
 
-        return $end_date->format('d/m/Y H:i:s');
+        return $this;
+    }
+
+    public function toRender(int $index = 0, int $totalSeconds = 0, string $dateTimeFormat = Config::DATETIME_FORMAT) {
+        return [
+            'index' => $index,
+            'id' => $this->id,
+            'message' => $this->message,
+            'duration' => $this->getDuration(),
+            'duration_total' => $this->getDuration(totalSeconds: $totalSeconds),
+            'startDate' => $this->getStartDateFormated($dateTimeFormat),
+            'endDate' => $this->getEndDateFormated($dateTimeFormat),
+        ];
     }
 }
