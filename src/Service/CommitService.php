@@ -28,6 +28,9 @@ class CommitService {
             $commit->addStep(
                 $this->stepService->createStepWithCustomDuration(
                     $duration,
+                    ($lastStep = $this->tracking->getSteps()?->last())?->getEndDate()
+                        ? $lastStep->getStartDate()
+                        : null
                 )
             );
         else:
@@ -55,6 +58,9 @@ class CommitService {
         return $this->tracking;
     }
 
+    /**
+     * @throws CommitNotFoundException
+     */
     public function editCommit(
         string $id,
         string|false $message = false,
@@ -102,6 +108,9 @@ class CommitService {
         return $this->tracking;
     }
 
+    /**
+     * @throws CommitNotFoundException
+     */
     public function removeCommit(
         string $id,
     ): Tracking {

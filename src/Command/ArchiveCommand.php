@@ -42,8 +42,8 @@ class ArchiveCommand extends Command {
             );
 
             // Tracking
-            $trackingService = new TrackingService($config);
-            $tracking = $trackingService->archiveTracking($input->getOption('stop'));
+            $trackingService = new TrackingService($config, createItIfNotExist: !$input->getOption('stop'));
+            $tracking = $trackingService->archiveTracking();
 
             // Update tracking data file
             $serializerService = new SerializerService();
@@ -66,9 +66,8 @@ class ArchiveCommand extends Command {
                 $input->getOption('config-datetime-format'),
                 $lastTrackingDirectory,
                 $config->getTrackingId() === $lastTrackingId
-                    ? (new \DateTime())->format(
-                    $input->getOption('config-datetime-format') ?? $configService->getLastDateTimeFormat()
-                    ) : $lastTrackingId
+                    ? (new \DateTime())->format('YmdHis')
+                    : $lastTrackingId
                 ,
             );
 

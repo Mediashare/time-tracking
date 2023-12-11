@@ -29,7 +29,9 @@ class SerializerService {
     }
 
     /**
-     * Convert json file to Tracking Object
+     * Convert json file to Entity object
+     * @throws FileNotFoundException
+     * @throws JsonDecodeException
      */
     public function read(string $filepath, string $className): Tracking|Config {
         if (!$this->filesystem->exists($filepath)):

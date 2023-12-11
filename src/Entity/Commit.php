@@ -13,7 +13,7 @@ class Commit {
 
     private string|null $id = null;
     private string $message = '';
-    private string $duration = '00:00:00';
+
     private StepCollection $steps;
 
     public function __construct() {

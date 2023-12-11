@@ -40,7 +40,7 @@ class RemoveCommand extends Command {
             );
 
             // Tracking
-            $trackingService = new TrackingService($config);
+            $trackingService = new TrackingService($config, createItIfNotExist: false);
             $tracking = $trackingService->getTracking(createItIfNotExist: false);
             $trackingService->removeTracking();
 
@@ -61,9 +61,8 @@ class RemoveCommand extends Command {
                 $input->getOption('config-datetime-format'),
                 $lastTrackingDirectory,
                 $config->getTrackingId() === $lastTrackingId
-                    ? (new \DateTime())->format(
-                    $input->getOption('config-datetime-format') ?? $configService->getLastDateTimeFormat()
-                    ) : $lastTrackingId
+                    ? (new \DateTime())->format('YmdHis')
+                    : $lastTrackingId
                 ,
             );
 

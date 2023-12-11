@@ -12,12 +12,19 @@ use Symfony\Component\Filesystem\Filesystem;
 class TrackingService {
     private SerializerService $serializerService;
     private Filesystem $filesystem;
+    private StepService $stepService;
+    private Tracking $tracking;
 
     public function __construct(
         private Config $config,
+        bool $createItIfNotExist = true
     ) {
         $this->serializerService = new SerializerService();
         $this->filesystem = new Filesystem();
+
+        $this->stepService = new StepService();
+
+        $this->tracking = $this->getTracking($createItIfNotExist);
     }
 
     /**
@@ -41,28 +48,24 @@ class TrackingService {
     public function getTracking(bool $createItIfNotExist = true): Tracking {
         $trackingExist = $this->filesystem->exists($filepath = $this->getTrackingFilepath());
         if (!$trackingExist && $createItIfNotExist):
-            return $this->createTracking();
+            return $this->tracking = $this->createTracking();
         elseif (!$trackingExist):
             throw new TrackingNotFoundException();
         endif;
 
-        return $this->serializerService->read($filepath, Tracking::class);
+        return $this->tracking = $this->serializerService->read($filepath, Tracking::class);
     }
 
     public function createTracking(array $data = []): Tracking {
-        if (!array_keys($data, 'id')):
-            $data = array_merge($data, [
-                'id' => $this->config->getTrackingId()
-                    ?? (new \DateTime())->format('YmdHis')
-            ]);
-        endif;
-
         /** @var Tracking $tracking */
         $tracking = $this->serializerService->arrayToEntity($data, Tracking::class);
 
+        if (!$tracking->getId()):
+            $tracking->setId($this->config->getTrackingId() ?? (new \DateTime())->format('YmdHis'));
+        endif;
+
         if ($tracking->isRun() && !$tracking->getSteps()?->last()?->getEndDate()):
-            $stepService = new StepService($tracking);
-            $tracking->addStep($stepService->createStep());
+            $tracking->addStep($this->stepService->createStep());
         endif;
 
         $this->serializerService->writeTracking($this->getTrackingFilepath(), $tracking);
@@ -72,27 +75,36 @@ class TrackingService {
 
     public function startTracking(
         string|false $name = false,
-        string|null $duration = null,
+        string|false $duration = false,
     ): Tracking {
-        $tracking = $this->getTracking()->setRun(true);
+        $tracking = $this->tracking->setRun(true);
         $tracking->setName($name !== false ? $name : $tracking->getName());
 
+        if ($duration):
+            $firstStep = $tracking->getSteps()->first();
+            $tracking->getSteps()->clear();
+            $tracking->addStep($this
+                ->stepService
+                ->createStepWithCustomDuration(
+                    $duration,
+                    $firstStep?->getStartDate(),
+                )
+            );
+        endif;
+
         if (!$tracking->getStartDate() || !($lastStep = $tracking->getSteps()?->last()) || $lastStep->getEndDate()):
-            $stepService = new StepService();
             $tracking
                 ->addStep(
-                    $duration
-                        ? $stepService->createStepWithCustomDuration($duration)
-                        : $stepService->createStep()
+                    $this->stepService->createStep()
                 );
         endif;
 
         return $tracking;
     }
 
-    public function stopTracking(bool $createItIfNotExist = true): Tracking {
-        $tracking = $this->getTracking($createItIfNotExist);
-        $tracking->setRun(false);
+    public function stopTracking(): Tracking {
+        $tracking = $this->tracking
+            ->setRun(false);
 
         if (($lastStep = $tracking->getSteps()?->last()) && !$lastStep->getEndDate()):
             $tracking
@@ -106,10 +118,9 @@ class TrackingService {
         return $tracking;
     }
 
-    public function archiveTracking(bool $stop = false): Tracking {
-        $stop ? $this->stopTracking(createItIfNotExist: false) : null;
+    public function archiveTracking(): Tracking {
         return $this
-            ->getTracking()
+            ->stopTracking()
             ->setArchived(true);
     }
 
@@ -121,6 +132,9 @@ class TrackingService {
         return $this;
     }
 
+    /**
+     * @throws TrackingNotFoundException
+     */
     public function getTrackingFilepath(): string {
         if (!$this->config->getTrackingId()):
             throw new TrackingNotFoundException();

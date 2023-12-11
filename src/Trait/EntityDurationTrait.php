@@ -7,19 +7,19 @@ use Mediashare\TimeTracking\Entity\Step;
 use Mediashare\TimeTracking\Entity\Tracking;
 
 trait EntityDurationTrait {
-    private string $duration = '00:00:00';
-
     /**
      * Convert seconds to "d H:i:s" format
      */
     public function getDuration(bool|null $onlyNotCommited = false, int $totalSeconds = 0): string {
         $seconds = $this->getSeconds($onlyNotCommited) + $totalSeconds;
-        return $this->duration = sprintf(
-            '%s %02d:%02d:%02d',
-            ((($seconds/86400%60) !== 0) ? ($seconds/86400%60) . 'd' : ''),
-            ($seconds/3600%24),
-            ($seconds/60%60),
-            $seconds%60
+        return $this->duration = trim(
+            sprintf(
+                '%s %02d:%02d:%02d',
+                ((($seconds/86400%60) !== 0) ? ($seconds/86400%60) . 'd' : ''),
+                ($seconds/3600%24),
+                ($seconds/60%60),
+                $seconds%60
+            )
         );
     }
 

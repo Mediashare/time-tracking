@@ -35,7 +35,7 @@ class Tracking {
         return $this;
     }
 
-    public function getId(): string {
+    public function getId(): string|null {
         return $this->id;
     }
 

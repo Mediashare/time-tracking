@@ -53,9 +53,19 @@ class ConfigService {
     }
 
     public function getLastTrackingId(string $trackingDirectory): string|null {
-        return $this->getLastConfig()->getTrackingId()
-            ?? (new TrackingService(new Config(trackingDirectory: $trackingDirectory)))->getTrackings()?->last()?->getId()
-            ;
+        try {
+            if ($lastTrackingIdByConfig = $this->getLastConfig()->getTrackingId()):
+                return $lastTrackingIdByConfig;
+            endif;
+
+            return (new TrackingService(new Config(trackingDirectory: $trackingDirectory)))
+                ->getTrackings()?->last()?->getId();
+
+        } catch (\Exception $exception) {
+
+        }
+
+        return null;
     }
 
     private function getLastConfig(): Config {
