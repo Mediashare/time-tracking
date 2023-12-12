@@ -1,9 +1,9 @@
 <?php
-namespace Mediashare\TimeTracking\Entity;
+namespace Mediashare\Marathon\Entity;
 
-use Mediashare\TimeTracking\Trait\EntityDateTimeTrait;
-use Mediashare\TimeTracking\Trait\EntityDurationTrait;
-use Mediashare\TimeTracking\Trait\EntityUnserializerTrait;
+use Mediashare\Marathon\Trait\EntityDateTimeTrait;
+use Mediashare\Marathon\Trait\EntityDurationTrait;
+use Mediashare\Marathon\Trait\EntityUnserializerTrait;
 
 class Step {
     use EntityDateTimeTrait;

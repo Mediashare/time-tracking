@@ -1,11 +1,11 @@
 <?php
-namespace Mediashare\TimeTracking\Service;
+namespace Mediashare\Marathon\Service;
 
-use Mediashare\TimeTracking\Entity\Config;
-use Mediashare\TimeTracking\Entity\Tracking;
-use Mediashare\TimeTracking\Exception\FileNotFoundException;
-use Mediashare\TimeTracking\Exception\JsonDecodeException;
-use Mediashare\TimeTracking\Trait\ArrayToEntityTrait;
+use Mediashare\Marathon\Entity\Config;
+use Mediashare\Marathon\Entity\Timer;
+use Mediashare\Marathon\Exception\FileNotFoundException;
+use Mediashare\Marathon\Exception\JsonDecodeException;
+use Mediashare\Marathon\Trait\ArrayToEntityTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -33,29 +33,29 @@ class SerializerService {
      * @throws FileNotFoundException
      * @throws JsonDecodeException
      */
-    public function read(string $filepath, string $className): Tracking|Config {
+    public function read(string $filepath, string $className): Timer|Config {
         if (!$this->filesystem->exists($filepath)):
             throw new FileNotFoundException($filepath);
         endif;
 
         $content = file_get_contents($filepath);
 
-        if (!($trackingArray = json_decode($content, true)) || json_last_error() !== JSON_ERROR_NONE):
+        if (!($timerArray = json_decode($content, true)) || json_last_error() !== JSON_ERROR_NONE):
             throw new JsonDecodeException($filepath);
         endif;
 
-        return $this->arrayToEntity($trackingArray, $className);
+        return $this->arrayToEntity($timerArray, $className);
     }
 
     /**
-     * Write tracking file
+     * Write timer file
      */
-    public function writeTracking(string $filepath, Tracking $tracking): self {
+    public function writeTimer(string $filepath, Timer $timer): self {
         $this
             ->filesystem
             ->dumpFile(
                 $filepath,
-                $this->serializer->serialize($tracking, 'json')
+                $this->serializer->serialize($timer, 'json')
             )
         ;
 

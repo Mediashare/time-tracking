@@ -1,6 +1,6 @@
 <?php
 
-namespace Mediashare\TimeTracking\Exception;
+namespace Mediashare\Marathon\Exception;
 
 class CommitNotFoundException extends \Exception {
     public function __construct(

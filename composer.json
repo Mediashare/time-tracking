@@ -1,8 +1,9 @@
 {
-    "name": "mediashare/time-tracking",
-    "description": "Time-tracking is a free and open-source command-line time tracker. It allows you to track the time you spend on tasks or projects.",
+    "name": "mediashare/marathon",
+    "description": "Marathon is a free and open-source command-line time tracker. It allows you to track the time you spend on tasks or projects.",
     "type": "library",
     "keywords": [
+        "marathon",
         "time tracking",
         "time management",
         "productivity",
@@ -15,7 +16,7 @@
         "workflow",
         "developer tools"
     ],
-    "homepage": "https://github.com/Mediashare/time-tracking",
+    "homepage": "https://github.com/Mediashare/marathon",
     "authors": [
         {
             "name": "Thibault Marquand",
@@ -33,11 +34,13 @@
         "symfony/dotenv": "^6.4",
         "symfony/flex": "*",
         "symfony/framework-bundle": "^6.4",
+        "symfony/process": "^6.4",
         "symfony/property-access": "^6.4",
+        "symfony/runtime": "^6.4",
         "symfony/serializer": "^6.4",
         "symfony/yaml": "^6.4"
     },
-    "bin": ["time-tracking"],
+    "bin": ["marathon"],
     "config": {
         "preferred-install": {
             "*": "dist"
@@ -45,17 +48,18 @@
         "sort-packages": true,
         "bin-dir": "../../bin",
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
         "psr-4": {
-            "Mediashare\\TimeTracking\\": "src/"
+            "Mediashare\\Marathon\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mediashare\\TimeTracking\\Tests\\": "tests/"
+            "Mediashare\\Marathon\\Tests\\": "tests/"
         }
     },
     "replace": {
@@ -73,12 +77,14 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "Mediashare\\Marathon\\Composer\\Installer::install"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "Mediashare\\Marathon\\Composer\\Installer::install"
         ],
-        "console-package": "php bin/time-tracking"
+        "console-package": "php bin/marathon"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -89,8 +95,8 @@
             "require": "^6.4",
             "console": "bin/console"
         },
-        "time-tracking": {
-            "console": "bin/time-tracking"
+        "marathon": {
+            "console": "bin/marathon"
         }
     },
     "require-dev": {

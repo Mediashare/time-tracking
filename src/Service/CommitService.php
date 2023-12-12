@@ -1,25 +1,25 @@
 <?php
-namespace Mediashare\TimeTracking\Service;
+namespace Mediashare\Marathon\Service;
 
-use Mediashare\TimeTracking\Entity\Config;
-use Mediashare\TimeTracking\Entity\Step;
-use Mediashare\TimeTracking\Entity\Commit;
-use Mediashare\TimeTracking\Entity\Tracking;
-use Mediashare\TimeTracking\Exception\CommitNotFoundException;
+use Mediashare\Marathon\Entity\Config;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Entity\Commit;
+use Mediashare\Marathon\Entity\Timer;
+use Mediashare\Marathon\Exception\CommitNotFoundException;
 
 class CommitService {
-    private Tracking $tracking;
+    private Timer $timer;
     private StepService $stepService;
 
     public function __construct(
         private Config $config,
     ) {
-        $trackingService = new TrackingService($this->config);
-        $this->tracking = $trackingService->getTracking();
+        $timerService = new TimerService($this->config);
+        $this->timer = $timerService->getTimer();
         $this->stepService = new StepService();
     }
 
-    public function createCommit(?string $message = null, ?string $duration = null): Tracking {
+    public function createCommit(?string $message = null, ?string $duration = null): Timer {
         $commit = (new Commit())
             ->setId((new \DateTime())->format('YmdHis'))
             ->setMessage($message);
@@ -28,14 +28,14 @@ class CommitService {
             $commit->addStep(
                 $this->stepService->createStepWithCustomDuration(
                     $duration,
-                    ($lastStep = $this->tracking->getSteps()?->last())?->getEndDate()
+                    ($lastStep = $this->timer->getSteps()?->last())?->getEndDate()
                         ? $lastStep->getStartDate()
                         : null
                 )
             );
         else:
             /** @var Step $step */
-            foreach ($this->tracking->getSteps() as $step):
+            foreach ($this->timer->getSteps() as $step):
                 if (!$step->getEndDate()):
                     $step->setEndDate((new \DateTime())->getTimestamp());
                 endif;
@@ -43,19 +43,19 @@ class CommitService {
             endforeach;
         endif;
 
-        $this->tracking
+        $this->timer
             ->addCommit($commit)
             ->getSteps()->clear();
 
-        if ($this->tracking->isRun()):
+        if ($this->timer->isRun()):
             $this
-                ->tracking
+                ->timer
                 ->addStep(
                     $this->stepService->createStep()
                 );
         endif;
 
-        return $this->tracking;
+        return $this->timer;
     }
 
     /**
@@ -65,9 +65,9 @@ class CommitService {
         string $id,
         string|false $message = false,
         string|false $duration = false,
-    ): Tracking {
+    ): Timer {
         if (($commit = $this
-                ->tracking
+                ->timer
                 ->getCommits()
                 ->findOneBy(
                     fn (Commit $commit) => $commit->getId() === $id
@@ -76,11 +76,11 @@ class CommitService {
             throw new CommitNotFoundException();
         }
 
-        $key = $this->tracking->getCommits()->getKey($commit);
+        $key = $this->timer->getCommits()->getKey($commit);
 
         if ($message !== false):
             $this
-                ->tracking
+                ->timer
                 ->getCommits()
                 ->offsetSet($key, $commit->setMessage($message));
         endif;
@@ -89,7 +89,7 @@ class CommitService {
             $startDate = $commit->getStartDate() ?? (new \DateTime())->getTimestamp();
             $commit->getSteps()->clear();
             $this
-                ->tracking
+                ->timer
                 ->getCommits()
                 ->offsetSet(
                     $key,
@@ -105,7 +105,7 @@ class CommitService {
                 );
         endif;
 
-        return $this->tracking;
+        return $this->timer;
     }
 
     /**
@@ -113,13 +113,13 @@ class CommitService {
      */
     public function removeCommit(
         string $id,
-    ): Tracking {
-        if (($commit = $this->tracking->getCommits()->findOneBy(fn(Commit $commit) => $commit->getId() === $id)) === null):
+    ): Timer {
+        if (($commit = $this->timer->getCommits()->findOneBy(fn(Commit $commit) => $commit->getId() === $id)) === null):
             throw new CommitNotFoundException();
         endif;
 
-        $this->tracking->getCommits()->remove($commit);
+        $this->timer->getCommits()->remove($commit);
 
-        return $this->tracking;
+        return $this->timer;
     }
 }

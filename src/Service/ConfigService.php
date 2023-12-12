@@ -1,9 +1,9 @@
 <?php
 
-namespace Mediashare\TimeTracking\Service;
+namespace Mediashare\Marathon\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Mediashare\TimeTracking\Entity\Config;
+use Mediashare\Marathon\Entity\Config;
 
 class ConfigService {
     private SerializerService $serializerService;
@@ -21,16 +21,16 @@ class ConfigService {
     public function createConfig(
         string|null $configPath = null,
         string|null $dateTimeFormat = null,
-        string|null $trackingDirectory = null,
-        string|null $trackingId = null,
+        string|null $timerDirectory = null,
+        string|null $timerId = null,
     ): Config {
         $configPath ? $this->configPath = $configPath : null;
 
         $this->config = new Config(
             $dateTimeFormat = $dateTimeFormat ?? $this->getLastDateTimeFormat(),
-            $trackingDirectory = $trackingDirectory ?? $this->getLastTrackingDirectory(),
-            $trackingId
-                ?? $this->getLastTrackingId($trackingDirectory)
+            $timerDirectory = $timerDirectory ?? $this->getLastTimerDirectory(),
+            $timerId
+                ?? $this->getLastTimerId($timerDirectory)
                 ?? (new \DateTime())->format('YmdHis')
             ,
         );
@@ -48,18 +48,18 @@ class ConfigService {
         return $this->getLastConfig()->getDateTimeFormat();
     }
 
-    public function getLastTrackingDirectory(): string {
-        return $this->getLastConfig()->getTrackingDirectory();
+    public function getLastTimerDirectory(): string {
+        return $this->getLastConfig()->getTimerDirectory();
     }
 
-    public function getLastTrackingId(string $trackingDirectory): string|null {
+    public function getLastTimerId(string $timerDirectory): string|null {
         try {
-            if ($lastTrackingIdByConfig = $this->getLastConfig()->getTrackingId()):
-                return $lastTrackingIdByConfig;
+            if ($lastTimerIdByConfig = $this->getLastConfig()->getTimerId()):
+                return $lastTimerIdByConfig;
             endif;
 
-            return (new TrackingService(new Config(trackingDirectory: $trackingDirectory)))
-                ->getTrackings()?->last()?->getId();
+            return (new TimerService(new Config(timerDirectory: $timerDirectory)))
+                ->getTimers()?->last()?->getId();
 
         } catch (\Exception $exception) {
 

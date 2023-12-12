@@ -1,17 +1,17 @@
 <?php
 
-namespace Mediashare\TimeTracking\Trait;
+namespace Mediashare\Marathon\Trait;
 
-use Mediashare\TimeTracking\Entity\Commit;
-use Mediashare\TimeTracking\Entity\Config;
-use Mediashare\TimeTracking\Entity\Step;
-use Mediashare\TimeTracking\Entity\Tracking;
+use Mediashare\Marathon\Entity\Commit;
+use Mediashare\Marathon\Entity\Config;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Entity\Timer;
 
 trait ArrayToEntityTrait {
     public function arrayToEntity(
         array $array,
         string $className
-    ): Config|Tracking|Commit|Step {
+    ): Config|Timer|Commit|Step {
         return unserialize(sprintf(
             'O:%d:"%s"%s',
             strlen($className),
@@ -22,7 +22,7 @@ trait ArrayToEntityTrait {
             )
         ), [
             Config::class,
-            Tracking::class,
+            Timer::class,
             Commit::class,
             Step::class,
         ]);

@@ -1,26 +1,19 @@
 <?php
 
-namespace Mediashare\TimeTracking\Tests\Service;
+namespace Mediashare\Marathon\Tests\Service;
 
-use Mediashare\TimeTracking\Entity\Config;
-use Mediashare\TimeTracking\Service\ConfigService;
-use PHPUnit\Framework\TestCase;
+use Mediashare\Marathon\Entity\Config;
+use Mediashare\Marathon\Service\ConfigService;
+use Mediashare\Marathon\Tests\AbstractTestCase;
 
-class ConfigServiceTest extends TestCase {
+class ConfigServiceTest extends AbstractTestCase {
     private ConfigService $configService;
     private string $tempConfigPath;
 
     protected function setUp(): void
     {
-        $this->tempConfigPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'time-tracking' . DIRECTORY_SEPARATOR . 'temp_config.json';
+        $this->tempConfigPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'marathon' . DIRECTORY_SEPARATOR . 'config.json';
         $this->configService = new ConfigService();
-    }
-
-    protected function tearDown(): void
-    {
-        if (file_exists($this->tempConfigPath)) {
-            unlink($this->tempConfigPath);
-        }
     }
 
     public function testCreateConfig()
@@ -41,21 +34,21 @@ class ConfigServiceTest extends TestCase {
         $this->assertEquals('Y-m-d H:i:s', $lastDateTimeFormat);
     }
 
-    public function testGetLastTrackingDirectory()
+    public function testGetLastTimerDirectory()
     {
-        // Create a config file with a specific tracking directory
-        $config = $this->configService->createConfig($this->tempConfigPath, null, '/path/to/tracking');
-        $lastTrackingDirectory = $this->configService->getLastTrackingDirectory();
+        // Create a config file with a specific timer directory
+        $config = $this->configService->createConfig($this->tempConfigPath, null, '/path/to/timer');
+        $lastTimerDirectory = $this->configService->getLastTimerDirectory();
 
-        $this->assertEquals('/path/to/tracking', $lastTrackingDirectory);
+        $this->assertEquals('/path/to/timer', $lastTimerDirectory);
     }
 
-    public function testGetLastTrackingId()
+    public function testGetLastTimerId()
     {
-        // Create a config file with a specific tracking directory and ID
-        $config = $this->configService->createConfig($this->tempConfigPath, null, '/path/to/tracking', '12345');
-        $lastTrackingId = $this->configService->getLastTrackingId('/path/to/tracking');
+        // Create a config file with a specific timer directory and ID
+        $config = $this->configService->createConfig($this->tempConfigPath, null, '/path/to/timer', '12345');
+        $lastTimerId = $this->configService->getLastTimerId('/path/to/timer');
 
-        $this->assertEquals('12345', $lastTrackingId);
+        $this->assertEquals('12345', $lastTimerId);
     }
 }

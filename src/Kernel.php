@@ -1,6 +1,6 @@
 <?php
 
-namespace Mediashare\TimeTracking;
+namespace Mediashare\Marathon;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;

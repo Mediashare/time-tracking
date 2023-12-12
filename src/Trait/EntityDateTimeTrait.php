@@ -1,15 +1,15 @@
 <?php
 
-namespace Mediashare\TimeTracking\Trait;
+namespace Mediashare\Marathon\Trait;
 
-use Mediashare\TimeTracking\Entity\Commit;
-use Mediashare\TimeTracking\Entity\Step;
-use Mediashare\TimeTracking\Entity\Tracking;
+use Mediashare\Marathon\Entity\Commit;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Entity\Timer;
 
 trait EntityDateTimeTrait {
     public function getStartDate(): int|null {
         switch (self::class) {
-            case Tracking::class:
+            case Timer::class:
                 $startDate =
                     $this->getCommits()?->first()?->getStartDate()
                     ?? $this->getSteps()?->first()?->getStartDate()
@@ -35,7 +35,7 @@ trait EntityDateTimeTrait {
 
     public function getEndDate(): int|null {
         switch (self::class) {
-            case Tracking::class:
+            case Timer::class:
                 $endDate =
                     $this->getCommits()?->first()?->getEndDate()
                     ?? $this->getSteps()?->first()?->getEndDate()

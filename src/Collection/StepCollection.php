@@ -1,8 +1,8 @@
 <?php
 
-namespace Mediashare\TimeTracking\Collection;
+namespace Mediashare\Marathon\Collection;
 
-use Mediashare\TimeTracking\Entity\Step;
+use Mediashare\Marathon\Entity\Step;
 use Ramsey\Collection\AbstractCollection;
 
 class StepCollection extends AbstractCollection

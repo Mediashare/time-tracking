@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+
+$dotenv = new \Symfony\Component\Dotenv\Dotenv();
+$dotenv->load(__DIR__.'/../.env');
+
+if (!empty($_ENV['APP_ENV']) && strtolower($_ENV['APP_ENV']) === 'prod') {
+    error_reporting(E_ALL ^ E_DEPRECATED);
+}
+
+$app = new Symfony\Component\Console\Application(
+        'Marathon',
+        !empty($_ENV['APP_VERSION']) ? $_ENV['APP_VERSION'] : 'test'
+);
+$commandsLoader = new \Symfony\Component\Console\CommandLoader\FactoryCommandLoader([
+    'timer:list' => function () { return new Mediashare\Marathon\Command\TimerListCommand(); },
+    'timer:start' => function () { return new Mediashare\Marathon\Command\TimerStartCommand(); },
+    'timer:stop' => function () { return new Mediashare\Marathon\Command\TimerStopCommand(); },
+    'timer:status' => function () { return new Mediashare\Marathon\Command\TimerStatusCommand(); },
+    'timer:archive' => function () { return new Mediashare\Marathon\Command\TimerArchiveCommand(); },
+    'timer:remove' => function () { return new Mediashare\Marathon\Command\TimerRemoveCommand(); },
+    'timer:commit' => function () { return new Mediashare\Marathon\Command\CommitCommand();},
+    'timer:commit:edit' => function () { return new Mediashare\Marathon\Command\CommitEditCommand();},
+    'timer:commit:remove' => function () { return new Mediashare\Marathon\Command\CommitRemoveCommand(); },
+    'timer:gitignore' => function () { return new Mediashare\Marathon\Command\GitignoreCommand(); },
+    'timer:upgrade' => function () { return new Mediashare\Marathon\Command\UpgradeCommand(); },
+]);
+$app->setCommandLoader($commandsLoader);
+$app->run();

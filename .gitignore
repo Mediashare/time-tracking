@@ -8,11 +8,12 @@ composer.lock
 symfony.lock
 ###< symfony/framework-bundle ###
 
-###> mediashare/time-tracking ###
+###> mediashare/marathon ###
+.marathon
 .time-tracking
 .vscode
 .idea
-###< mediashare/time-tracking ###
+###< mediashare/marathon ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache

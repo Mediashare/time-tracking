@@ -1,5 +1,5 @@
 <?php
-namespace Mediashare\TimeTracking\Command;
+namespace Mediashare\Marathon\Command;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
@@ -12,19 +12,19 @@ Class UpgradeCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:upgrade')
-            ->setDescription('<comment>Upgrading</comment> to latest version of Time-Tracking');
+            ->setDescription('<comment>Upgrading</comment> to latest version of Marathon');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!\Phar::running()):
-            $output->writeln("<info>Use <comment>git pull</comment> for upgrade Time-Tracking</info>");
+            $output->writeln("<info>Use <comment>git pull</comment> for upgrade Marathon</info>");
             return Command::INVALID;
         endif;
 
         $file = \Phar::running();
         $file = str_replace('phar://', '', $file);
-        $url = 'https://github.com/Mediashare/time-tracking/raw/master/time-tracking';
-        $tmp = tempnam(sys_get_temp_dir(), 'time-tracking.tmp');
+        $url = 'https://github.com/Mediashare/marathon/raw/master/marathon';
+        $tmp = tempnam(sys_get_temp_dir(), uniqid('marathon-', true).'.tmp');
         if (!is_writable(\pathinfo($tmp, PATHINFO_DIRNAME))):
             $text = "<error>You have not permission for write <comment>".$tmp."</comment> file</error>";
             $output->writeln($text);
@@ -46,7 +46,7 @@ Class UpgradeCommand extends Command {
         // if (filesize($file) !== filesize($tmp)
         //     || md5_file($file) !== md5_file($tmp)):
         //     $filesystem->remove($tmp);
-        //     $output->writeln("<info>Time-tracking run already with last version</info>");
+        //     $output->writeln("<info>Marathon run already with last version</info>");
         //     return 0;
         // endif;
         
@@ -55,7 +55,7 @@ Class UpgradeCommand extends Command {
         $filesystem->rename($tmp, $file);
         $filesystem->chmod($file, 0755);
 
-        $output->writeln("<info>Time-Tracking successly <comment>upgraded</comment></info>");
+        $output->writeln("<info>Marathon successly <comment>upgraded</comment></info>");
 
         return Command::SUCCESS;
     }

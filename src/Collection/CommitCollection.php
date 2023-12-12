@@ -1,8 +1,8 @@
 <?php
 
-namespace Mediashare\TimeTracking\Collection;
+namespace Mediashare\Marathon\Collection;
 
-use Mediashare\TimeTracking\Entity\Commit;
+use Mediashare\Marathon\Entity\Commit;
 use Ramsey\Collection\AbstractCollection;
 
 class CommitCollection extends AbstractCollection

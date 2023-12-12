@@ -1,5 +1,5 @@
 <?php
-namespace Mediashare\TimeTracking\Command;
+namespace Mediashare\Marathon\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,21 +12,21 @@ class GitignoreCommand extends Command {
     protected function configure() {
         $this
             ->setName('timer:gitignore')
-            ->setDescription('Adding <comment>.time-tracking</comment> rule into <comment>.gitgnore</comment>')
+            ->setDescription('Adding <comment>.marathon</comment> rule into <comment>.gitgnore</comment>')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (file_exists($filepath = './.gitignore')):
             $currentContent = file_get_contents($filepath);
-            if (str_contains($currentContent, '.time-tracking')):
-                $output->writeln("<info><comment>.gitignore</comment> contains already <comment>.time-tracking</comment> rule.</info>");
+            if (str_contains($currentContent, '.marathon')):
+                $output->writeln("<info><comment>.gitignore</comment> contains already <comment>.marathon</comment> rule.</info>");
                 return Command::SUCCESS;
             endif;
         endif;
 
         $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<question>Adding <comment>.time-tracking</comment> rule into <comment>.gitgnore</comment> ?</question> <comment>[Y/n]</comment>', true);
+        $question = new ConfirmationQuestion('<question>Adding <comment>.marathon</comment> rule into <comment>.gitgnore</comment> ?</question> <comment>[Y/n]</comment>', true);
 
         if (!$helper->ask($input, $output, $question)) {
             return Command::SUCCESS;
@@ -38,11 +38,11 @@ class GitignoreCommand extends Command {
         else:
             $output->writeln('<info><comment>'.$filepath.'</comment> creating</info>');
         endif;
-        $content .= "###> mediashare/time-tracking ###\n.time-tracking\n###< mediashare/time-tracking ###\n";
+        $content .= "###> mediashare/marathon ###\n.marathon\n###< mediashare/marathon ###\n";
 
         file_put_contents($filepath, $content, FILE_APPEND);
 
-        $output->writeln('<info>Adding <comment>.time-tracking</comment> rule into <comment>'.$filepath.'</comment></info>');
+        $output->writeln('<info>Adding <comment>.marathon</comment> rule into <comment>'.$filepath.'</comment></info>');
 
         return Command::SUCCESS;
     }

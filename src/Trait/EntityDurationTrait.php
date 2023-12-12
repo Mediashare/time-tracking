@@ -1,10 +1,10 @@
 <?php
 
-namespace Mediashare\TimeTracking\Trait;
+namespace Mediashare\Marathon\Trait;
 
-use Mediashare\TimeTracking\Entity\Commit;
-use Mediashare\TimeTracking\Entity\Step;
-use Mediashare\TimeTracking\Entity\Tracking;
+use Mediashare\Marathon\Entity\Commit;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Entity\Timer;
 
 trait EntityDurationTrait {
     /**
@@ -25,7 +25,7 @@ trait EntityDurationTrait {
 
     public function getSeconds(bool|null $onlyNotCommited = false): int {
         switch (self::class) {
-            case Tracking::class:
+            case Timer::class:
                 $seconds = array_sum(
                     array_merge(
                         !$onlyNotCommited

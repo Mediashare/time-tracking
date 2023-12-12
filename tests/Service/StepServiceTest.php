@@ -1,18 +1,17 @@
 <?php
 
-namespace Mediashare\TimeTracking\Tests\Service;
+namespace Mediashare\Marathon\Tests\Service;
 
-use Mediashare\TimeTracking\Entity\Step;
-use Mediashare\TimeTracking\Service\StepService;
-use PHPUnit\Framework\TestCase;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Service\StepService;
+use Mediashare\Marathon\Tests\AbstractTestCase;
 
-class StepServiceTest extends TestCase {
+class StepServiceTest extends AbstractTestCase {
     private StepService $stepService;
 
     public function setUp(): void {
         $this->stepService = new StepService();
     }
-
 
     public function testCreateStepWithNoDates(): void {
         $step = $this->stepService->createStep();

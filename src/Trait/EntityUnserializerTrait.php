@@ -1,13 +1,13 @@
 <?php
 
-namespace Mediashare\TimeTracking\Trait;
+namespace Mediashare\Marathon\Trait;
 
-use Mediashare\TimeTracking\Collection\CommitCollection;
-use Mediashare\TimeTracking\Collection\StepCollection;
-use Mediashare\TimeTracking\Entity\Commit;
-use Mediashare\TimeTracking\Entity\Config;
-use Mediashare\TimeTracking\Entity\Step;
-use Mediashare\TimeTracking\Entity\Tracking;
+use Mediashare\Marathon\Collection\CommitCollection;
+use Mediashare\Marathon\Collection\StepCollection;
+use Mediashare\Marathon\Entity\Commit;
+use Mediashare\Marathon\Entity\Config;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Entity\Timer;
 
 trait EntityUnserializerTrait {
     use ArrayToEntityTrait;
@@ -21,9 +21,9 @@ trait EntityUnserializerTrait {
                     endif;
                 endforeach;
                 break;
-            case Tracking::class:
+            case Timer::class:
                 foreach ($data as $key => $value):
-                    if (!is_array($value) && method_exists(Tracking::class, $method = 'set' . $key)):
+                    if (!is_array($value) && method_exists(Timer::class, $method = 'set' . $key)):
                         $this->{$method}($value);
                     endif;
                 endforeach;

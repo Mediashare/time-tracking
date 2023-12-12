@@ -1,10 +1,10 @@
 {
-    "alias": "time-tracking",
+    "alias": "marathon",
     "chmod": "0777",
     "directories": ["./"],
     "files": [".env", ".env.local.php"],
-    "blacklist": ["./composer.lock", "./symfony.lock", "./time-tracking.phar", "./time-tracking", "./.vscode", "./.idea", "./var"],
+    "blacklist": ["./composer.lock", "./symfony.lock", "./marathon.phar", "./marathon", "./.vscode", "./.idea", "./var"],
     "git-version": "2.41.0",
-    "main": "bin/time-tracking",
-    "output": "time-tracking"
+    "main": "bin/marathon",
+    "output": "marathon"
   }

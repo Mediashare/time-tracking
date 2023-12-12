@@ -1,36 +1,35 @@
 <?php
 
-namespace Mediashare\TimeTracking\Tests\Service;
+namespace Mediashare\Marathon\Tests\Service;
 
-use Mediashare\TimeTracking\Collection\CommitCollection;
-use Mediashare\TimeTracking\Collection\StepCollection;
-use Mediashare\TimeTracking\Entity\Commit;
-use Mediashare\TimeTracking\Entity\Step;
-use PHPUnit\Framework\TestCase;
-use Mediashare\TimeTracking\Service\CommitService;
-use Mediashare\TimeTracking\Entity\Config;
-use Mediashare\TimeTracking\Entity\Tracking;
-use Mediashare\TimeTracking\Exception\CommitNotFoundException;
+use Mediashare\Marathon\Collection\CommitCollection;
+use Mediashare\Marathon\Collection\StepCollection;
+use Mediashare\Marathon\Entity\Commit;
+use Mediashare\Marathon\Entity\Step;
+use Mediashare\Marathon\Tests\AbstractTestCase;
+use Mediashare\Marathon\Service\CommitService;
+use Mediashare\Marathon\Entity\Config;
+use Mediashare\Marathon\Entity\Timer;
+use Mediashare\Marathon\Exception\CommitNotFoundException;
 
-class CommitServiceTest extends TestCase
-{
+class CommitServiceTest extends AbstractTestCase {
     private CommitService $commitService;
 
     protected function setUp(): void
     {
         $config = new Config(
-            trackingDirectory: sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'time-tracking',
-            trackingId: (new \DateTime())->format('YmdHis')
+            timerDirectory: sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'marathon' . DIRECTORY_SEPARATOR . 'timers',
+            timerId: (new \DateTime())->format('YmdHis')
         );
 
         $this->commitService = new CommitService($config);
     }
 
     public function testCreateCommit(): void {
-        $tracking = $this->commitService->createCommit('Test Commit', '+2 hours');
+        $timer = $this->commitService->createCommit('Test Commit', '+2 hours');
 
-        $this->assertInstanceOf(Tracking::class, $tracking);
-        $this->assertCount(1, $commits = $tracking->getCommits());
+        $this->assertInstanceOf(Timer::class, $timer);
+        $this->assertCount(1, $commits = $timer->getCommits());
 
         $this->assertInstanceOf(CommitCollection::class, $commits);
         $this->assertInstanceOf(Commit::class, $commit = $commits->first());
@@ -39,34 +38,34 @@ class CommitServiceTest extends TestCase
         $this->assertInstanceOf(Step::class, $lastStep = $steps->first());
         $this->assertEquals("02:00:00", $lastStep->getDuration());
 
-        $this->assertCount(1, $steps = $tracking->getSteps());
+        $this->assertCount(1, $steps = $timer->getSteps());
         $this->assertInstanceOf(StepCollection::class, $steps);
         $this->assertInstanceOf(Step::class, $steps->first());
     }
 
     public function testEditCommit(): void {
-        $tracking = $this->commitService->createCommit('Original Commit', '+1 hour');
-        $originalCommitId = $tracking->getCommits()->first()->getId();
+        $timer = $this->commitService->createCommit('Original Commit', '+1 hour');
+        $originalCommitId = $timer->getCommits()->first()->getId();
 
-        $tracking = $this->commitService->editCommit($originalCommitId, 'Updated Commit', '+30 minutes');
+        $timer = $this->commitService->editCommit($originalCommitId, 'Updated Commit', '+30 minutes');
 
-        $this->assertInstanceOf(Tracking::class, $tracking);
-        $this->assertCount(1, $tracking->getCommits());
-        $this->assertCount(1, $tracking->getSteps());
+        $this->assertInstanceOf(Timer::class, $timer);
+        $this->assertCount(1, $timer->getCommits());
+        $this->assertCount(1, $timer->getSteps());
 
-        $editedCommit = $tracking->getCommits()->first();
+        $editedCommit = $timer->getCommits()->first();
         $this->assertEquals('Updated Commit', $editedCommit->getMessage());
     }
 
     public function testRemoveCommit(): void {
-        $tracking = $this->commitService->createCommit('To Be Removed Commit', '+3 hours');
-        $toBeRemovedCommitId = $tracking->getCommits()->first()->getId();
+        $timer = $this->commitService->createCommit('To Be Removed Commit', '+3 hours');
+        $toBeRemovedCommitId = $timer->getCommits()->first()->getId();
 
-        $tracking = $this->commitService->removeCommit($toBeRemovedCommitId);
+        $timer = $this->commitService->removeCommit($toBeRemovedCommitId);
 
-        $this->assertInstanceOf(Tracking::class, $tracking);
-        $this->assertCount(0, $tracking->getCommits());
-        $this->assertCount(1, $tracking->getSteps());
+        $this->assertInstanceOf(Timer::class, $timer);
+        $this->assertCount(0, $timer->getCommits());
+        $this->assertCount(1, $timer->getSteps());
     }
 
     public function testRemoveNonexistentCommit(): void {

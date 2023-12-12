@@ -1,7 +1,7 @@
 <?php
-namespace Mediashare\TimeTracking\Service;
+namespace Mediashare\Marathon\Service;
 
-use Mediashare\TimeTracking\Entity\Step;
+use Mediashare\Marathon\Entity\Step;
 
 class StepService {
     public function createStep(
