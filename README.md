@@ -1,4 +1,5 @@
 # Time-Tracking
+> This project has been renamed **Marathon**, you can find the latest version at [**this link**](https://github.com/Mediashare/marathon)
 ## Introduction
 Time-Tracking is a command-line tool written in PHP and Symfony that empowers you to efficiently manage time tracking for your projects. It provides a comprehensive solution for maintaining a track record of project-related activities through commit history.
 ### Features
